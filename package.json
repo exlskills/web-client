@@ -40,8 +40,8 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "extract-intl-csv": "babel-node --presets latest,stage-0 -- ./internals/scripts/extract-intl-csv.js",
     "convert-intl-json": "babel-node --presets latest,stage-0 -- ./internals/scripts/convert-intl-json.js",
-    "relay": "echo 'Start tsc' && tsc && echo 'Start relay' && relay-compiler --src ./app --schema ./schema.graphql && echo 'Start yarn watch' && yarn run clean:tsc",
-    "relay:watch": "yarn run relay -- --watch",
+    "relay": "echo 'Start tsc' && tsc && echo 'Start relay' && relay-compiler --src ./app --schema ./schema.graphql && echo 'Start yarn clean' && yarn run clean:tsc",
+    "relay:watch": "yarn run relay --watch",
     "docker:build": "[ -f \".envprod\" ] && docker build -t exlskills/web-client:latest . || echo 'You must have a .envprod file to do npm run docker:build'",
     "docker:push": "docker push exlskills/web-client:latest"
   },
@@ -75,8 +75,7 @@
       "stage-0"
     ],
     "plugins": [
-      "recharts",
-      [
+      "recharts", [
         "relay",
         {
           "compat": true,
@@ -92,8 +91,7 @@
           "app"
         ],
         "plugins": [
-          "recharts",
-          [
+          "recharts", [
             "relay",
             {
               "compat": true,

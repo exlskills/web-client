@@ -12,7 +12,7 @@ Operating Systems:
 
 Other Dependencies:
 
-- MongoDB v3.4+ (Recommend v3.6+)
+- Facebook Watchman v4.9.0+ (for relay compiler) [Install Watchman](https://facebook.github.io/watchman/docs/install.html)
 - NodeJS v8.10+
 - NPM v6.1+
 - Yarn 1.7+
