@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-relay": "file:typings/react-relay.d.ts",
+    "relay-runtime": "file:typings/relay-runtime.d.ts"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es6", "dom"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "baseUrl": "./app",
+    "allowJs": true,
+    "allowUnreachableCode": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./app/typings"
+    ],
+    "sourceMap": true
+  },
+  "include": [
+    "./app/**/*"
+  ],
+  "exclude": [
+    "./app/submodules/**/*",
+    "./app/**/*.graphql.js"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true
+  }
+}

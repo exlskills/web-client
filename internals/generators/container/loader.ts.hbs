@@ -1,0 +1,35 @@
+{{#if wantActionsAndReducer}}
+import { errorLoading, getAsyncInjectors } from 'common/utils/asyncInjectors';
+import { Store } from 'redux';
+
+export default (store: Store<string>) => {
+  const { injectReducer{{#if wantSagas}}, injectSagas{{/if}} } = getAsyncInjectors(store);
+  return (cb: any) => {
+    const importModules = Promise.all([
+      System.import('./reducer'),
+      {{#if wantSagas}}
+      System.import('./sagas'),
+      {{/if}}
+      System.import('./index'),
+    ]);
+
+    importModules.then(([reducer,{{#if wantSagas}} sagas,{{/if}} component]) => {
+      injectReducer('{{ camelCase name }}', reducer.default);
+      {{#if wantSagas}}
+      injectSagas(sagas.default);
+      {{/if}}
+      cb(component);
+    });
+
+    importModules.catch(errorLoading);
+  };
+};
+{{else}}
+import { errorLoading } from 'utils/asyncInjectors';
+
+export default () => (cb: any) => {
+  System.import('./index')
+    .then(cb)
+    .catch(errorLoading);
+};
+{{/if}}

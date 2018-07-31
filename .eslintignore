@@ -1,0 +1,7 @@
+internals/scripts/*
+build/*
+tsDist/*
+app/submodules/*
+server/*
+app/**/*.js
+app/**/*.js.map

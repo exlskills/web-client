@@ -1,0 +1,14 @@
+import { createSelector } from 'reselect';
+import { Record } from 'immutable';
+import { IReducerState } from './reducer'
+
+/**
+ * Direct selector to the {{ camelCase name }} state domain
+ */
+const select{{ properCase name }}Domain = () => (
+  state: Map<string, any>
+): Record.Instance<IReducerState> => state.get('{{ camelCase name }}');
+
+export {
+  select{{ properCase name }}Domain,
+};

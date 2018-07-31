@@ -1,0 +1,21 @@
+# Don't check auto-generated stuff into git
+coverage
+build
+node_modules
+stats.json
+
+# Cruft
+.DS_Store
+npm-debug.log
+.idea
+.env
+.envprod
+
+yarn-error.log
+app/**/*.js.map
+app/**/*.js
+app/**/!(.graphql).js
+
+# Graphql
+graphql.schema.json
+graphql.config.json

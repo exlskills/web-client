@@ -1,0 +1,770 @@
+type Activity implements Node {
+  # The ID of an object
+  id: ID!
+  user_id: ID!
+  date: String!
+  def_id: String!
+  activity_link: String!
+  type: String!
+  type_desc: String
+  content: String!
+}
+
+# A connection to a list of items.
+type ActivityConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [ActivityEdge]
+}
+
+# An edge in a connection.
+type ActivityEdge {
+  # The item at the end of the edge
+  node: Activity
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+type activityPaging {
+  activities(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): ActivityConnection
+}
+
+# Authentication strategy object, provides a flexible structure for various auth methods
+type AuthStrategy implements Node {
+  # The ID of an object
+  id: ID!
+  auth_id: ID!
+  email: String
+  method: String!
+  version: String!
+}
+
+# A connection to a list of items.
+type AuthStrategyConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [AuthStrategyEdge]
+}
+
+# An edge in a connection.
+type AuthStrategyEdge {
+  # The item at the end of the edge
+  node: AuthStrategy
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# Operation Completion Report
+type CompletionObj {
+  code: String
+  msg: String
+  processed: Int
+  modified: Int
+}
+
+# EXLskills course
+type Course implements Node {
+  # The ID of an object
+  id: ID!
+  title: String!
+  headline: String!
+  description: String!
+  organization_ids: [ID]
+  primary_locale: String
+  logo_url: String!
+  cover_url: String!
+  is_published: Boolean!
+  is_organization_only: Boolean!
+  subscription_level: Int!
+
+  # Course units
+  units(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseUnitConnection
+  topics: [String]
+  enrolled_count: Int!
+  view_count: Int!
+  info_md: String!
+  verified_cert_cost: Float
+  skill_level: Int
+  est_minutes: Int
+  primary_topic: String
+  last_accessed_at: String
+  last_accessed_unit: String
+  last_accessed_section: String
+  last_accessed_card: String
+}
+
+# A connection to a list of items.
+type CourseConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CourseEdge]
+}
+
+# An edge in a connection.
+type CourseEdge {
+  # The item at the end of the edge
+  node: Course
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# Unit of an EXLskills course
+type CourseUnit implements Node {
+  # The ID of an object
+  id: ID!
+  index: Int!
+  title: String!
+  headline: String!
+
+  # Course units
+  sections(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): UnitSectionConnection
+  sections_list: [UnitSection]
+  final_exams: [String]
+  pre_exams: [String]
+  final_exam_weight_pct: Int!
+  attempts_left: Int
+  unit_processing: Int
+  ema: Float
+  grade: Float
+  is_continue_exam: Boolean
+
+  # The ID of an object
+  exam_attempt_id: ID!
+  quiz_lvl: Int
+  last_attempted_at: String
+  attempts: Int
+  passed: Boolean
+}
+
+# A connection to a list of items.
+type CourseUnitConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CourseUnitEdge]
+}
+
+# An edge in a connection.
+type CourseUnitEdge {
+  # The item at the end of the edge
+  node: CourseUnit
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+enum CudAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+type EmbeddedDocRef implements Node {
+  # The ID of an object
+  id: ID!
+  embedded_doc_refs: EmbeddedDocRefRecordConnection!
+}
+
+type EmbeddedDocRefRecord implements Node {
+  # The ID of an object
+  id: ID!
+  level: Int!
+  doc_id: String!
+}
+
+# A connection to a list of items.
+type EmbeddedDocRefRecordConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [EmbeddedDocRefRecordEdge]
+}
+
+# An edge in a connection.
+type EmbeddedDocRefRecordEdge {
+  # The item at the end of the edge
+  node: EmbeddedDocRefRecord
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+type Exam implements Node {
+  # The ID of an object
+  id: ID!
+  creator_id: ID!
+  question_ids: [ID]
+  tags: [String]
+  random_order: Boolean!
+  question_count: Int!
+  time_limit: Int
+  use_ide_test_mode: Boolean!
+  est_time: Int
+}
+
+# ExamAttempt
+type ExamAttempt implements Node {
+  # The ID of an object
+  id: ID!
+  exam_id: ID!
+  user_id: ID!
+  course_unit_id: ID!
+  question_ids: [ID]
+  question_interaction_ids: [ID]!
+  started_at: String
+  is_active: Boolean
+  submitted_at: String
+  time_limit_exceeded: Boolean
+}
+
+input FieldCud {
+  field: String
+  valueToAssign: String
+  valueToFind: String
+  cudAction: CudAction
+}
+
+input FilterValues {
+  filterValuesString: String
+}
+
+# Application Lang
+type Lang implements Node {
+  # The ID of an object
+  id: ID!
+  label: String
+  value: String
+}
+
+input LeaveExamInput {
+  exam_attempt_id: ID!
+  clientMutationId: String
+}
+
+type LeaveExamPayload {
+  completionObj: CompletionObj
+  clientMutationId: String
+}
+
+type ListDef implements Node {
+  # The ID of an object
+  id: ID!
+  type: String!
+  value: String!
+}
+
+type Mutation {
+  readNotification(input: ReadNotificationInput!): ReadNotificationPayload
+  submitAnswer(input: SubmitAnswerInput!): SubmitAnswerPayload
+  takeExam(input: TakeExamInput!): TakeExamPayload
+  leaveExam(input: LeaveExamInput!): LeaveExamPayload
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload
+  updateUserUnitStatus(input: UpdateUserUnitStatusInput!): UpdateUserUnitStatusPayload
+  updateUserCourseRole(input: UpdateUserCourseRoleInput!): UpdateUserCourseRolePayload
+  takeQuiz(input: TakeQuizInput!): TakeQuizPayload
+}
+
+# NextQuestion
+type NextQuestion {
+  course_id: String
+  section_id: String
+  unit_id: String
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+type notificationPaging {
+  notifications(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): UserNotificationConnection
+}
+
+input OrderBy {
+  field: String
+  direction: OrderByDirection
+}
+
+enum OrderByDirection {
+  DESC
+  ASC
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+  courseById(course_id: String): Course
+  courseUnitSummary(course_id: String): Course
+
+  # SectionCard Entry
+  cardEntry(course_id: ID!, unit_id: ID!, section_id: ID!, card_id: ID!): SectionCard
+
+  # Card Entry by question ID
+  cardByQuestion(question_id: String!): SectionCard
+  userProfile(locale: String): User
+  userActivity(start_date: String, end_date: String): [UserActivity]
+  profileSpecific(user_id: String): User
+  userActivityById(user_id: String, start_date: String, end_date: String): [UserActivity]
+  oneExam(unit_id: String, course_id: String): Exam
+  specificExamAttempt(unit_id: String): [ExamAttempt]
+
+  # Unit Entry
+  unitSpec(course_id: String, unit_id: String): CourseUnit
+
+  # Content Latest Version
+  oneVersionedContent(content_id: String!, version: String): VersionedContentRecord
+
+  # Activities
+  activityPaging: activityPaging
+
+  # all Courses in the database
+  coursePaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseConnection
+
+  # all Units in the course
+  unitPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseUnitConnection
+
+  # User exam status for Course
+  unitStatusPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseUnitConnection
+
+  # all Sections in the Unit
+  sectionPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): UnitSectionConnection
+
+  # all Cards in the Section
+  cardPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): SectionCardConnection
+
+  # Notifications for the logged in user
+  notificationPaging: notificationPaging
+
+  # Question Entry
+  questionEntry(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): Question
+  langType: [Lang]
+
+  # get Question by Unit
+  questionPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): QuestionConnection
+
+  # get Question by Exam
+  questionPagingExam(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): QuestionConnection
+  topicFilter: [ListDef]
+}
+
+input QueryResolverArgs {
+  param: String
+  value: String
+}
+
+type Question implements Node {
+  # The ID of an object
+  id: ID!
+  tags: [String]!
+  points: Int
+  est_time_sec: Int
+  compl_level: Int
+  question_type: String!
+  question_text: String!
+  data: QuestionData!
+  question_answer: String
+  hint: String!
+  hint_exists: Boolean
+
+  # The ID of an object
+  card_id: ID!
+}
+
+# A connection to a list of items.
+type QuestionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [QuestionEdge]
+}
+
+# Question data for several question types
+type QuestionData implements Node {
+  # The ID of an object
+  id: ID!
+  code: String
+  code_tags: [String]
+  environment_key: String
+  use_advanced_features: Boolean
+  explanation: String
+  validation_code: String
+  options: [QuestionMultipleData]
+}
+
+# An edge in a connection.
+type QuestionEdge {
+  # The item at the end of the edge
+  node: Question
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# Question data for the `multiple_choice_single` and `multiple_choice_many` question types
+type QuestionMultipleData implements Node {
+  # The ID of an object
+  id: ID!
+  seq: Int!
+  explanation: String!
+  is_answer: Boolean!
+  text: String!
+}
+
+input ReadNotificationInput {
+  notif_id: String!
+  clientMutationId: String
+}
+
+type ReadNotificationPayload {
+  completionObj: CompletionObj
+  clientMutationId: String
+}
+
+# Card of an EXLskills section
+type SectionCard implements Node {
+  # The ID of an object
+  id: ID!
+  index: Int!
+  title: String!
+  headline: String!
+  content_id: ID!
+  tags: [String]!
+  question_ids: [ID]!
+  ema: Float
+  card_ref: EmbeddedDocRef!
+  content: VersionedContentRecord
+  question: Question
+  questions: [Question]
+
+  # The ID of an object
+  currentCourseId: ID!
+
+  # The ID of an object
+  currentUnitId: ID!
+
+  # The ID of an object
+  currentSectionId: ID!
+}
+
+# A connection to a list of items.
+type SectionCardConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [SectionCardEdge]
+}
+
+# An edge in a connection.
+type SectionCardEdge {
+  # The item at the end of the edge
+  node: SectionCard
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+input SubmitAnswerInput {
+  exam_attempt_id: ID!
+  question_id: ID!
+  response_data: String
+  checkAnswer: Boolean
+  quiz: Boolean
+  is_quiz_start: Boolean
+  is_last_question: Boolean
+  clientMutationId: String
+}
+
+type SubmitAnswerPayload {
+  unit: CourseUnit
+  is_correct: Boolean
+  explain_text: String
+  completionObj: CompletionObj
+  next_question: NextQuestion
+  clientMutationId: String
+}
+
+input TakeExamInput {
+  courseId: ID!
+  unitId: ID!
+  clientMutationId: String
+}
+
+type TakeExamPayload {
+  exam_attempt_id: String
+  exam_time_limit: Float
+  exam_id: String
+  completionObj: CompletionObj
+  clientMutationId: String
+}
+
+input TakeQuizInput {
+  card: Boolean
+  courseId: ID!
+  unitId: ID!
+  sectionId: ID
+  clientMutationId: String
+}
+
+type TakeQuizPayload {
+  quiz_id: String
+  clientMutationId: String
+}
+
+# Section of an EXLskills unit
+type UnitSection implements Node {
+  # The ID of an object
+  id: ID!
+  index: Int!
+  title: String!
+  headline: String!
+  ema: Float
+  cards_list: [SectionCard]
+
+  # Section cards
+  cards(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): SectionCardConnection
+}
+
+# A connection to a list of items.
+type UnitSectionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UnitSectionEdge]
+}
+
+# An edge in a connection.
+type UnitSectionEdge {
+  # The item at the end of the edge
+  node: UnitSection
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+input UpdateUserCourseRoleInput {
+  user_id: ID!
+  course_id: ID!
+  cudContent: [FieldCud]!
+  clientMutationId: String
+}
+
+type UpdateUserCourseRolePayload {
+  completionObj: CompletionObj
+  clientMutationId: String
+}
+
+input UpdateUserProfileInput {
+  locale: String
+  profile: UserProfileInput
+  clientMutationId: String
+}
+
+type UpdateUserProfilePayload {
+  completionObj: CompletionObj
+  clientMutationId: String
+}
+
+input UpdateUserUnitStatusInput {
+  unit_id: String
+  course_id: String
+  clientMutationId: String
+}
+
+type UpdateUserUnitStatusPayload {
+  completionObj: CompletionObj
+  clientMutationId: String
+}
+
+# Application user
+type User implements Node {
+  # The ID of an object
+  id: ID!
+  full_name: String
+  username: String
+  primary_email: String
+  pwd: String!
+  secondary_emails: [String]
+  biography: String
+  is_demo: Boolean!
+  headline: String
+  has_completed_first_tutorial: Boolean!
+  locales: [String]
+  primary_locale: String!
+  subscription: UserSubscriptionConnection!
+  avatar_url: String!
+  is_verified: Boolean!
+  auth_strategies(after: String, first: Int, before: String, last: Int): AuthStrategyConnection
+  organization_roles(after: String, first: Int, before: String, last: Int): UserOrganizationRoleConnection
+  course_roles(after: String, first: Int, before: String, last: Int): UserCourseRoleConnection
+}
+
+# Defines a user’s activity which are pre-calculated
+type UserActivity {
+  # The ID of an object
+  id: ID!
+  date: String!
+  count: Int!
+}
+
+# Defines a users role in a course
+type UserCourseRole implements Node {
+  # The ID of an object
+  id: ID!
+  course_id: ID!
+  role: [String]!
+  last_accessed_at: String
+}
+
+# A connection to a list of items.
+type UserCourseRoleConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserCourseRoleEdge]
+}
+
+# An edge in a connection.
+type UserCourseRoleEdge {
+  # The item at the end of the edge
+  node: UserCourseRole
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# User notifications
+type UserNotification implements Node {
+  # The ID of an object
+  id: ID!
+  actor: String
+  notification_link: String!
+  def_id: String!
+  is_read: Boolean!
+  created_at: String!
+  updated_at: String!
+  content: String
+}
+
+# A connection to a list of items.
+type UserNotificationConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserNotificationEdge]
+}
+
+# An edge in a connection.
+type UserNotificationEdge {
+  # The item at the end of the edge
+  node: UserNotification
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# Defines a users role in an organization
+type UserOrganizationRole implements Node {
+  # The ID of an object
+  id: ID!
+  organization_id: ID!
+  role: String!
+}
+
+# A connection to a list of items.
+type UserOrganizationRoleConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserOrganizationRoleEdge]
+}
+
+# An edge in a connection.
+type UserOrganizationRoleEdge {
+  # The item at the end of the edge
+  node: UserOrganizationRole
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# User profile field for update
+input UserProfileInput {
+  id: ID
+  full_name: String
+  username: String
+  primary_email: String
+  biography: String
+  headline: String
+  locales: [String]
+  primary_locale: String!
+  avatar_url: String!
+}
+
+# The users subscription level. All users have this field -- they then vary by their level
+type UserSubscription implements Node {
+  # The ID of an object
+  id: ID!
+  level: Int!
+}
+
+# A connection to a list of items.
+type UserSubscriptionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserSubscriptionEdge]
+}
+
+# An edge in a connection.
+type UserSubscriptionEdge {
+  # The item at the end of the edge
+  node: UserSubscription
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# Object that matches a version number with an actual piece of content
+type VersionedContentRecord implements Node {
+  # The ID of an object
+  id: ID!
+  version: Int!
+  content: String!
+}

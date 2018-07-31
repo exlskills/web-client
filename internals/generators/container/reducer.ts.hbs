@@ -1,0 +1,10 @@
+import { reducerWithInitialState } from 'typescript-fsa-reducers'
+import { fromJS, Record } from 'immutable'
+
+export interface IReducerState {}
+
+const initialState = fromJS({})
+
+export default reducerWithInitialState<Record.Instance<IReducerState>>(
+  initialState,
+)

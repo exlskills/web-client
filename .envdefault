@@ -1,0 +1,9 @@
+WS_USI_URL=ws://localhost:5002/v0/wsusi
+CLIENT_URL=http://localhost:4000/learn
+GRAPHQL_BASE_URL=http://localhost:8080
+GRAPHQL_PATH=graph
+EDITOR_BASE_URL=http://localhost:8081
+AUTH_BASE_URL=http://localhost:3030
+NODE_ENV=debug
+PORT=4000
+IC_APP_ID=
