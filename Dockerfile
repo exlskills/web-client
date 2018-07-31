@@ -5,6 +5,7 @@ RUN cp .envprod .env
 RUN cat .env
 RUN npm install -g yarn
 RUN yarn install
+RUN yarn run relay
 RUN yarn run build
 
 FROM nginx:stable
