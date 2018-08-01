@@ -130,6 +130,9 @@ module.exports = options => ({
         ),
         AUTH_BASE_URL: JSON.stringify(
           process.env.AUTH_BASE_URL || 'http://localhost:3030'
+        ),
+        IC_APP_ID: JSON.stringify(
+          process.env.IC_APP_ID || ''
         )
       }
     }),
