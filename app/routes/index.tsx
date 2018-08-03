@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Switch, Route } from 'react-router'
+import { Switch, Route, Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import * as PropTypes from 'prop-types'
@@ -31,7 +31,8 @@ class Routes extends React.PureComponent<IProps, void> {
   render() {
     return (
       <Switch location={this.props.location.toJS()}>
-        <Route exact={true} path="/" component={loaders.Landing} />
+        {/*<Route exact={true} path="/" component={loaders.Landing} />*/}
+        <Redirect exact={true} path={'/'} to={'/dashboard'}/>
         <Route
           exact={true}
           path="/exams/:courseId/:unitId"

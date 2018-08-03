@@ -38,11 +38,12 @@ export const NotFound = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
-export const Landing = Loadable({
-  loader: () => System.import('pages/Landing'),
-  loading: Loading,
-  delay: DELAY_INTERVAL
-})
+// Note: We no longer use the landing page -- users are automatically put into the app with an anon user if not logged in
+// export const Landing = Loadable({
+//   loader: () => System.import('pages/Landing'),
+//   loading: Loading,
+//   delay: DELAY_INTERVAL
+// })
 export const Notifications = Loadable({
   loader: () => System.import('pages/Notifications'),
   loading: Loading,

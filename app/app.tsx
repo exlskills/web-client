@@ -52,6 +52,12 @@ notoSansFontObserver
 // Only shows blue highlight on tabs and input elements
 FocusStyleManager.onlyShowFocusOnTabs()
 
+// This code inserts our anon pixel that will check if the user has a login, and if not, set the user's cookies for anon browsing
+let anonImg = document.createElement('img');
+anonImg.style.display = 'none';
+anonImg.src = `${process.env.AUTH_BASE_URL}/anonymous.gif`;
+document.getElementById('anon-pixel-container').appendChild(anonImg);
+
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
 // Optionally, this could be changed to leverage a created history
