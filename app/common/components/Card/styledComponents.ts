@@ -33,7 +33,7 @@ export const CardImage = styled.div`
   background-image: url(${(props: CardImageProps) => props.imageUrl});
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   position: relative;
   width: 100%;
   height: 168px;
@@ -55,6 +55,7 @@ export const CardTitle = styled(Text).attrs({
   font-size: 22px;
   padding: 8px;
   position: relative;
+  max-width: 240px;
   left: 0;
   bottom: 0;
   right: 0;
@@ -68,6 +69,7 @@ export const CardDesc = styled.div.attrs({
   padding-bottom: 2px;
   height: 40px;
   overflow: hidden;
+  max-width: 250px;
 `
 
 export const CardFooter = styled(Flex).attrs({

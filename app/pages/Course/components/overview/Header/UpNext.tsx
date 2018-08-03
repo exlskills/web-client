@@ -219,7 +219,7 @@ class UpNext extends React.Component<
       <Wrapper>
         <UpNextMuted onClick={this.handleCardClick(unit, section, card)}>
           {formatMessage(messages.unitHeading)} {unitN},{' '}
-          {formatMessage(messages.lessonHeading)} {indexToLetter(sectionN)}
+          {formatMessage(messages.lessonHeading)} {indexToLetter(sectionN-1)}
         </UpNextMuted>
         <UpNextTitle onClick={this.handleCardClick(unit, section, card)}>
           {section.title}

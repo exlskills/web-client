@@ -41,7 +41,7 @@ class CourseInfoDump extends React.Component<
     return (
       <Wrapper>
         {this.parseContent(infoMarkdown)}
-        {verifiedCertCost}
+        Verified certificate cost: US${verifiedCertCost}
       </Wrapper>
     )
   }
