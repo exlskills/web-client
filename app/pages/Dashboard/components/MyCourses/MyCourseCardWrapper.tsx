@@ -15,6 +15,7 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { MyCourseCardResume } from './MyCourseCardResume'
+import { isExtraSmallMobile, isMobile } from "../../../../common/utils/screen";
 
 const myCourseCardWrapperQuery = graphql`
   query MyCourseCardWrapperQuery($course_id: String) {
@@ -59,10 +60,6 @@ class MyCourseCardWrapperComponent extends React.Component<
     }
   }
 
-  handleWorkspaceClick = (card: any) => {
-    const cardUrlId = toUrlId(card.title, card.id)
-    this.props.history.push(`/workspaces/${cardUrlId}`)
-  }
   queryRender = ({ error, props }: RendererProps) => {
     if (error) {
       return (
@@ -75,12 +72,14 @@ class MyCourseCardWrapperComponent extends React.Component<
       return <Loading />
     }
 
-    const { formatMessage } = this.props.intl
     const {
       last_accessed_unit,
       last_accessed_section,
       last_accessed_card
-    } = props.courseById
+    } = props.courseById;
+    if (isExtraSmallMobile()) {
+      this.props.item.image = undefined;
+    }
     if (!last_accessed_card || !last_accessed_unit || !last_accessed_section) {
       return (
         <CardWrapper>

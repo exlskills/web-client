@@ -52,6 +52,7 @@ export const ContentWrapper = styled(Flex).attrs({
   pt: 3,
   pb: 3
 })`
+  min-width: 900px;
   max-width: 1000px;
   padding: 1rem;
   margin: 0 auto;

@@ -34,6 +34,7 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { Button, Intent, Tag } from '@blueprintjs/core'
+import { isExtraSmallMobile, isMobile } from "../../common/utils/screen";
 
 const rootQuery = graphql`
   query DashboardQuery($start_date: String, $end_date: String) {
@@ -251,7 +252,7 @@ class Dashboard extends React.Component<
         <Wrapper>
           <TopWrapper>
             {mine.length > 0 &&
-              <MyCoursesWrapper>
+              <MyCoursesWrapper style={{minWidth: '320px', width: isMobile() ? '100%' : undefined, marginRight: isMobile() ? '0' : undefined}}>
                 <div style={{ marginTop: '10px' }}>
                   <FormattedMessage {...messages.lbMyCourses} />
                   <PanelWrapper style={{ height: '426px' }}>
@@ -267,7 +268,8 @@ class Dashboard extends React.Component<
               <div
                 style={{
                   marginTop: '10px',
-                  width: mine.length > 0 ? 'calc(60% - 30px)' : '100%'
+                  width: isMobile() ? '100%' : (mine.length > 0 ? 'calc(60% - 30px)' : '100%'),
+                  minWidth: '320px'
                 }}
               >
                 <FormattedMessage {...messages.lbRecommended} />
@@ -293,10 +295,12 @@ class Dashboard extends React.Component<
               </div>}
           </TopWrapper>
           <div style={{ marginTop: '10px' }} />
-          <FormattedMessage {...messages.lbLearningActivity} />
-          <CalendarWrapper>
-            <ActivitiesCalendar activities={activitiesList} />
-          </CalendarWrapper>
+          {isExtraSmallMobile() ? <span /> : <span>
+              <FormattedMessage {...messages.lbLearningActivity} />
+                <CalendarWrapper>
+                  <ActivitiesCalendar activities={activitiesList} />
+                </CalendarWrapper>
+              </span>}
         </Wrapper>
       </div>
     )
