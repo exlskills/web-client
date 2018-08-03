@@ -107,6 +107,7 @@ class ExamPage extends React.Component<
 
   queryRender = ({ error, props }: { error: Error; props: any }) => {
     if (error) {
+      console.log('gql render exam error:', error)
       return (
         <div>
           {error.message}
@@ -119,7 +120,7 @@ class ExamPage extends React.Component<
     }
     let is_active_exam = false
     let dataExamAttempt = props.specificExamAttempt
-    if (dataExamAttempt.length > 0) {
+    if (dataExamAttempt && dataExamAttempt.length > 0) {
       is_active_exam = dataExamAttempt[0].is_active
       if (props.unitSpec.attempts_left <= 0) {
         //top.location.href = `/courses/${this.props.match.params.courseId}/`
