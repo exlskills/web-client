@@ -43,8 +43,9 @@ export const CardImage = styled.div`
 `
 
 export const HorizontalCardImage = CardImage.extend`
-  width: 120px;
-  height: auto;
+  max-width: 120px;
+  width: 100%;
+  height: 100%;
   box-shadow: unset;
   cursor: pointer;
 `

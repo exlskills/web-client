@@ -10,6 +10,8 @@ npm-debug.log
 .idea
 .env
 .envprod
+.envlan
+.envlocalhost
 
 yarn-error.log
 app/**/*.js.map
