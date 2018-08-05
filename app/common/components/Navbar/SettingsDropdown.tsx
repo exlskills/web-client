@@ -57,7 +57,7 @@ class SettingsDropdown extends React.Component<
     const viewer = getViewer()
     return viewer.full_name
       ? viewer.full_name
-      : viewer.username ? viewer.username : viewer.user_id
+      : viewer.username ? viewer.username : viewer.user_id ? viewer.user_id : "Anonymous"
   }
 
   renderLoggedIn() {
