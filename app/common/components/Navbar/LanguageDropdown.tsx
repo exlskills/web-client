@@ -67,6 +67,7 @@ class LanguageDropdown extends React.PureComponent<
     )
   }
   handleClickGlobal = (props: any) => () => {
+    // TODO this should be refactored... Checking for 'exams' in the path and then doing something is dangerous and error-prone
     if (window.location.href.indexOf('exams') > -1) {
       this.setState({ contentPop: this.renderEmptyMenu('no-value') })
     } else {

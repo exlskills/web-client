@@ -30,7 +30,8 @@ export const COOKIES = {
   completedTutorial: 'completedTutorial',
   showTutorial: 'showTutorial',
   locale: 'locale',
-  courseLocale: 'courseLocale'
+  courseLocale: 'courseLocale',
+  pathLocale: 'pathLocale'
 }
 
 export const EDITOR_DEFAULT_HEIGHT = '500px'

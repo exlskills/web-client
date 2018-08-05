@@ -27,11 +27,18 @@ import configureStore from './store'
 
 // Import i18n messages
 import { translationMessages } from './i18n'
+const detectNearestBrowserLocale = require('detect-nearest-browser-locale');
 
 // Import CSS reset and Global Styles
 import * as FontFaceObserver from 'fontfaceobserver'
 import './common/styles/globalStyles.ts'
 import { FocusStyleManager } from '@blueprintjs/core'
+import { getPathLocale, setPathLocale } from "./common/utils/cookies";
+import {
+  getCurrentPathWithLocale,
+  getPathLocaleFromURL,
+  redirectForLocaleIfNecessary
+} from "./common/utils/path-locale";
 
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
@@ -64,10 +71,18 @@ document.getElementById('anon-pixel-container').appendChild(anonImg);
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {}
 
-console.log(window.location.pathname)
+if (!getPathLocale()) {
+  if (getPathLocaleFromURL()) {
+    setPathLocale(getPathLocaleFromURL());
+  } else {
+    setPathLocale(detectNearestBrowserLocale(['en', 'zh']));
+  }
+}
+
+redirectForLocaleIfNecessary();
 
 const browserHistory = createBrowserHistory({
-  basename: '/learn',
+  basename: `/learn-${getPathLocale()}`,
   getUserConfirmation: leaveRouteConfirmation
 })
 const store = configureStore(initialState, browserHistory)

@@ -27,7 +27,7 @@ import {
   Popover,
   Position
 } from '@blueprintjs/core'
-import messages from '../../../../../Settings/components/Profile/ProfileDump/messages'
+
 interface IProps {
   onClick: () => void
   inProgressMsg: string

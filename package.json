@@ -75,7 +75,8 @@
       "stage-0"
     ],
     "plugins": [
-      "recharts", [
+      "recharts",
+      [
         "relay",
         {
           "compat": true,
@@ -91,7 +92,8 @@
           "app"
         ],
         "plugins": [
-          "recharts", [
+          "recharts",
+          [
             "relay",
             {
               "compat": true,
@@ -167,6 +169,7 @@
     "chalk": "1.1.3",
     "compression": "1.6.2",
     "cross-env": "3.1.3",
+    "detect-nearest-browser-locale": "^18.7.9",
     "express": "4.14.0",
     "fontfaceobserver": "^2.0.13",
     "freactal": "^1.1.1",
