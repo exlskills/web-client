@@ -29,14 +29,7 @@ export function* logoutSaga() {
       Cookie.remove(COOKIES.userDataToken)
       Cookie.remove(COOKIES.courseLocale)
       Cookie.remove(COOKIES.locale)
-      yield put(push('/'))
-      yield put(actions.setTheme(THEMES.light))
-      yield put(
-        actions.addToast({
-          message: 'Logged out successfully!',
-          intent: Intent.SUCCESS
-        })
-      )
+      window.location.href = `/${window.location.pathname.split('/')[1]}`
     }
   } catch (err) {
     console.log(err)

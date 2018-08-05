@@ -85,7 +85,7 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
   }
 
   handleLogoutClick = () => {
-    // this.props.logout(null)
+    this.props.logout(null)
     clearViewer()
     this.props.history.push('/')
   }
