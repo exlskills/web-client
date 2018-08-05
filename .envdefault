@@ -6,4 +6,5 @@ EDITOR_BASE_URL=http://localhost:8081
 AUTH_BASE_URL=http://localhost:3030
 NODE_ENV=debug
 PORT=4000
+ACCOUNTS_URL=https://accounts.exlinc.com/auth/realms/exlinc/account
 IC_APP_ID=

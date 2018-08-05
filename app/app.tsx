@@ -64,6 +64,8 @@ document.getElementById('anon-pixel-container').appendChild(anonImg);
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {}
 
+console.log(window.location.pathname)
+
 const browserHistory = createBrowserHistory({
   basename: '/learn',
   getUserConfirmation: leaveRouteConfirmation
