@@ -23,7 +23,7 @@ export default defineMessages({
   },
   notLearnedButton: {
     id: 'pages.Course.ExamDialog.Sidebar.notLearnedBtn',
-    defaultMessage: "I haven't learnt this yet"
+    defaultMessage: "I haven't learned this yet"
   },
   takePracticeMessage: {
     id: 'pages.Course.ExamDialog.Sidebar.takePracticeMessage',

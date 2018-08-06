@@ -15,7 +15,7 @@ export default defineMessages({
   },
   notLearnedButton: {
     id: 'pages.Section.notLearnedBtn',
-    defaultMessage: "I haven't learnt this yet"
+    defaultMessage: "I haven't learned this yet"
   },
   hintButton: {
     id: 'pages.Section.hintBtn',
