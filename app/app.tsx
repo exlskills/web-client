@@ -39,6 +39,7 @@ import {
   getPathLocaleFromURL,
   redirectForLocaleIfNecessary
 } from "./common/utils/path-locale";
+import { getViewer } from "./common/utils/viewer";
 
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
@@ -88,16 +89,21 @@ const browserHistory = createBrowserHistory({
 const store = configureStore(initialState, browserHistory)
 
 const render = (messages: any) => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={browserHistory}>
-          <App />
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>,
-    document.getElementById('app')
-  )
+  let isAuthedInterval = setInterval(() => {
+    if (getViewer() && getViewer('user_id')) {
+      clearInterval(isAuthedInterval);
+      ReactDOM.render(
+        <Provider store={store}>
+          <LanguageProvider messages={messages}>
+            <ConnectedRouter history={browserHistory}>
+              <App />
+            </ConnectedRouter>
+          </LanguageProvider>
+        </Provider>,
+        document.getElementById('app')
+      );
+    }
+  }, 100);
 }
 
 // Hot reloadable translation json files
