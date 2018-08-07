@@ -5,7 +5,7 @@ import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import { RouteComponentProps } from 'react-router'
 import { ContentsBox, SidebarBox, SplitPane, Wrapper } from './styledComponents'
 import { Switch, Route } from 'react-router-dom'
-import { Help, Profile, Auth } from './loaders'
+import { Help, Profile, Billing, Privacy } from './loaders'
 import { removeTrailingSlash } from 'common/utils/routes'
 import requireAuthentication from 'routes/requireAuthentication'
 import SideBarMenu from '../../common/components/SideBarMenu'
@@ -50,9 +50,14 @@ class SectionPage extends React.Component<
                   iconName: 'user'
                 },
                 {
-                  text: formatMessage(messages.authItem),
-                  pathExt: '/settings/auth',
+                  text: formatMessage(messages.privacyItem),
+                  pathExt: '/settings/privacy',
                   iconName: 'lock'
+                },
+                {
+                  text: formatMessage(messages.billingItem),
+                  pathExt: '/settings/billing',
+                  iconName: 'credit-card'
                 },
                 { isDivider: true },
                 {
@@ -68,7 +73,8 @@ class SectionPage extends React.Component<
           <ContentsBox>
             <Switch>
               <Route exact={true} path="/settings" component={Profile} />
-              <Route exact={true} path="/settings/auth" component={Auth} />
+              <Route exact={true} path="/settings/privacy" component={Privacy} />
+              <Route exact={true} path="/settings/billing" component={Billing} />
               <Route exact={true} path="/settings/help" component={Help} />
             </Switch>
           </ContentsBox>

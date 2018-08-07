@@ -26,7 +26,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess'
 import configureStore from './store'
 
 // Import i18n messages
-import { translationMessages } from './i18n'
+import { appLocales, translationMessages } from "./i18n";
 const detectNearestBrowserLocale = require('detect-nearest-browser-locale');
 
 // Import CSS reset and Global Styles
@@ -76,7 +76,7 @@ if (!getPathLocale()) {
   if (getPathLocaleFromURL()) {
     setPathLocale(getPathLocaleFromURL());
   } else {
-    setPathLocale(detectNearestBrowserLocale(['en', 'zh']));
+    setPathLocale(detectNearestBrowserLocale(appLocales));
   }
 }
 

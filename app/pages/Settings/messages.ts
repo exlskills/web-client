@@ -13,9 +13,13 @@ export default defineMessages({
     id: 'pages.Settings.Sidebar.profileItem',
     defaultMessage: 'Profile'
   },
-  authItem: {
-    id: 'pages.Settings.Sidebar.authItem',
-    defaultMessage: 'Authentication'
+  privacyItem: {
+    id: 'pages.Settings.Sidebar.privacyItem',
+    defaultMessage: 'Privacy'
+  },
+  billingItem: {
+    id: 'pages.Settings.Sidebar.billingItem',
+    defaultMessage: 'Billing'
   },
   helpItem: {
     id: 'pages.Settings.Sidebar.helpItem',

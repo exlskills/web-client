@@ -133,6 +133,21 @@ module.exports = options => ({
         ),
         IC_APP_ID: JSON.stringify(
           process.env.IC_APP_ID || ''
+        ),
+        ACCOUNTS_URL: JSON.stringify(
+          process.env.ACCOUNTS_URL || ''
+        ),
+        BILLING_CONSOLE_URL: JSON.stringify(
+          process.env.BILLING_CONSOLE_URL || ''
+        ),
+        SUPPORT_CONSOLE_URL: JSON.stringify(
+          process.env.SUPPORT_CONSOLE_URL || ''
+        ),
+        PRIVACY_POLICY_AND_TOS_URL: JSON.stringify(
+          process.env.PRIVACY_POLICY_AND_TOS_URL || ''
+        ),
+        ERASE_MY_DATA_FORM_URL: JSON.stringify(
+          process.env.ERASE_MY_DATA_FORM_URL || ''
         )
       }
     }),

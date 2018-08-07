@@ -3,7 +3,7 @@ export as namespace client
 import { Store } from 'redux'
 
 declare namespace client {
-  type SupportedLocales = 'en' | 'zh'
+  type SupportedLocales = 'en' | 'zh' | 'es' | 'ru' | 'zh-HK' | 'zh-TW'
 
   interface ExtendedStore extends Store<string> {
     [key: string]: any

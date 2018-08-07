@@ -20,7 +20,7 @@ require('shelljs/global')
 
 // Glob to match all ts files except test files
 const FILES_TO_PARSE = 'app/**/!(*.test).ts'
-const locales = ['en', 'zh']
+const locales = ['en']
 
 const newLine = () => process.stdout.write('\n')
 

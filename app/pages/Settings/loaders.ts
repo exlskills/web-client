@@ -13,8 +13,13 @@ export const Help = new Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
-export const Auth = new Loadable({
-  loader: () => System.import('pages/Settings/components/Auth'),
+export const Billing = new Loadable({
+  loader: () => System.import('pages/Settings/components/Billing'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const Privacy = new Loadable({
+  loader: () => System.import('pages/Settings/components/Privacy'),
   loading: Loading,
   delay: DELAY_INTERVAL
 })
