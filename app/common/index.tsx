@@ -18,6 +18,9 @@ import { getViewer } from 'common/utils/viewer'
 import { Route } from 'react-router-dom'
 import ReactGA from 'react-ga'
 
+// TODO import and show SubscriptionDialog in the future
+// import SubscriptionDialog from 'common/components/SubscriptionDialog';
+
 interface IProps {
   children?: ReactNode
 }
@@ -61,6 +64,7 @@ class App extends React.PureComponent<
             NAVBAR_ROUTES,
             route => location.get('pathname') === route
           ) === -1 && <Navbar />}
+          {/*<SubscriptionDialog isOpen={true} />*/}
           <Route
             path="/"
             render={({ location }) => {
