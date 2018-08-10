@@ -15,6 +15,7 @@ export const signIn = (email: string, password: string) =>
 export const intercomUserHash = () =>
   client.post(`${AUTH_URL}/intercom-user-hash`)
 export const anonymousAccess = () => client.post(`${AUTH_URL}/anonymous`)
+export const jwtRefresh = () => client.get(`${AUTH_URL}/auth/jwt-refresh`)
 export const getKeycloakLoginUrl = (currentUrl?: string) =>
   `${AUTH_URL}/auth/keycloak?redirect=${currentUrl
     ? currentUrl

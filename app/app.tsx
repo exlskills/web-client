@@ -40,6 +40,7 @@ import {
   redirectForLocaleIfNecessary
 } from "./common/utils/path-locale";
 import { getViewer } from "./common/utils/viewer";
+import { jwtRefresh } from "./common/http/auth";
 
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
@@ -89,9 +90,10 @@ const browserHistory = createBrowserHistory({
 const store = configureStore(initialState, browserHistory)
 
 const render = (messages: any) => {
-  let isAuthedInterval = setInterval(() => {
+  let isAuthedInterval = setInterval(async () => {
     if (getViewer() && getViewer('user_id')) {
       clearInterval(isAuthedInterval);
+      await jwtRefresh();
       ReactDOM.render(
         <Provider store={store}>
           <LanguageProvider messages={messages}>

@@ -31,7 +31,7 @@ export default defineMessages({
   },
   eraseMyDataBeforeLink: {
     id: 'pages.Settings.Privacy.eraseMyDataBeforeLink',
-    defaultMessage: 'If you would like to have your account and personal information delete, in compliance with GDPR and our privacy policy, please fill out'
+    defaultMessage: 'If you would like to have your account and personal information deleted, in compliance with GDPR and our privacy policy, please fill out'
   },
   eraseMyDataFormLink: {
     id: 'pages.Settings.Privacy.eraseMyDataFormLink',
