@@ -93,7 +93,7 @@ const render = (messages: any) => {
   let isAuthedInterval = setInterval(async () => {
     if (getViewer() && getViewer('user_id')) {
       clearInterval(isAuthedInterval);
-      if (getViewer('is_demo') === 'false') {
+      if (getViewer('is_demo') === false) {
         await jwtRefresh();
       }
       ReactDOM.render(
