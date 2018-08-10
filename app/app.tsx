@@ -93,7 +93,9 @@ const render = (messages: any) => {
   let isAuthedInterval = setInterval(async () => {
     if (getViewer() && getViewer('user_id')) {
       clearInterval(isAuthedInterval);
-      await jwtRefresh();
+      if (getViewer('is_demo') === 'false') {
+        await jwtRefresh();
+      }
       ReactDOM.render(
         <Provider store={store}>
           <LanguageProvider messages={messages}>
