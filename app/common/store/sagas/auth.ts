@@ -29,7 +29,9 @@ export function* logoutSaga() {
       Cookie.remove(COOKIES.userDataToken)
       Cookie.remove(COOKIES.courseLocale)
       Cookie.remove(COOKIES.locale)
-      window.location.href = `/${window.location.pathname.split('/')[1]}`
+      // TODO consider if this should be a configurable var (the location of the logout redirect)
+      // window.location.href = `/${window.location.pathname.split('/')[1]}`
+      window.location.href = '/';
     }
   } catch (err) {
     console.log(err)
