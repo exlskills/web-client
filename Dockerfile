@@ -19,6 +19,7 @@ RUN yarn run build
 FROM nginx:stable
 RUN mkdir /usr/share/nginx/html/learn
 COPY --from=0 /app/build /usr/share/nginx/html/learn
+COPY --from=0 /app/favicons /usr/share/nginx/html/learn/favicons
 COPY prod-nginx.conf /etc/nginx/nginx.conf
 COPY prod-nginx-site.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
