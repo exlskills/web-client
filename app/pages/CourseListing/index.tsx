@@ -27,6 +27,7 @@ import {
 } from './styledComponents'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { Intent, Tag } from '@blueprintjs/core'
+import { getBadgeURLForTopic } from "../../common/utils/topic-badges";
 
 const rootQuery = graphql`
   query CourseListingQuery(
@@ -284,6 +285,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
                   key={edge.node.id}
                   id={edge.node.id}
                   image={edge.node.logo_url}
+                  badge={getBadgeURLForTopic(edge.node.primary_topic)}
                   title={edge.node.title}
                   description={edge.node.headline}
                   onClick={this.handleCourseClick}

@@ -28,12 +28,7 @@ interface CardImageProps {
   imageUrl: string
 }
 
-export const CardImage = styled.div`
-  color: #ffffff;
-  background-image: url(${(props: CardImageProps) => props.imageUrl});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+export const CardImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 168px;
@@ -42,12 +37,39 @@ export const CardImage = styled.div`
   color: #ffffff;
 `
 
+export const CardBadge = styled.div`
+  background-image: url(${(props: CardImageProps) => props.imageUrl});
+  width: 50px;
+  height: 50px;
+  left: 5px;
+  top: 5px;
+  z-index: 100;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+`
+
+export const CardImage = styled.div`
+  color: #ffffff;
+  background-image: url(${(props: CardImageProps) => props.imageUrl});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`
+
 export const HorizontalCardImage = CardImage.extend`
   max-width: 120px;
   width: 100%;
   height: 100%;
   box-shadow: unset;
   cursor: pointer;
+  position: relative;
 `
 
 export const CardTitle = styled(Text).attrs({

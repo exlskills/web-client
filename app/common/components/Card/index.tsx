@@ -9,14 +9,15 @@ import {
   CardDesc,
   HorizontalInnerWrapper,
   HorizontalFooterWrapper,
-  HorizontalCardImage
-} from './styledComponents'
+  HorizontalCardImage, CardBadge, CardImageContainer
+} from "./styledComponents";
 
 export interface IProps {
   id: string
   title: string
   description: string
   horizontal?: boolean
+  badge?: string
   type?: string
   onClick?: (card: IProps) => void
   boxWidth?: number | string | [number | string]
@@ -45,11 +46,14 @@ class Card extends React.PureComponent<IProps, void> {
   }
 
   renderVertical() {
-    const { id, boxWidth, image, title, description, footer } = this.props
+    const { id, boxWidth, image, badge, title, description, footer } = this.props
     return (
       <Box p={2} width={boxWidth}>
         <VerticalWrapper onClick={this.handleClick}>
-          <CardImage imageUrl={image} />
+          <CardImageContainer>
+            {badge && <CardBadge imageUrl={badge}/>}
+            <CardImage imageUrl={image} />
+          </CardImageContainer>
           <CardTitle>
             {title}
           </CardTitle>

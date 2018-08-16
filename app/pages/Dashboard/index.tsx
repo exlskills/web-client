@@ -35,6 +35,7 @@ import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { Button, Intent, Tag } from '@blueprintjs/core'
 import { isExtraSmallMobile, isMobile } from "../../common/utils/screen";
+import { getBadgeURLForTopic } from "../../common/utils/topic-badges";
 
 const rootQuery = graphql`
   query DashboardQuery($start_date: String, $end_date: String) {
@@ -170,6 +171,7 @@ class Dashboard extends React.Component<
           id: edge.node.id,
           type: 'course',
           image: edge.node.logo_url,
+          badge: getBadgeURLForTopic(edge.node.primary_topic),
           title: edge.node.title,
           description: edge.node.headline,
           footer: (
