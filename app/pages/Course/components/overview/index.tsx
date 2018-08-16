@@ -58,6 +58,7 @@ const rootQuery = graphql`
       logo_url
       headline
       description
+      primary_topic
       last_accessed_unit
       last_accessed_section
       last_accessed_card

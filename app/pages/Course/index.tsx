@@ -45,6 +45,7 @@ export interface IFreactalStates {
     headline?: string
     description?: string
     logo_url?: string
+    primary_topic?: string
     last_accessed_unit?: string
     last_accessed_section?: string
     last_accessed_card?: string

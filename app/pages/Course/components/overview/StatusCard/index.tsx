@@ -59,13 +59,10 @@ class StatusCard extends React.Component<Mergedprops, {}> {
     const rawRoles = props.userProfile
       ? props.userProfile.course_roles.edges
       : []
-    console.log(rawRoles)
     const roles = rawRoles.map((r: any) => r.node)
-    console.log(roles)
     if (roles.length > 0) {
       let rolesByCourseId: any = {}
       roles.forEach((r: any) => {
-        console.log(r)
         rolesByCourseId[r.course_id] = r
       })
       const splitCurCourseId = this.props.match.params.courseId.split('-')
@@ -75,7 +72,6 @@ class StatusCard extends React.Component<Mergedprops, {}> {
       }
     }
 
-    console.log(this.context.viewer)
     return (
       <StatusCardDump
         defaultOpen={true}

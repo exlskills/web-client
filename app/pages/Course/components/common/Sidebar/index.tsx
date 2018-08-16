@@ -14,12 +14,14 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { IconName } from '@blueprintjs/core'
+import { getBadgeURLForTopic } from "../../../../../common/utils/topic-badges";
 
 const rootQuery = graphql`
   query SidebarQuery($course_id: String) {
     course: courseById(course_id: $course_id) {
       title
       logo_url
+      primary_topic
     }
   }
 `
@@ -79,7 +81,7 @@ class Sidebar extends React.PureComponent<
     const allMenuItems = [
       {
         isHeader: true,
-        avatarSrc: 'https://image.flaticon.com/icons/svg/226/226777.svg',
+        avatarSrc: getBadgeURLForTopic(props.course.primary_topic),
         avatarName: props.course.title,
         text: props.course.title
       },
