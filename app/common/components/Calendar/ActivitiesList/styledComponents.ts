@@ -6,12 +6,12 @@ export const ContentWrapper = styled.div``
 export const EventWrapper = styled.div`
   font-size: 14px;
   padding: 10px 0 10px 40px;
-  border-bottom: 1px solid #ccc;
-  color: #2e2e2e;
+  border-top: 1px solid rgba(204, 204, 204, 0.7);
   position: relative;
-  &:last-child {
-    border-bottom: none;
-  }
+  cursor: pointer;
+  &:first-child {
+    border-top: none;
+  }  
 `
 export const EventTime = styled.div`
   float: right;
@@ -31,12 +31,8 @@ export const EventTitle = styled.div`
   white-space: nowrap;
   max-width: calc(100% - 174px);
   font-weight: 600;
-  color: #2e2e2e;
 `
 export const EventAuthor = styled.span`
-  a {
-    color: #2e2e2e;
-  }
 `
 export const EventBody = styled.div`margin-right: 174px;`
 export const EventBodyList = styled.ul`
@@ -75,5 +71,4 @@ export const Listitem = styled.li`
 
 export const EmptyText = styled.div`
   font-size: 1rem;
-  color: #777;
 `

@@ -6,6 +6,7 @@ import CalendarHeatmap from '../CalendarHeatmap'
 import { ACTIVITY_DAYS } from '../constants'
 import { ActivitiesCollapse, ActivitiesHeader } from './styledComponents'
 import messages from './messages'
+import moment = require("moment");
 
 interface IProps {
   activities: any
@@ -58,7 +59,7 @@ class ActivitiesCalendar extends React.PureComponent<MergedProps, any> {
         <ActivitiesHeader>
           <h4>
             {formatMessage(messages.lbActivitiesOnDate, {
-              date: this.state.selectedDate
+              date: moment(this.state.selectedDate, 'YYYY-MM-DD').format('LL')
             })}
           </h4>
           <div className="pt-select">

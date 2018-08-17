@@ -141,7 +141,7 @@ class ActivitiesList extends React.PureComponent<
       <Flex direction={'column'} style={{ flexDirection: 'column' }}>
         <ContentWrapper>
           {itemsList.map((item: any) =>
-            <EventWrapper key={`listbytime_${item.id}`}>
+            <EventWrapper onClick={() => this.props.history.push(item.activity_link)} key={`listbytime_${item.id}`}>
               <EventTime>
                 {moment(item.date).fromNow()}
               </EventTime>
@@ -149,17 +149,15 @@ class ActivitiesList extends React.PureComponent<
                 <Icon iconName="timeline-events" />
               </EventIcon>
               <EventTitle>
-                {/* <EventAuthor>Dat Ngo</EventAuthor> */}
                 {item.type_desc}
               </EventTitle>
               <EventBody>
                 <EventBodyList>
                   <EventBodyItem>
-                    <a href={item.activity_link} target="_blank">
-                      <span>
-                        {item.content}
-                      </span>
-                    </a>
+                    <span className={'pt-text-muted'}>
+                      {formatMessage(messages.clickToView)}
+                      {/*{item.content}*/}
+                    </span>
                   </EventBodyItem>
                 </EventBodyList>
               </EventBody>
@@ -208,18 +206,15 @@ export default createPaginationContainer<any>(
   {
     direction: 'forward',
     getConnectionFromProps(props: IProps) {
-      console.log('in getConnectionFromProps', props)
       return props.activityPaging && props.activityPaging.activities
     },
     getFragmentVariables(prevVars: any, totalCount: any) {
-      console.log('in getFragmentVariables', prevVars, totalCount)
       return {
         ...prevVars,
         count: totalCount
       }
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
-      console.log('in getVariables', fragmentVariables)
       let resolverArgs: any = fragmentVariables.resolverArgs
       return {
         count,

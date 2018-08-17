@@ -17,5 +17,9 @@ export default defineMessages({
   btnShowMoreActivities: {
     id: 'pages.Dashboard.ActivitiesDialog.btnShowMoreActivities',
     defaultMessage: 'Show more activities'
+  },
+  clickToView: {
+    id: 'pages.Dashboard.ActivitiesDialog.clickToView',
+    defaultMessage: 'Click here to view...'
   }
 })
