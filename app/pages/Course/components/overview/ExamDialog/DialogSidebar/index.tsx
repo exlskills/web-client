@@ -62,6 +62,20 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     this.setState({ showHint: !this.state.showHint })
   }
 
+  private onInteraction = (state: boolean) => this.handleInteraction(state)
+
+  private handleInteraction = (nextOpenState: boolean) => {
+    const question = this.props.state.examQuestion
+    let nextState = nextOpenState
+    if (!question) {
+      nextState = false
+    }
+    if (this.state.result == 'correct' || this.state.result == 'wrong') {
+      nextState = true
+    }
+    this.setState({ showPopover: nextState })
+  }
+
   encodeAnswers(question_type: any, answer: any) {
     if (question_type == QuestionType.Single) {
       answer = [answer]
@@ -250,18 +264,10 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     }
 
     if (this.props.state.examExplanation == '') {
-      // if (disableButton == true) {
-      //   return (
-      //     <Button
-      //       disabled={disableButton ? true : disableSubmit}
-      //       text={formatMessage(messages.submitAnswerButton)}
-      //       intent={Intent.PRIMARY}
-      //     />
-      //   )
-      // } else {
       return (
         <Popover
           isOpen={this.state.showPopover}
+          onInteraction={this.onInteraction}
           content={this.renderResultPopover()}
           position={Position.TOP}
         >
@@ -269,11 +275,10 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
             disabled={disableButton ? true : disableSubmit}
             text={formatMessage(messages.submitAnswerButton)}
             intent={Intent.PRIMARY}
-            onClick={() => { console.log('ok wtf'); this.handleSubmitClick(); }}
+            onClick={this.handleSubmitClick}
           />
         </Popover>
       )
-      // }
     } else {
       return (
         <Button

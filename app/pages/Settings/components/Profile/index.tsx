@@ -4,6 +4,7 @@ import InjectedIntlProps = ReactIntl.InjectedIntlProps;
 import messages from "./messages";
 import { ACCOUNTS_URL, ERASE_MY_DATA_FORM_URL } from "../../../../common/constants";
 import { Icon } from "@blueprintjs/core";
+import Helmet from 'react-helmet';
 
 interface IProps {}
 
@@ -11,7 +12,17 @@ class SettingsProfile extends React.Component<IProps & InjectedIntlProps, {}> {
   render() {
     const { formatMessage } = this.props.intl
 
-    return (<div>
+    return (
+    <div>
+      <Helmet
+        title={formatMessage(messages.pageTitle)}
+        meta={[
+          {
+            name: 'description',
+            content: formatMessage(messages.pageDescription)
+          }
+        ]}
+      />
       <h3>{formatMessage(messages.pageTitle)}</h3>
       <br />
       <p>{formatMessage(messages.editAccountInfoBeforeLink)} <a target={"_blank"} rel={"noopener"} href={ACCOUNTS_URL}>{formatMessage(messages.editAccountInfoLinkText)} <Icon iconSize={"inherit"} iconName={"share"}/></a></p>

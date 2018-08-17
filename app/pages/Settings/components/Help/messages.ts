@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Settings.Help.pageTitle',
-    defaultMessage: 'Help'
+    defaultMessage: 'EXLskills - Help'
+  },
+  pageDescription: {
+    id: 'pages.Settings.Help.pageDescription',
+    defaultMessage: 'EXLskills Help'
   },
   howToSeekHelpBeforeDeskLink: {
     id: 'pages.Settings.Help.howToSeekHelpBeforeDeskLink',

@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Settings.Profile.pageTitle',
-    defaultMessage: 'Profile'
+    defaultMessage: 'EXLskills - Profile'
+  },
+  pageDescription: {
+    id: 'pages.Settings.Profile.pageDescription',
+    defaultMessage: 'EXLskills User Profile'
   },
   editAccountInfoBeforeLink: {
     id: 'pages.Settings.Profile.editAccountInfoBeforeLink',

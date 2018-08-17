@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Settings.pageTitle',
-    defaultMessage: 'Settings'
+    defaultMessage: 'EXLskills - Settings'
+  },
+  pageDescription: {
+    id: 'pages.Settings.pageDescription',
+    defaultMessage: 'EXLskills User Settings'
   },
   personalSettingsHeader: {
     id: 'pages.Settings.Sidebar.personalSettingsHeader',

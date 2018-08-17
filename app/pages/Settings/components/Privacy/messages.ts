@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Settings.Privacy.pageTitle',
-    defaultMessage: 'Privacy'
+    defaultMessage: 'EXLskills - Privacy'
+  },
+  pageDescription: {
+    id: 'pages.Settings.Privacy.pageDescription',
+    defaultMessage: 'EXLskills Privacy'
   },
   headline: {
     id: 'pages.Settings.Privacy.headline',

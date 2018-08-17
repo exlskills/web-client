@@ -5,6 +5,7 @@ import { Icon } from "@blueprintjs/core";
 import { injectIntl } from 'react-intl';
 import InjectedIntlProps = ReactIntl.InjectedIntlProps;
 import messages from "./messages";
+import Helmet from 'react-helmet';
 
 interface IProps {}
 
@@ -12,7 +13,17 @@ class SettingsBilling extends React.Component<IProps & InjectedIntlProps, {}> {
   render() {
     const { formatMessage } = this.props.intl
 
-    return (<div>
+    return (
+    <div>
+      <Helmet
+        title={formatMessage(messages.pageTitle)}
+        meta={[
+          {
+            name: 'description',
+            content: formatMessage(messages.pageDescription)
+          }
+        ]}
+      />
       <h3>{formatMessage(messages.pageTitle)}</h3>
       <br />
       {isViewerPremium() ? <span>

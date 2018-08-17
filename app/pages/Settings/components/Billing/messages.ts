@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Settings.Billing.pageTitle',
-    defaultMessage: 'Billing'
+    defaultMessage: 'EXLskills - Billing'
+  },
+  pageDescription: {
+    id: 'pages.Settings.Billing.pageDescription',
+    defaultMessage: 'EXLskills Billing'
   },
   manageYourPrefsBeforeLink: {
     id: 'pages.Settings.Billing.manageYourPrefsBeforeLink',

@@ -8,11 +8,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Dashboard.pageTitle',
-    defaultMessage: 'Dashboard'
+    defaultMessage: 'EXLskills - Dashboard'
   },
   pageDescription: {
     id: 'pages.Dashboard.pageDescription',
-    defaultMessage: 'This is Dashboard page !'
+    defaultMessage: 'EXLskills Dashboard'
   },
   lbLearningActivity: {
     id: 'pages.Dashboard.lbLearningActivity',

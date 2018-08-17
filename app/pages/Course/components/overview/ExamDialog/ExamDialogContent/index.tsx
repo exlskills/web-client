@@ -130,7 +130,7 @@ class ExamDialogContent extends React.PureComponent<MergedProps, any> {
         <ResultWrapper>
           <h3>
             <Icon iconName={'endorsed'} className={'pt-intent-success'} />
-            <FormattedMessage {...messages.txtNoMoreQuestions} />
+            {formatMessage(messages.txtNoMoreQuestions)}
           </h3>
           <Button
             intent={Intent.NONE}

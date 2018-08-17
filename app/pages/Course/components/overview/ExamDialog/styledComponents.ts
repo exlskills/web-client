@@ -47,7 +47,6 @@ export const ResultWrapper = CenterContainer.extend`
   margin-top: 6rem;
   height: auto;
   h3 {
-    color: #333;
     margin-bottom: 15px;
   }
   .pt-icon {

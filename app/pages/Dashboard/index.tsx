@@ -231,8 +231,6 @@ class Dashboard extends React.Component<
       )
     }
 
-    console.log(props.myCourses)
-
     let activitiesList: { [date: string]: any } = {}
     if (props.userActivity) {
       for (let data of props.userActivity) {
