@@ -169,7 +169,6 @@ export const wrapComponentWithState = provideState<
         examModalOpen: open
       }
       if (!open) {
-        console.log('state reset!!!')
         updateStates.examType = ''
         updateStates.examUnit = {}
         updateStates.examSection = {}

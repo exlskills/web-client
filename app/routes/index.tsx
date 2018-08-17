@@ -9,9 +9,8 @@ import { Store } from 'redux'
 import { Location } from 'history'
 import { Record } from 'immutable'
 
-// Load course page statically statically
+// Load course page statically
 import Course from 'pages/Course'
-import SettingProfile from 'pages/SettingProfile/components/ProfileSpecific'
 import * as loaders from './loaders'
 interface IProps {
   location: Record.Instance<Location>
@@ -63,7 +62,6 @@ class Routes extends React.PureComponent<IProps, void> {
           path="/courses/:courseId/units/:unitId/sections/:sectionId/card/:cardId"
           component={loaders.Section}
         />
-        <Route path="/users/:userId" component={SettingProfile} />
         <Route
           exact={true}
           path="/courses/explore"
