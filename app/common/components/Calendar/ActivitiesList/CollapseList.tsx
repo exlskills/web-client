@@ -16,6 +16,7 @@ import {
 import * as moment from 'moment'
 interface IProps {
   groupText: string
+  onClick: (item: any) => void,
   itemslist: {
     id: string
     content: string
@@ -53,11 +54,9 @@ class CollapseList extends React.PureComponent<IProps, any> {
         <Collapse isOpen={this.state.isOpen}>
           <List>
             {itemslist.map(item =>
-              <Listitem key={`listbytype_${item.id}`}>
-                <div style={{ display: 'inline-block' }}>
-                  <a href={item.activity_link} target="_blank">
+              <Listitem className={'pt-text-muted'} onClick={() => this.props.onClick(item)} key={`listbytype_${item.id}`}>
+                <div style={{ cursor: 'pointer', display: 'inline-block' }}>
                     {item.content}
-                  </a>
                 </div>
                 <span style={{ float: 'right' }}>
                   {moment(item.date).fromNow()}

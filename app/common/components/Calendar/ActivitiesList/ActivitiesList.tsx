@@ -122,6 +122,7 @@ class ActivitiesList extends React.PureComponent<
         <Flex direction={'column'} style={{ flexDirection: 'column' }}>
           {itemsList.map(item =>
             <CollapseList
+              onClick={(val: any) => this.props.history.push(val.activity_link)}
               key={item[0]}
               groupText={item[0]}
               itemslist={item[1]}
