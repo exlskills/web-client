@@ -27,11 +27,6 @@ import { processCourseData } from '../../../../utils/course_data_processor'
 interface IProps {
   disableSubmit?: boolean
   disableHint?: boolean
-  // showHint?: boolean
-  // onSubmitClick?: () => void
-  // onHintClick?: () => void
-  // onConceptClick?: () => void
-  // onNotLearnedClick?: () => void
 }
 type MergedProps = IProps & IFreactalProps & InjectedIntlProps
 
@@ -282,7 +277,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     } else {
       return (
         <Button
-          text="Next"
+          text={formatMessage(messages.nextButton)}
           intent={Intent.PRIMARY}
           onClick={this.handleNextQuestionWithOutSave}
         />
@@ -295,16 +290,9 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
       return <div />
     }
 
-    const { intl, disableSubmit } = this.props
+    const { intl } = this.props
     const { formatMessage } = intl
     const haveQuestion = this.props.state.examQuestion
-    let disableButton = false
-    if (this.state.showPopover == false && haveQuestion == null) {
-      disableButton = true
-    }
-    if (this.props.state.examExplanation != '') {
-      disableButton = true
-    }
     let disableButtonHave = false
     if (!haveQuestion) {
       disableButtonHave = true

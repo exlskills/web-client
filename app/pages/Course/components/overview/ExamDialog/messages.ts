@@ -17,6 +17,10 @@ export default defineMessages({
     id: 'pages.Course.ExamDialog.Sidebar.readyTitle',
     defaultMessage: "I'm ready to try again!"
   },
+  nextButton: {
+    id: 'pages.Course.ExamDialog.Sidebar.nextButton',
+    defaultMessage: "Next"
+  },
   submitAnswerButton: {
     id: 'pages.Course.ExamDialog.Sidebar.submitAnswerBtn',
     defaultMessage: 'Check answer'
