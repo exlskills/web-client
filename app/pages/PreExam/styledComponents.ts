@@ -14,16 +14,14 @@ export const CancelButton = styled(Button).attrs({
   className: 'pt-large'
 })`
      margin-bottom: 0.4rem;
-     margin-left: 5%;
+     margin-left: 12px;
   `
 export const SectionContent = styled.div`
-  width: 50%;
   display: block;
-  margin: auto;
-  padding-left: 1%;
+  padding-left: 15px;
+  padding-top: 6px;
 `
 export const CenterSection = styled.div`
-  width: 50%;
   display: block;
   margin: auto;
   flex-direction: column;
@@ -37,8 +35,7 @@ export const CenterSection = styled.div`
   user-select: initial;
 `
 export const SectionButton = styled.div`
-  margin: auto;
   display: block;
-  width: 50%;
-  padding: 10px;
+  padding-top: 10px;
+  padding-left: 15px;
 `

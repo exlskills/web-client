@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   preExamTitle: {
     id: 'pages.UnitActionButton.preExamTitle',
-    defaultMessage: 'Exam for Unit'
+    defaultMessage: 'Unit Exam'
   },
   numQuestion: {
     id: 'pages.UnitActionButton.numQuestion',

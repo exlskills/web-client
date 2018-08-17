@@ -129,7 +129,7 @@ class ExamPage extends React.Component<
                 <TakeButton onClick={this.handleClick} text="Take Exam" />
                 <CancelButton onClick={this.handleCancel} text="Cancel" />
               </SectionButton>
-            : <SectionButton style={{ width: '100%' }}>
+            : <SectionButton>
                 <CancelButton onClick={this.handleCancel} text="Cancel" />
               </SectionButton>}
         </CenterSection>
