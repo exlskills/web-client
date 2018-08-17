@@ -31,9 +31,11 @@ import {
   WrongResult,
   ExamQuestionWrapper
 } from './styledComponents'
+import Helmet from "react-helmet";
 
 interface IProps {
   cards: any
+  course: any
 }
 
 interface IStates {
@@ -396,11 +398,7 @@ class SectionDump extends React.PureComponent<
   handleTheLastNext = () => {
     const { nextQuestion } = this.state
     if (nextQuestion) {
-      let classPath = ''
-      if (this.props.match.params.classId) {
-        classPath = `/classes/${this.props.match.params.classId}`
-      }
-      let nextUrl = `${classPath}`
+      let nextUrl = ''
       if (nextQuestion.course_id == this.props.match.params.courseId) {
         nextUrl += `/courses/${nextQuestion.course_id}`
         if (nextQuestion.unit_id) {
@@ -602,6 +600,14 @@ class SectionDump extends React.PureComponent<
 
     return (
       <StickyContainer>
+        <Helmet
+          title={cardView ? formatMessage(messages.pageTitleSingleCard, {
+            course: this.props.course.title,
+            card: cardsById[activeCardId].title
+          }) : formatMessage(messages.pageTitle, {
+            course: this.props.course.title
+          })}
+        />
         <Sticky topOffset={-50}>
           {({ style, isSticky }: { style: any; isSticky: boolean }) => {
             let wrapperStyle: any = {}

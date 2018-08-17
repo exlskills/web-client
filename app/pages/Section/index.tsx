@@ -14,7 +14,11 @@ import SectionDump from './SectionDump'
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`
-  query SectionQuery($resolverArgs: [QueryResolverArgs]!) {
+  query SectionQuery($course_id: String, $resolverArgs: [QueryResolverArgs]!) {
+    courseById(course_id: $course_id) {
+      title
+      headline
+    }
     cardPaging(first: 9999, resolverArgs: $resolverArgs) {
       edges {
         cursor
@@ -78,12 +82,7 @@ class SectionPage extends React.Component<
 
     return (
       <CenterContainer>
-        <Helmet>
-          <title>
-            {formatMessage(messages.pageTitle)}
-          </title>
-        </Helmet>
-        <SectionDump cards={cards} />
+        <SectionDump course={props.courseById} cards={cards} />
       </CenterContainer>
     )
   }
@@ -103,6 +102,7 @@ class SectionPage extends React.Component<
     )
 
     let variables: any = {
+      course_id: courseId,
       resolverArgs: [
         { param: 'course_id', value: courseId },
         { param: 'unit_id', value: unitId },

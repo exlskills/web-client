@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Section.pageTitle',
-    defaultMessage: 'Section'
+    defaultMessage: 'EXLskills - {course}'
+  },
+  pageTitleSingleCard: {
+    id: 'pages.Section.pageTitle',
+    defaultMessage: 'EXLskills - {course} - {card}'
   },
   lbApplicationQuestion: {
     id: 'pages.Section.lbApplicationQuestion',
