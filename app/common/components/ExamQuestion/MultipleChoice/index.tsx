@@ -30,11 +30,9 @@ class MultipleChoice extends React.Component<IProps, {}> {
   private autoRadioName = uniqueId('MultipleChoice.Radio-')
 
   handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(this.props.selectedOptions)
     const newSelection = e.target.value
     const selectedOptions =
       (this.props.selectedOptions.selected_ids as string[]) || []
-    console.log('selected: ', selectedOptions, ' newselected: ', newSelection)
     let newSelectionArray: string[]
 
     if (selectedOptions.indexOf(newSelection) > -1) {
@@ -45,7 +43,6 @@ class MultipleChoice extends React.Component<IProps, {}> {
       newSelectionArray = [...selectedOptions, newSelection] as string[]
     }
 
-    console.log(newSelectionArray)
     if (this.props.onChange) {
       this.props.onChange({ selected_ids: newSelectionArray })
     }
@@ -84,7 +81,6 @@ class MultipleChoice extends React.Component<IProps, {}> {
   }
 
   getSelectedOptions() {
-    console.log('SELECTED OPTIONS A: ', this.props.selectedOptions)
     return (this.props.selectedOptions.selected_ids as string[]) || []
   }
 
