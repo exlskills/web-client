@@ -71,12 +71,8 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     this.setState({ showPopover: nextState })
   }
 
-  encodeAnswers(question_type: any, answer: any) {
-    if (question_type == QuestionType.Single) {
-      answer = [answer]
-    }
-    const answerArray = { selected_ids: answer }
-    return JSON.stringify(answerArray)
+  encodeAnswers(answer: any) {
+    return JSON.stringify(answer)
   }
 
   reloadUnit(newData: any) {
@@ -102,7 +98,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
       SubmitQuizAnswerMutation(
         examQuestion.id,
         examQuizId,
-        this.encodeAnswers(examQuestion.question_type, examAnswer),
+        this.encodeAnswers(examAnswer),
         false
       ).then((res: any) => {
         if (!res || !res.submitAnswer) {
@@ -186,7 +182,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
 
   hasAnswer = () => {
     const { examAnswer } = this.props.state
-    return examAnswer && examAnswer.length > 0
+    return examAnswer && (examAnswer.selected_ids || examAnswer.user_files)
   }
 
   renderResultPopover = () => {

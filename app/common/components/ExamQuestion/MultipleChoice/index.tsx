@@ -12,40 +12,48 @@ export type MultiOptionProps = {
   disabled?: boolean
 }
 
-// TODO: Consider to use string[] only to simplize code
-export type MultiAnswerProps = string | string[]
+export type QuestionResponseData = {
+  selected_ids?: string[]
+  user_files?: string
+}
 
 interface IProps {
   options: MultiOptionProps[]
-  selectedOptions?: MultiAnswerProps
-  correctOptions?: MultiAnswerProps
+  selectedOptions?: QuestionResponseData
+  correctOptions?: QuestionResponseData
   showResults?: boolean
   multiSelection?: boolean
-  onChange?: (selected: MultiAnswerProps) => void
+  onChange?: (selected: QuestionResponseData) => void
 }
 
 class MultipleChoice extends React.Component<IProps, {}> {
   private autoRadioName = uniqueId('MultipleChoice.Radio-')
 
   handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(this.props.selectedOptions)
     const newSelection = e.target.value
-    const selectedOptions = (this.props.selectedOptions as string[]) || []
-    let newSelectionArray
+    const selectedOptions =
+      (this.props.selectedOptions.selected_ids as string[]) || []
+    console.log('selected: ', selectedOptions, ' newselected: ', newSelection)
+    let newSelectionArray: string[]
 
     if (selectedOptions.indexOf(newSelection) > -1) {
-      newSelectionArray = selectedOptions.filter(s => s !== newSelection)
+      newSelectionArray = selectedOptions.filter(
+        s => s !== newSelection
+      ) as string[]
     } else {
-      newSelectionArray = [...selectedOptions, newSelection]
+      newSelectionArray = [...selectedOptions, newSelection] as string[]
     }
 
+    console.log(newSelectionArray)
     if (this.props.onChange) {
-      this.props.onChange(newSelectionArray)
+      this.props.onChange({ selected_ids: newSelectionArray })
     }
   }
 
   handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (this.props.onChange) {
-      this.props.onChange(e.target.value)
+      this.props.onChange({ selected_ids: [e.target.value] })
     }
   }
 
@@ -67,7 +75,7 @@ class MultipleChoice extends React.Component<IProps, {}> {
       return {
         // label: option.text,
         value: option.value,
-        checked: option.value === selectedOptions,
+        checked: selectedOptions.indexOf(option.value) != -1,
         // disabled: disabled || this.props.disabled,
         name: this.autoRadioName,
         onChange: this.handleRadioChange
@@ -76,28 +84,17 @@ class MultipleChoice extends React.Component<IProps, {}> {
   }
 
   getSelectedOptions() {
-    const { multiSelection, selectedOptions } = this.props
-
-    return multiSelection
-      ? (selectedOptions as string[]) || []
-      : (selectedOptions as string) || ''
+    console.log('SELECTED OPTIONS A: ', this.props.selectedOptions)
+    return (this.props.selectedOptions.selected_ids as string[]) || []
   }
 
   getCorrectOptions() {
-    const { multiSelection, correctOptions } = this.props
-
-    return multiSelection
-      ? (correctOptions as string[]) || []
-      : (correctOptions as string) || ''
+    return (this.props.correctOptions.selected_ids as string[]) || []
   }
 
   isOptionChecked(item: MultiOptionProps) {
-    const { multiSelection } = this.props
     const selectedOptions = this.getSelectedOptions()
-
-    return multiSelection
-      ? selectedOptions.indexOf(item.value) != -1
-      : selectedOptions == item.value
+    return selectedOptions.indexOf(item.value) != -1
   }
 
   isAnswerCorrect() {

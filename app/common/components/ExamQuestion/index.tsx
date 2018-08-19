@@ -5,10 +5,10 @@ import { Switch } from '@blueprintjs/core'
 import Explanation from './Explanation'
 import messages from './messages'
 import MultipleChoice, {
-  MultiAnswerProps,
+  QuestionResponseData,
   MultiOptionProps
 } from './MultipleChoice'
-import FreeResponse, { FreeAnswerProps } from './FreeResponse'
+import CodeResponse, { ICodeResponseProps } from './CodeResponse'
 import {
   QuestionPoints,
   QuestionWrapper,
@@ -25,12 +25,12 @@ import { isObject } from 'util'
 export enum QuestionType {
   Single = 'MCSA' as any,
   Multiple = 'MCMA' as any,
-  Free = 'WSCQ' as any
+  CodeResponse = 'WSCQ' as any
 }
 
 // TODO: Consider to remove []
-export type QuestionDataProps = MultiOptionProps[] | FreeAnswerProps
-export type AnswerProps = MultiAnswerProps
+export type QuestionDataProps = MultiOptionProps[] | ICodeResponseProps
+export type AnswerProps = QuestionResponseData
 
 export interface QuestionProps {
   id: string
@@ -126,7 +126,7 @@ class ExamQuestion extends React.PureComponent<
         value: item.id,
         text: item.text
       }))
-    } else if (question.question_type == QuestionType.Free) {
+    } else if (question.question_type == QuestionType.CodeResponse) {
       question_data = question.data
     }
 
@@ -137,23 +137,12 @@ class ExamQuestion extends React.PureComponent<
   }
 
   renderQuestionContent = (question: QuestionProps) => {
-    let arrayReplace = [
-      '#!C-B',
-      '#!QAS-B',
-      '#!QAS-E',
-      '#!QAE',
-      '#!AEE',
-      '#!AVC-B',
-      '#!AVC-E',
-      '#!AC-B',
-      '#!AC-E'
-    ]
-    let sourceText = ''
-    for (let item of arrayReplace) {
-      question.question_text = question.question_text.replace(item, '')
-    }
-    sourceText = question.question_text
-    return <Markdown options={{ html: true }} source={sourceText || ''} />
+    return (
+      <Markdown
+        options={{ html: true }}
+        source={question.question_text || ''}
+      />
+    )
   }
 
   renderAnswerOptions = (question: QuestionProps) => {
@@ -166,6 +155,7 @@ class ExamQuestion extends React.PureComponent<
     } = question
     const { userAnswer, onAnswerChange, showResults } = this.props
     console.log('question', question)
+    console.log('userAnswer', userAnswer)
 
     if (!question_type || !question_data) {
       return
@@ -181,17 +171,19 @@ class ExamQuestion extends React.PureComponent<
           key={`question_${id}`}
           options={question_data as MultiOptionProps[]}
           multiSelection={question_type == QuestionType.Multiple}
-          selectedOptions={userAnswer}
+          selectedOptions={userAnswer || { selected_ids: [] }}
           onChange={onAnswerChange}
           showResults={showResults}
           correctOptions={correct_answer}
         />
       )
-    } else if (question_type == QuestionType.Free) {
+    } else if (question_type == QuestionType.CodeResponse) {
       answersComp = (
-        <FreeResponse
+        <CodeResponse
           key={`question_${id}`}
-          editorData={question_data as FreeAnswerProps}
+          editorData={question_data as ICodeResponseProps}
+          onChange={wspc =>
+            onAnswerChange({ user_files: JSON.stringify(wspc) })}
         />
       )
     }

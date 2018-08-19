@@ -35,7 +35,11 @@ const rootQuery = graphql`
           question_text
           data {
             id
-            code
+            tmpl_files
+            environment_key
+            use_advanced_features
+            explanation
+            src_files
             options {
               id
               text

@@ -14,15 +14,18 @@ export interface EditorFileProps {
 }
 
 interface IProps {
-  id: string
+  id?: string
   name?: string
   environment?: string
   height?: string
-  files?: EditorFileProps[]
+  files?: object
   embedded?: boolean
   disableAction?: boolean
+  onWorkspaceUpdated?: (wspc: object) => void
 }
-interface IStates {}
+interface IStates {
+  iframeMsgHandler?: (evt: any) => void
+}
 
 export default class CodeEditor extends React.PureComponent<IProps, IStates> {
   static defaultProps: Partial<IProps> = {
@@ -32,61 +35,30 @@ export default class CodeEditor extends React.PureComponent<IProps, IStates> {
     embedded: true
   }
 
-  generateFile({ name, content }: EditorFileProps = { name: '', content: '' }) {
-    return {
-      isDir: false,
-      isHidden: false,
-      isImmutable: false,
-      isTmplFile: false,
-      name: name ? name : EDITOR_DEFAULT_FILENAME,
-      contents: content ? content : EDITOR_DEFAULT_CONTENT
+  handleIFrameMsg = (self: any) => (evt: any) => {
+    const { event, payload } = JSON.parse(evt.data)
+    if (event === 'workspace.changed' && self.props.onWorkspaceUpdated) {
+      self.props.onWorkspaceUpdated(payload)
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.state.iframeMsgHandler)
+  }
+
+  componentWillMount() {
+    const evtHandler = this.handleIFrameMsg(this)
+    this.setState({ iframeMsgHandler: evtHandler })
+    window.addEventListener('message', evtHandler)
   }
 
   generateWorkspace() {
     const { id, name, files, environment } = this.props
 
-    let filesRoot: any
-    if (files) {
-      let filesObject: any = {}
-      for (let file of files) {
-        const filename = file.name ? file.name : EDITOR_DEFAULT_FILENAME
-        filesObject[filename] = this.generateFile(file)
-      }
-      filesRoot = {
-        src: {
-          name: 'src',
-          isDir: true,
-          children: {
-            main: {
-              name: 'main',
-              isDir: true,
-              children: {
-                java: {
-                  name: 'java',
-                  isDir: true,
-                  children: {
-                    exlcode: {
-                      name: 'exlcode',
-                      isDir: true,
-                      children: filesObject
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    } else {
-      filesRoot = null
-      // filesObject[EDITOR_DEFAULT_FILENAME] = this.generateFile()
-    }
-
     return {
-      documentId: id,
-      files: filesRoot,
+      files: files,
       name: name,
+      id: id,
       environmentKey: environment
     }
   }
@@ -109,7 +81,7 @@ export default class CodeEditor extends React.PureComponent<IProps, IStates> {
         style={{
           width: '100%',
           height: this.props.height,
-          border: '1px solid #ccc'
+          border: 'none'
         }}
       />
     )

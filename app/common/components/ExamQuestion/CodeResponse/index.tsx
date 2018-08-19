@@ -2,17 +2,19 @@ import * as React from 'react'
 import Input from 'common/components/forms/inputs/Input'
 import CodeEditor from 'common/components/CodeEditor'
 
-export interface FreeAnswerProps {
+export interface ICodeResponseProps {
   id: string
-  code: string
+  tmpl_files: string
+  src_files: string
   environment_key: string
 }
 
 interface IProps {
-  editorData: FreeAnswerProps
+  editorData: ICodeResponseProps
+  onChange: (wspc: object) => void
 }
 
-class FreeResponse extends React.PureComponent<IProps, any> {
+class CodeResponse extends React.PureComponent<IProps, any> {
   static contextTypes = {
     viewer: React.PropTypes.object
   }
@@ -24,12 +26,14 @@ class FreeResponse extends React.PureComponent<IProps, any> {
     return (
       <CodeEditor
         id={`${userId}-${editorData.id}`}
-        files={[{ content: editorData.code }]}
-        environment={editorData.environment_key}
+        files={JSON.parse(editorData.tmpl_files)}
+        // environment={editorData.environment_key}
+        environment={'java_default_free'}
         disableAction={true}
+        onWorkspaceUpdated={this.props.onChange}
       />
     )
   }
 }
 
-export default FreeResponse
+export default CodeResponse

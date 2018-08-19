@@ -9,6 +9,7 @@ import { Redirect, RouteComponentProps } from 'react-router'
 import { injectState, update, provideState } from 'freactal'
 import requireAuthentication from 'routes/requireAuthentication'
 import { isMobile } from 'common/utils/screen'
+import { AnswerProps } from '../../common/components/ExamQuestion'
 
 const DELAY_INTERVAL = 500
 
@@ -65,7 +66,7 @@ export interface IFreactalStates {
   examType?: string
   examQuestion?: any
   examQuestionCursor?: string
-  examAnswer?: any
+  examAnswer?: AnswerProps
   examQuizId?: string
   examExplanation?: string
   examCardOpen?: boolean
@@ -82,7 +83,7 @@ export interface IFreactalProps {
     setExamType: (exam_type: string) => void
     setExamQuestion: (question: any) => void
     setExamQuestionCursor: (cursor: string) => void
-    setExamAnswer: (answer: any) => Promise<any>
+    setExamAnswer: (answer: AnswerProps) => Promise<any>
     setExamQuizId: (quiz_id: string) => void
     setExamExplanation: (explain: any) => void
     setExamCardOpen: (cardOpen: boolean) => void
@@ -201,7 +202,7 @@ export const wrapComponentWithState = provideState<
     setExamQuestionCursor: update((state: IFreactalStates, cursor: any) => ({
       examQuestionCursor: cursor
     })),
-    setExamAnswer: update((state: IFreactalStates, answer: any) => ({
+    setExamAnswer: update((state: IFreactalStates, answer: AnswerProps) => ({
       examAnswer: answer
     })),
     setExamQuizId: update((state: IFreactalStates, quiz_id: string) => ({

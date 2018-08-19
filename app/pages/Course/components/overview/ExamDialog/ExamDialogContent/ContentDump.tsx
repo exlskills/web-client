@@ -13,7 +13,6 @@ type MergedProps = IProps & IFreactalProps
 
 class ContentDump extends React.PureComponent<MergedProps, any> {
   handleAnswerChange = (answer: AnswerProps) => {
-    console.log('answer answer', answer)
     this.props.effects.setExamAnswer(answer)
   }
 

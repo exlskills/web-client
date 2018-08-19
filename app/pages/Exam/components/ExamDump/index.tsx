@@ -124,10 +124,7 @@ class ExamDump extends React.PureComponent<
     if (this.state.activeQuestion != SUBMIT_KEY) {
       let answerData = null
       if (this.getCurrentAnswer()) {
-        answerData = this.encodeAnswers(
-          this.state.activeQuestion,
-          this.getCurrentAnswer()
-        )
+        answerData = this.encodeAnswers(this.getCurrentAnswer())
       }
       AnswerExamQuestionMutation(
         this.props.examAttemptId,
@@ -140,25 +137,15 @@ class ExamDump extends React.PureComponent<
     this.setState({ activeQuestion: value.id })
   }
 
-  encodeAnswers(questionId: string, answer: any) {
-    const { questionsById } = this.getQuestions()
-    const currentQuestion = questionsById[questionId]
-
-    if (currentQuestion.question_type == QuestionType.Single) {
-      answer = [answer]
-    }
-
-    const answerArray = { selected_ids: answer }
-
-    console.log(answer, JSON.stringify(answerArray))
-    return JSON.stringify(answerArray)
+  encodeAnswers(answer: any) {
+    return JSON.stringify(answer)
   }
 
   handleAnswerChange = (answer: AnswerProps) => {
     const questionId = this.state.activeQuestion
 
     console.log('answer change', answer)
-    const answerData = this.encodeAnswers(questionId, answer)
+    const answerData = this.encodeAnswers(answer)
     if (questionId != SUBMIT_KEY) {
       AnswerExamQuestionMutation(
         this.props.examAttemptId,

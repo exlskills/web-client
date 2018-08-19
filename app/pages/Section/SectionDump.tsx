@@ -31,7 +31,7 @@ import {
   WrongResult,
   ExamQuestionWrapper
 } from './styledComponents'
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet'
 
 interface IProps {
   cards: any
@@ -235,6 +235,7 @@ class SectionDump extends React.PureComponent<
   }
 
   handleAnswerChange = (answer: AnswerProps) => {
+    console.log(answer)
     const userAnswerById = { ...this.state.userAnswerById }
     userAnswerById[this.state.activeCardId] = answer
     this.setState({ userAnswerById: userAnswerById })
@@ -255,12 +256,8 @@ class SectionDump extends React.PureComponent<
     this.setState({ showResultPopover: false, showExplanation: true })
   }
 
-  encodeAnswers(question_type: any, answer: any) {
-    if (question_type == QuestionType.Single) {
-      answer = [answer]
-    }
-    const answerArray = { selected_ids: answer }
-    return JSON.stringify(answerArray)
+  encodeAnswers(answer: any) {
+    return JSON.stringify(answer)
   }
 
   handleSubmitClick = (question: QuestionProps) => () => {
@@ -278,7 +275,7 @@ class SectionDump extends React.PureComponent<
     SubmitCardAnswerMutation(
       question.id,
       this.state.cardQuizId,
-      this.encodeAnswers(question.question_type, currUserAnswer),
+      this.encodeAnswers(currUserAnswer),
       !this.getNextCardId()
     ).then((res: any) => {
       if (!res || !res.submitAnswer) {
@@ -392,7 +389,9 @@ class SectionDump extends React.PureComponent<
 
   hasAnswer() {
     const userAnswer = this.state.userAnswerById[this.state.activeCardId]
-    return !(!userAnswer || userAnswer.length == 0)
+    console.log(userAnswer)
+    console.log(typeof userAnswer)
+    return userAnswer && (userAnswer.selected_ids || userAnswer.user_files)
   }
 
   handleTheLastNext = () => {
@@ -601,12 +600,16 @@ class SectionDump extends React.PureComponent<
     return (
       <StickyContainer>
         <Helmet
-          title={cardView ? formatMessage(messages.pageTitleSingleCard, {
-            course: this.props.course.title,
-            card: cardsById[activeCardId].title
-          }) : formatMessage(messages.pageTitle, {
-            course: this.props.course.title
-          })}
+          title={
+            cardView
+              ? formatMessage(messages.pageTitleSingleCard, {
+                  course: this.props.course.title,
+                  card: cardsById[activeCardId].title
+                })
+              : formatMessage(messages.pageTitle, {
+                  course: this.props.course.title
+                })
+          }
         />
         <Sticky topOffset={-50}>
           {({ style, isSticky }: { style: any; isSticky: boolean }) => {
