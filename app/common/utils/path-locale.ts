@@ -1,36 +1,42 @@
-import { getPathLocale } from "./cookies";
+import { getPathLocale } from './cookies'
 
 export const getPathLocaleFromURL = () => {
   if (window.location.pathname.split('/').length < 1) {
-    return '';
+    return ''
   }
-  const firstPart = window.location.pathname.split('/')[1];
+  const firstPart = window.location.pathname.split('/')[1]
   if (firstPart) {
-    const baseSplit = firstPart.split('-', 3);
+    const baseSplit = firstPart.split('-', 3)
     if (baseSplit.length < 2) {
-      return '';
+      return ''
     }
     if (baseSplit.length === 2) {
-      return baseSplit[1];
+      return baseSplit[1]
     }
     if (baseSplit.length === 3) {
       return `${baseSplit[1]}-${baseSplit[2]}`
     }
   }
-  return '';
+  return ''
 }
 
 export const getCurrentPathWithLocale = (l: string) => {
-  let pathSplit = window.location.pathname.split('/');
+  let pathSplit = window.location.pathname.split('/')
   if (pathSplit.length < 2) {
-    return `/learn-${l}`;
+    return `/learn-${l}`
   }
-  pathSplit[1] = `learn-${l}`;
+  console.log(pathSplit)
+  if (pathSplit[1].startsWith('learn-')) {
+    pathSplit[1] = `learn-${l}`
+  } else {
+    pathSplit[0] = `learn-${l}`
+    pathSplit = ['', ...pathSplit]
+  }
   return `${pathSplit.join('/')}`
 }
 
 export const redirectForLocaleIfNecessary = () => {
   if (window.location.pathname !== getCurrentPathWithLocale(getPathLocale())) {
-    window.location.href = getCurrentPathWithLocale(getPathLocale());
+    window.location.href = getCurrentPathWithLocale(getPathLocale())
   }
 }

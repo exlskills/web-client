@@ -147,20 +147,18 @@ class UnitCard extends React.Component<
     })
   }
 
-  handleSectionClick = (section: any) => () => {
+  getSectionLink = (section: any) => {
     const { course } = this.props.state
     const courseUrlId = toUrlId(course.title, course.id)
     const unitId = this.props.unit.id
     const { unit } = this.props
     const unitUrlId = toUrlId(unit.title, unit.id)
     const sectionUrlId = toUrlId(section.title, section.id)
-    let classPath = ''
-    if (this.props.match.params.classId) {
-      classPath = `/classes/${this.props.match.params.classId}`
-    }
-    this.props.history.push(
-      `${classPath}/courses/${courseUrlId}/units/${unitUrlId}/sections/${sectionUrlId}`
-    )
+    return `/courses/${courseUrlId}/units/${unitUrlId}/sections/${sectionUrlId}`
+  }
+
+  handleSectionClick = (section: any) => () => {
+    this.props.history.push(this.getSectionLink(section))
   }
 
   overText = (id: string) => () => {
@@ -251,20 +249,24 @@ class UnitCard extends React.Component<
         </CardHeader>
         <CardContent isOpen={open}>
           {sections_list.map((s, idx) =>
-            <SectionRow
-              index={idx}
-              ref={this.assignSectionElem(s)}
-              key={s.id}
-              onClick={this.handleSectionClick(s)}
-              unit={this.props.unit}
-              isCenter={this.state.isCenter}
-              section={s}
-              courseUrlId={toUrlId(course.title, course.id)}
-              inProgressMsg={formatMessage(messages.inProgress)}
-              viewMsg={formatMessage(messages.viewLessonDropdown)}
-              practiceMsg={formatMessage(messages.practiceLessonDropdown)}
-              practiceLessonMsg={formatMessage(messages.practiceSection)}
-            />
+            <div key={s.id}>
+              <noscript>
+                <a href={this.getSectionLink(s)} />
+              </noscript>
+              <SectionRow
+                index={idx}
+                ref={this.assignSectionElem(s)}
+                onClick={this.handleSectionClick(s)}
+                unit={this.props.unit}
+                isCenter={this.state.isCenter}
+                section={s}
+                courseUrlId={toUrlId(course.title, course.id)}
+                inProgressMsg={formatMessage(messages.inProgress)}
+                viewMsg={formatMessage(messages.viewLessonDropdown)}
+                practiceMsg={formatMessage(messages.practiceLessonDropdown)}
+                practiceLessonMsg={formatMessage(messages.practiceSection)}
+              />
+            </div>
           )}
           <UnitExam
             index={sections_list.length}

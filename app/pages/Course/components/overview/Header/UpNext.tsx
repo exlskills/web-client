@@ -219,7 +219,7 @@ class UpNext extends React.Component<
       <Wrapper>
         <UpNextMuted onClick={this.handleCardClick(unit, section, card)}>
           {formatMessage(messages.unitHeading)} {unitN},{' '}
-          {formatMessage(messages.lessonHeading)} {indexToLetter(sectionN-1)}
+          {formatMessage(messages.lessonHeading)} {indexToLetter(sectionN - 1)}
         </UpNextMuted>
         <UpNextTitle onClick={this.handleCardClick(unit, section, card)}>
           {section.title}
@@ -244,11 +244,8 @@ class UpNext extends React.Component<
   }
 
   render() {
-    console.log(this.props.state.examAllUnits)
     const { examAllUnits } = this.props.state
     const units = examAllUnits.unitsById
-    const userFirstName = this.context.viewer.first_name
-    console.log(this.context)
 
     if (examAllUnits.courseComplete) {
       return this.renderCompleted()
