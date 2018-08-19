@@ -127,10 +127,6 @@ class UnitCard extends React.Component<
     }
   }
 
-  handleCellClick = (id: string) => {
-    console.log(id)
-  }
-
   handleTakeQuiz = () => {
     this.props.effects.setExamType('unit')
     this.props.effects.setExamUnit(this.props.unit)

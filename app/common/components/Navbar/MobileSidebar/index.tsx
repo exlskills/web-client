@@ -92,10 +92,6 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
     }
   }
 
-  componentWillReceiveProps = (props: MergedProps) => {
-    console.log('Getting props: ', props.pathExt)
-  }
-
   // This keeps your state in sync with the opening/closing of the menu
   // via the default means, e.g. clicking the X, pressing the ESC key etc.
   handleStateChange = (state: any) => {

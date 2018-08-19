@@ -76,7 +76,6 @@ class SectionRow extends React.Component<
       this.props.section.title,
       this.props.section.id
     )
-    console.log(title)
     const cardUrlId = toUrlId(title, id)
     this.props.history.push(
       `/courses/${this.props

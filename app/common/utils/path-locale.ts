@@ -25,7 +25,6 @@ export const getCurrentPathWithLocale = (l: string) => {
   if (pathSplit.length < 2) {
     return `/learn-${l}`
   }
-  console.log(pathSplit)
   if (pathSplit[1].startsWith('learn-')) {
     pathSplit[1] = `learn-${l}`
   } else {

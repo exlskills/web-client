@@ -38,7 +38,6 @@ client.onclose = () => {
 
 client.sendEvent = (eventType: WS_EVENTS, data: { [k: string]: any }) => {
   waitForConnection(() => {
-    console.log('=== SENT ===')
     return client.send(
       JSON.stringify({
         type: MESSAGE_TYPES.notif,

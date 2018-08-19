@@ -22,7 +22,6 @@ class ProgressHeader extends React.Component<
     const { examAllUnits } = this.props.state
     const units = examAllUnits.unitsById
     const userFirstName = this.context.viewer.first_name
-    console.log(this.context)
     const { formatMessage } = this.props.intl
 
     const multiplier = Math.pow(10, 2 || 0)

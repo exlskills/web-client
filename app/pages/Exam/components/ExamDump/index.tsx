@@ -114,13 +114,11 @@ class ExamDump extends React.PureComponent<
     if (!this.state.isSubmitted) {
       LeaveExamMutation(this.props.examAttemptId).then(res => {
         console.log('in examCancelSaveState')
-        console.log(res)
       })
     }
   }
 
   handleQuestionChange = (value: any) => {
-    console.log('question change', value)
     if (this.state.activeQuestion != SUBMIT_KEY) {
       let answerData = null
       if (this.getCurrentAnswer()) {
@@ -144,7 +142,6 @@ class ExamDump extends React.PureComponent<
   handleAnswerChange = (answer: AnswerProps) => {
     const questionId = this.state.activeQuestion
 
-    console.log('answer change', answer)
     const answerData = this.encodeAnswers(answer)
     if (questionId != SUBMIT_KEY) {
       AnswerExamQuestionMutation(
@@ -165,7 +162,6 @@ class ExamDump extends React.PureComponent<
   }
 
   handleSubmit = () => {
-    console.log('Submit', this.state.answersByQuestion)
     LeaveExamMutation(this.props.examAttemptId).then((res: any) => {
       if (res && res.leaveExam && res.leaveExam.completionObj) {
         const completionObj = res.leaveExam.completionObj
@@ -332,7 +328,6 @@ class ExamDump extends React.PureComponent<
       window.onunload = null
     }
 
-    console.log('props', this.props)
     const { formatMessage } = this.props.intl
     const { completed } = this.props
     const { activeQuestion, skippedQuestions } = this.state

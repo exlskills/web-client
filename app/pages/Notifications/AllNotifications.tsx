@@ -44,7 +44,6 @@ class AllNotifications extends React.Component<
       this.props.relay.isLoading()
     )
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
-      console.log('nothing more')
       return
     }
 
@@ -158,18 +157,15 @@ export default createPaginationContainer<any>(
   {
     direction: 'forward',
     getConnectionFromProps(props: IProps) {
-      console.log('in getConnectionFromProps', props)
       return props.notificationPaging && props.notificationPaging.notifications
     },
     getFragmentVariables(prevVars: any, totalCount: any) {
-      console.log('in getFragmentVariables', prevVars, totalCount)
       return {
         ...prevVars,
         count: totalCount
       }
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
-      console.log('in getVariables', props, count, cursor, fragmentVariables)
       return {
         count,
         cursor

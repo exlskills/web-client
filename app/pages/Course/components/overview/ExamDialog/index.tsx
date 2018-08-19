@@ -66,7 +66,6 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
   }
 
   render() {
-    console.log('exam modal render')
     const { isOpen } = this.props
     const {
       examType,

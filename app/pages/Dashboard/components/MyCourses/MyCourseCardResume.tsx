@@ -66,7 +66,6 @@ class MyCourseCardResumeComponent extends React.Component<
     sectionTitle: string,
     cardTitle: string
   ) => () => {
-    console.log('in on click method')
     const courseUrlId = toUrlId(this.props.item.title, this.props.item.id)
     const unitUrlId = toUrlId(unitTitle, unitId)
     const sectionUrlId = toUrlId(sectionTitle, sectionId)

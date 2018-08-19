@@ -274,7 +274,6 @@ class CalendarHeatmap extends React.PureComponent<IProps, IStates> {
   }
 
   handleClick = (value: any) => () => {
-    console.log('handleClick')
     if (this.props.onClick) {
       this.props.onClick(value)
     }

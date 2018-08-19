@@ -58,7 +58,6 @@ class BulletNavigator extends React.PureComponent<IProps, {}> {
       }
     } else if (cursorBased) {
       val = list[list.indexOf(val) - 1]
-      console.log('valvalval', val)
     }
 
     this.props.onClick(val)
@@ -88,11 +87,11 @@ class BulletNavigator extends React.PureComponent<IProps, {}> {
           disabled={this.isFirstDotActive()}
         />
         {hasPrevious && <MoreIcon iconName={'more'} />}
-        {visiblelist.map((val,i) =>
+        {visiblelist.map((val, i) =>
           <BulletDot
             className="bullet-li"
             key={val}
-            id = {this.props.cardList[i]}
+            id={this.props.cardList[i]}
             data-id={val}
             active={val == activeValue}
             onClick={this.handleClick}

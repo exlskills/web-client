@@ -2,13 +2,10 @@ import { getUserDataCookie } from './cookies'
 
 export const setViewer = (user: any) => {
   if (user) {
-    console.log('have user')
     if (!user.user_id) {
-      console.log('dont have id')
       user = JSON.parse(
         window.atob(getUserDataCookie().replace('-', '+').replace('_', '/'))
       )
-      console.log('now got', user)
     }
     let viewer = {
       user_id: user.user_id,

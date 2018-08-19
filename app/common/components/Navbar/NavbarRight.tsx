@@ -99,7 +99,10 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
     const themeStr = theme === THEMES.dark ? 'pt-dark' : 'pt-light'
     return (
       <div className="pt-navbar-group pt-align-right">
-        <UpgradeButton onUpgradeClick={() => location.href = "https://exlskills.com/pricing"} />
+        <UpgradeButton
+          onUpgradeClick={() =>
+            (location.href = 'https://exlskills.com/pricing')}
+        />
         <button
           className={`pt-button pt-minimal ${theme === THEMES.dark
             ? 'pt-icon-flash'
@@ -158,7 +161,6 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
   }
 
   render() {
-    console.log(this.props)
     if (!this.props.mobile) {
       return this.renderDesktop()
     }

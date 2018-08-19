@@ -68,7 +68,6 @@ class CourseInfo extends React.Component<Mergedprops, {}> {
       verified_cert_cost
     } = props.courseById
 
-    console.log(this.context.viewer)
     return (
       <CourseInfoDump
         title={title}

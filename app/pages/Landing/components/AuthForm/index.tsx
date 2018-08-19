@@ -40,7 +40,6 @@ class AuthForm extends React.Component<MergedProps, IStates> {
   handleSignIn = (form: any) => {
     const { email, password } = form.data
     const { formatMessage } = this.props.intl
-    console.log(email, password)
 
     this.setState({ isLoading: true })
 
@@ -93,7 +92,6 @@ class AuthForm extends React.Component<MergedProps, IStates> {
 
     signUp(email, password)
       .then(response => {
-        console.log(response)
         this.setState({ isLoading: false })
         if (response.data) {
           if (response.data.status == 'OK') {

@@ -67,13 +67,11 @@ class ActivitiesList extends React.PureComponent<
       this.props.relay.isLoading()
     )
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
-      console.log('nothing more')
       return
     }
 
     this.props.relay.loadMore(PER_PAGE, (e: any) => {
       console.log(`${PER_PAGE} more items are loaded`)
-      console.log(e)
     })
   }
 
@@ -142,7 +140,10 @@ class ActivitiesList extends React.PureComponent<
       <Flex direction={'column'} style={{ flexDirection: 'column' }}>
         <ContentWrapper>
           {itemsList.map((item: any) =>
-            <EventWrapper onClick={() => this.props.history.push(item.activity_link)} key={`listbytime_${item.id}`}>
+            <EventWrapper
+              onClick={() => this.props.history.push(item.activity_link)}
+              key={`listbytime_${item.id}`}
+            >
               <EventTime>
                 {moment(item.date).fromNow()}
               </EventTime>

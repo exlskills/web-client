@@ -29,7 +29,6 @@ class StartDiscussionDialog extends React.PureComponent<
 > {
   constructor(props: IProps & InjectedIntlProps) {
     super(props)
-    console.log('props.defaultTags', props.defaultTags)
     this.state = {
       cancelDiscussionOpen: false,
       discussionTitle: props.defaultTitle || '',

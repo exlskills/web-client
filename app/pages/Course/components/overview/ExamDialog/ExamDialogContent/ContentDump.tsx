@@ -28,8 +28,6 @@ class ContentDump extends React.PureComponent<MergedProps, any> {
       explanationData.defaultShowExplan = false
     }
 
-    console.log('contentdump', question)
-
     return (
       <ExamQuestion
         transparentStyle={true}

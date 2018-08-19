@@ -380,7 +380,6 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
   }
 
   render() {
-    console.log('sidebar render')
     const {
       examQuestion,
       examAnswer,

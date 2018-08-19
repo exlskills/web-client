@@ -343,7 +343,6 @@ class SectionDump extends React.PureComponent<
 
   updateCardUrl() {
     const cardId = this.state.activeCardId
-    console.log('fired')
     const cards = this.getCards()
     let cardUrlId = ''
     if (this.state.cardView) {

@@ -46,7 +46,6 @@ class QuestionHint extends React.PureComponent<IProps, any> {
     if (!this.props.questionId || !this.props.shouldFetch) {
       return null
     }
-    console.log('render question hint', this.props.questionId)
     const variables = {
       resolverArgs: [
         {

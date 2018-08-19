@@ -117,7 +117,6 @@ class UpNext extends React.Component<
   renderCompleted() {
     const { course } = this.props.state
     const userFirstName = this.context.viewer.first_name
-    console.log(this.context)
     const { formatMessage } = this.props.intl
 
     return (

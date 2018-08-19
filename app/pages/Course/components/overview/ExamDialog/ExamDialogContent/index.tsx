@@ -125,7 +125,6 @@ class ExamDialogContent extends React.PureComponent<MergedProps, any> {
       return <Loading />
     }
 
-    console.log('dialog content queryRender')
     const { formatMessage } = this.props.intl
 
     if (!props.questions || !props.questions.edges[0]) {
@@ -158,14 +157,12 @@ class ExamDialogContent extends React.PureComponent<MergedProps, any> {
       null,
       true
     ).then((res: any) => {
-      console.log('submit question success')
       console.log(res)
     })
     return <ContentDump question={currentQuestion} />
   }
 
   render() {
-    console.log('dialog content render')
     const {
       examQuestionCursor,
       examUnit,

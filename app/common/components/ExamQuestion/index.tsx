@@ -96,7 +96,6 @@ class ExamQuestion extends React.PureComponent<
     } else {
       splitView = props.question.question_type === QuestionType.Multiple
     }
-    console.log(splitView)
     this.setState({ splitView: splitView, splitHeight: splitHeight })
   }
 
@@ -154,8 +153,6 @@ class ExamQuestion extends React.PureComponent<
       correct_answer
     } = question
     const { userAnswer, onAnswerChange, showResults } = this.props
-    console.log('question', question)
-    console.log('userAnswer', userAnswer)
 
     if (!question_type || !question_data) {
       return
@@ -250,7 +247,6 @@ class ExamQuestion extends React.PureComponent<
   }
 
   render() {
-    console.log('question render')
     const { transparentStyle } = this.props
     const question = this.parseQuestionData()
 

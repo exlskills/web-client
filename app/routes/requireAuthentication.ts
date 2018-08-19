@@ -47,7 +47,6 @@ export default (requiredAuthLevel = 0) => (Component: any) => {
       }
       intercomUserHash().then((resp: any) => {
         if (!resp.data || !resp.data.userIdHash) {
-          console.log('No data or hash')
           return
         }
         const viewer = getViewer()

@@ -67,8 +67,6 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
       logo_url,
       verified_cert_cost
     } = props.courseById
-
-    console.log(this.context.viewer)
     return (
       <CourseCertificateDump
         title={title}
