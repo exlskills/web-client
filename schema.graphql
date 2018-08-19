@@ -89,6 +89,7 @@ type Course implements Node {
   enrolled_count: Int!
   view_count: Int!
   info_md: String!
+  repo_url: String
   verified_cert_cost: Float
   skill_level: Int
   est_minutes: Int
@@ -130,7 +131,7 @@ type CourseUnit implements Node {
   sections_list: [UnitSection]
   final_exams: [String]
   pre_exams: [String]
-  final_exam_weight_pct: Int!
+  final_exam_weight_pct: Float!
   attempts_left: Int
   unit_processing: Int
   ema: Float
@@ -331,9 +332,9 @@ type Query {
 
   # Card Entry by question ID
   cardByQuestion(question_id: String!): SectionCard
-  userProfile(locale: String): User
   userActivity(start_date: String, end_date: String): [UserActivity]
   profileSpecific(user_id: String): User
+  userProfile(user_id: String): User
   userActivityById(user_id: String, start_date: String, end_date: String): [UserActivity]
   oneExam(unit_id: String, course_id: String): Exam
   specificExamAttempt(unit_id: String): [ExamAttempt]
