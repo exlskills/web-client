@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Notification.pageTitle',
-    defaultMessage: 'Notification'
+    defaultMessage: 'EXLskills - Notifications'
+  },
+  pageDescription: {
+    id: 'pages.Notification.pageDescription',
+    defaultMessage: 'EXLskills Notification'
   },
   lbNotifications: {
     id: 'pages.Notification.lbNotifications',

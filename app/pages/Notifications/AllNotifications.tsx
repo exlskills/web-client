@@ -72,7 +72,15 @@ class AllNotifications extends React.Component<
 
     return (
       <CenterContainer>
-        <Helmet title={formatMessage(messages.pageTitle)} />
+        <Helmet
+          title={formatMessage(messages.pageTitle)}
+          meta={[
+            {
+              name: 'description',
+              content: formatMessage(messages.pageDescription)
+            }
+          ]}
+        />
         <Wrapper>
           <h2>
             {formatMessage(messages.lbNotifications)}

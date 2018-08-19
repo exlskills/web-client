@@ -149,7 +149,21 @@ class ExamPage extends React.Component<
 
     return (
       <Wrapper>
-        <Helmet title={formatMessage(messages.pageTitle)} />
+        <Helmet
+          title={formatMessage(messages.pageTitle, {
+            course: props.courseById.title,
+            unit: props.unitSpec.title
+          })}
+          meta={[
+            {
+              name: 'description',
+              content: formatMessage(messages.pageDescription, {
+                course: props.courseById.title,
+                unit: props.unitSpec.title
+              })
+            }
+          ]}
+        />
         <ExamDump
           courseId={this.getCourseId()}
           courseUrlId={this.props.match.params.courseId}

@@ -3,9 +3,12 @@ import Header from './Header'
 import UnitCard from './UnitCard'
 import ExamModal from './ExamDialog'
 import { IFreactalProps } from 'pages/Course'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { injectState } from 'freactal'
+import Helmet from 'react-helmet'
 
 import * as React from 'react'
+import messages from './messages'
 
 interface IProps {
   showHeader?: boolean
@@ -16,7 +19,7 @@ interface IProps {
 interface IStates {}
 
 class CourseOverviewDump extends React.PureComponent<
-  IProps & IFreactalProps,
+  IProps & IFreactalProps & InjectedIntlProps,
   IStates
 > {
   render() {
@@ -24,10 +27,23 @@ class CourseOverviewDump extends React.PureComponent<
     const { unitIds, unitsById } = this.props.state.examAllUnits
     const { last_accessed_unit } = this.props.state.course
     const defaultOpen = !last_accessed_unit
-    console.log(this.props.state.examAllUnits)
+    const { formatMessage } = this.props.intl
 
     return (
       <ContentWrapper>
+        <Helmet
+          title={formatMessage(messages.pageTitle, {
+            course: this.props.state.course.title
+          })}
+          meta={[
+            {
+              name: 'description',
+              content: formatMessage(messages.pageDescription, {
+                description: this.props.state.course.description
+              })
+            }
+          ]}
+        />
         {showHeader && <Header showStatus={showStatus} />}
         <div style={{ marginTop: showHeader || showStatus ? '0px' : '-24px' }}>
           {unitIds.map((unitId: string, idx: number) => {
@@ -51,4 +67,4 @@ class CourseOverviewDump extends React.PureComponent<
   }
 }
 
-export default injectState(CourseOverviewDump)
+export default injectState(injectIntl(CourseOverviewDump))

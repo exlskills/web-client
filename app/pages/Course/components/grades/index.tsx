@@ -7,11 +7,15 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
+import { injectIntl } from 'react-intl'
+import InjectedIntlProps = ReactIntl.InjectedIntlProps
 
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { processCourseData } from '../../utils/course_data_processor'
+import messages from './messages'
+import Helmet from 'react-helmet'
 
 const rootQuery = graphql`
   query gradesQuery(
@@ -89,6 +93,7 @@ interface IProps {}
 class Grades extends React.PureComponent<
   IProps &
     IFreactalProps &
+    InjectedIntlProps &
     RouteComponentProps<{ courseId: string; unitId: string }>,
   any
 > {
@@ -104,6 +109,8 @@ class Grades extends React.PureComponent<
   }
 
   queryRender = ({ error, props }: { error: Error; props: any }) => {
+    const { formatMessage } = this.props.intl
+
     if (error) {
       return (
         <div>
@@ -153,7 +160,6 @@ class Grades extends React.PureComponent<
       course.last_accessed_unit = unitId
     }
 
-    console.log('course', course)
     this.props.effects.setExamAllUnits(
       processCourseData({ unitIds, unitsById })
     )
@@ -162,9 +168,21 @@ class Grades extends React.PureComponent<
       course: course ? course : {}
     })
 
-    console.log('grade render')
     return (
       <ContentWrapper>
+        <Helmet
+          title={formatMessage(messages.pageTitle, {
+            course: props.courseById.title
+          })}
+          meta={[
+            {
+              name: 'description',
+              content: formatMessage(messages.pageDescription, {
+                description: props.courseById.description
+              })
+            }
+          ]}
+        />
         <ProgressHeader />
         <GradesTable examItems={gradesList} onClick={console.log} />
       </ContentWrapper>
@@ -197,4 +215,4 @@ class Grades extends React.PureComponent<
   }
 }
 
-export default injectState(withRouter(Grades))
+export default injectState(injectIntl(withRouter(Grades)))

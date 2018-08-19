@@ -61,6 +61,8 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
     const {
       id,
       title,
+      description,
+      headline,
       info_md,
       logo_url,
       verified_cert_cost
@@ -70,6 +72,7 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
     return (
       <CourseCertificateDump
         title={title}
+        description={description}
         logoUrl={logo_url}
         verifiedCertCost={verified_cert_cost}
       />

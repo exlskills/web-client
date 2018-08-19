@@ -8,11 +8,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.CourseListing.pageTitle',
-    defaultMessage: 'Courses Listing'
+    defaultMessage: 'EXLskills - Courses'
   },
   pageDescription: {
     id: 'pages.CourseListing.pageDescription',
-    defaultMessage: 'Description of Courses Listing page'
+    defaultMessage: 'EXLskills Courses'
   },
   searchbarPlaceholder: {
     id: 'pages.CourseListing.searchbarPlaceholder',

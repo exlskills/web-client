@@ -7,10 +7,12 @@ import { injectState } from 'freactal'
 import messages from './messages'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import Helmet from 'react-helmet'
 let Markdown = require('react-remarkable')
 
 interface IProps {
   title: string
+  description: string
   logoUrl: string
   verifiedCertCost?: number
 }
@@ -39,6 +41,19 @@ class CourseCertificateDump extends React.Component<
 
     return (
       <Wrapper>
+        <Helmet
+          title={formatMessage(messages.pageTitle, {
+            course: this.props.title
+          })}
+          meta={[
+            {
+              name: 'description',
+              content: formatMessage(messages.pageDescription, {
+                description: this.props.description
+              })
+            }
+          ]}
+        />
         Get a certificate for just:
         {verifiedCertCost}
       </Wrapper>

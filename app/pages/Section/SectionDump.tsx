@@ -235,7 +235,6 @@ class SectionDump extends React.PureComponent<
   }
 
   handleAnswerChange = (answer: AnswerProps) => {
-    console.log(answer)
     const userAnswerById = { ...this.state.userAnswerById }
     userAnswerById[this.state.activeCardId] = answer
     this.setState({ userAnswerById: userAnswerById })
@@ -389,8 +388,6 @@ class SectionDump extends React.PureComponent<
 
   hasAnswer() {
     const userAnswer = this.state.userAnswerById[this.state.activeCardId]
-    console.log(userAnswer)
-    console.log(typeof userAnswer)
     return userAnswer && (userAnswer.selected_ids || userAnswer.user_files)
   }
 

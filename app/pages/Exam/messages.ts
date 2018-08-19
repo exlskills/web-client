@@ -3,7 +3,11 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   pageTitle: {
     id: 'pages.Exam.pageTitle',
-    defaultMessage: 'Exam'
+    defaultMessage: 'EXLskills - {course} - {unit} Exam'
+  },
+  pageDescription: {
+    id: 'pages.Exam.pageDescription',
+    defaultMessage: 'EXLskills {course} {unit} Exam'
   },
   cancelExam: {
     id: 'pages.Exam.cancelExam',

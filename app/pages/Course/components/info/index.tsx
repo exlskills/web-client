@@ -63,6 +63,7 @@ class CourseInfo extends React.Component<Mergedprops, {}> {
       id,
       title,
       info_md,
+      description,
       logo_url,
       verified_cert_cost
     } = props.courseById
@@ -72,6 +73,7 @@ class CourseInfo extends React.Component<Mergedprops, {}> {
       <CourseInfoDump
         title={title}
         logoUrl={logo_url}
+        description={description}
         infoMarkdown={info_md}
         verifiedCertCost={verified_cert_cost}
       />
