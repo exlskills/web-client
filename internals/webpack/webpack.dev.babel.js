@@ -42,6 +42,8 @@ module.exports = require('./webpack.base.babel')({
   // Add development plugins
   plugins: dependencyHandlers().concat(plugins), // eslint-disable-line no-use-before-define
 
+  babelExclude: /node_modules/,
+
   // Tell babel that we want to hot-reload
   babelQuery: {
     // require.resolve solves the issue of relative presets when dealing with

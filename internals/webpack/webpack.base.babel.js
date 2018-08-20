@@ -22,7 +22,7 @@ module.exports = options => ({
       {
         test: /\.js$/, // Transform all .js files required somewhere with Babel
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: options.babelExclude,
         query: options.babelQuery
       },
       {
@@ -131,12 +131,8 @@ module.exports = options => ({
         AUTH_BASE_URL: JSON.stringify(
           process.env.AUTH_BASE_URL || 'http://localhost:3030'
         ),
-        IC_APP_ID: JSON.stringify(
-          process.env.IC_APP_ID || ''
-        ),
-        ACCOUNTS_URL: JSON.stringify(
-          process.env.ACCOUNTS_URL || ''
-        ),
+        IC_APP_ID: JSON.stringify(process.env.IC_APP_ID || ''),
+        ACCOUNTS_URL: JSON.stringify(process.env.ACCOUNTS_URL || ''),
         BILLING_CONSOLE_URL: JSON.stringify(
           process.env.BILLING_CONSOLE_URL || ''
         ),

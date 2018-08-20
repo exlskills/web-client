@@ -72,6 +72,7 @@ export default class CodeEditor extends React.PureComponent<IProps, IStates> {
   }
 
   generateEditorUrl() {
+    console.log(this.generateWorkspace())
     const workspace = JSON.stringify(this.generateWorkspace())
     const embedded = this.props.embedded ? 'embedded=true&' : ''
     const disableAction = this.props.disableAction ? '&disableAction=true' : ''

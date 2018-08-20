@@ -110,7 +110,9 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
         }
 
         if (res.submitAnswer.is_correct) {
-          this.reloadUnit(res.submitAnswer.unit)
+          if (res.submitAnswer.unit) {
+            this.reloadUnit(res.submitAnswer.unit)
+          }
           this.setState({ showPopover: true, result: 'correct' })
           if (document.getElementById('havent-learn')) {
             document

@@ -15,6 +15,29 @@ module.exports = require('./webpack.base.babel')({
     chunkFilename: '[name].[chunkhash].chunk.js'
   },
 
+  babelExclude: undefined,
+
+  babelQuery: {
+    // require.resolve solves the issue of relative presets when dealing with
+    // locally linked packages. This is an issue with babel and webpack.
+    // See https://github.com/babel/babel-loader/issues/149 and
+    // https://github.com/webpack/webpack/issues/1866
+    presets: [
+      [
+        'env',
+        {
+          exclude: ['transform-regenerator'],
+          loose: true,
+          modules: false,
+          targets: {
+            browsers: ['>1%']
+          },
+          useBuiltIns: true
+        }
+      ]
+    ]
+  },
+
   plugins: [
     // new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({

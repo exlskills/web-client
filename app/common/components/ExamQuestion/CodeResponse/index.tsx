@@ -28,6 +28,7 @@ class CodeResponse extends React.PureComponent<IProps, any> {
         id={`${userId}-${editorData.id}`}
         files={JSON.parse(editorData.tmpl_files)}
         environment={editorData.environment_key}
+        // environment={'java_default_free'}
         disableAction={true}
         onWorkspaceUpdated={this.props.onChange}
       />
