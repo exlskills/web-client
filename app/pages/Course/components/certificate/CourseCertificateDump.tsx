@@ -1,6 +1,5 @@
 import * as React from 'react'
-
-import { Wrapper } from './styledComponents'
+import { ContentWrapper } from 'common/components/styledComponents'
 import { IFreactalProps } from '../../index'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
@@ -8,7 +7,8 @@ import messages from './messages'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import Helmet from 'react-helmet'
-let Markdown = require('react-remarkable')
+const Markdown = require('react-remarkable')
+import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 
 interface IProps {
   title: string
@@ -32,7 +32,11 @@ class CourseCertificateDump extends React.Component<
   context: any
 
   parseContent(text: string) {
-    return <Markdown options={{ html: true }} source={text || ''} />
+    return (
+      <MarkdownStyleWrapper>
+        <Markdown options={{ html: true }} source={text || ''} />
+      </MarkdownStyleWrapper>
+    )
   }
 
   render() {
@@ -40,7 +44,7 @@ class CourseCertificateDump extends React.Component<
     const { verifiedCertCost } = this.props
 
     return (
-      <Wrapper>
+      <ContentWrapper>
         <Helmet
           title={formatMessage(messages.pageTitle, {
             course: this.props.title
@@ -54,9 +58,11 @@ class CourseCertificateDump extends React.Component<
             }
           ]}
         />
-        Get a certificate for just:
-        {verifiedCertCost}
-      </Wrapper>
+        <div>
+          Get a certificate for just:
+          {verifiedCertCost}
+        </div>
+      </ContentWrapper>
     )
   }
 }

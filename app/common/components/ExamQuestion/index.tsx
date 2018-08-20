@@ -4,6 +4,7 @@ import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { Switch } from '@blueprintjs/core'
 import Explanation from './Explanation'
 import messages from './messages'
+import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 import MultipleChoice, {
   QuestionResponseData,
   MultiOptionProps
@@ -137,10 +138,12 @@ class ExamQuestion extends React.PureComponent<
 
   renderQuestionContent = (question: QuestionProps) => {
     return (
-      <Markdown
-        options={{ html: true }}
-        source={question.question_text || ''}
-      />
+      <MarkdownStyleWrapper>
+        <Markdown
+          options={{ html: true }}
+          source={question.question_text || ''}
+        />
+      </MarkdownStyleWrapper>
     )
   }
 

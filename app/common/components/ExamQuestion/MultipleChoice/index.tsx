@@ -1,8 +1,8 @@
 import { Checkbox, Radio } from '@blueprintjs/core'
 import { isEqual, uniqueId } from 'lodash'
 import * as React from 'react'
-let Markdown = require('react-remarkable')
-
+const Markdown = require('react-remarkable')
+import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 import { OptionWrapper, Wrapper } from './styledComponents'
 
 // TODO: This could be replaced with IOptionProps from `@blueprintjs/core`
@@ -123,7 +123,9 @@ class MultipleChoice extends React.Component<IProps, {}> {
             {React.createElement(
               this.getOptionElement(),
               this.getOptionProps(item),
-              <Markdown options={{ html: true }} source={item.text || ''} />
+              <MarkdownStyleWrapper>
+                <Markdown options={{ html: true }} source={item.text || ''} />
+              </MarkdownStyleWrapper>
             )}
           </OptionWrapper>
         )}

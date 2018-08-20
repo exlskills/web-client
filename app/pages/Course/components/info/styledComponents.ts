@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { CardWrapper } from 'pages/Course/components/styledComponents'
 
 export const Wrapper = styled.div`
   margin: 16px 34px !important;

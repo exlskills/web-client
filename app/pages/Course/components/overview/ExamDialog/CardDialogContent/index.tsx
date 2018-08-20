@@ -1,5 +1,6 @@
 import Loading from 'common/components/Loading'
 import SectionCard from 'common/components/SectionCard'
+import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 
 import { injectState } from 'freactal'
 import * as React from 'react'
@@ -41,7 +42,11 @@ class CardDialogContent extends React.Component<
 
   parseContent(content: { content: string }) {
     let text = content.content
-    return <Markdown options={{ html: true }} source={text || ''} />
+    return (
+      <MarkdownStyleWrapper>
+        <Markdown options={{ html: true }} source={text || ''} />
+      </MarkdownStyleWrapper>
+    )
   }
   queryRender = ({ error, props }: { error: Error; props: any }) => {
     if (error) {

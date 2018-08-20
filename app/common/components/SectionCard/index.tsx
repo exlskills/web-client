@@ -1,7 +1,7 @@
 import * as React from 'react'
 import SelectionPopover from './SelectionPopover'
 import CodeEditor from 'common/components/CodeEditor'
-import { MDWrapper } from "./styledComponents";
+import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 const LazyLoad = require('react-lazyload').default
 let Markdown = require('react-remarkable')
 
@@ -49,9 +49,9 @@ export default class SectionCard extends React.PureComponent<IProps, any> {
     }
 
     return (
-      <MDWrapper>
+      <MarkdownStyleWrapper>
         {text && <Markdown options={{ html: true }} source={text} />}
-      </MDWrapper>
+      </MarkdownStyleWrapper>
     )
   }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
-
-import { Wrapper } from './styledComponents'
+import { ContentWrapper } from 'common/components/styledComponents'
+import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 import { IFreactalProps } from '../../index'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
@@ -33,7 +33,11 @@ class CourseInfoDump extends React.Component<
   context: any
 
   parseContent(text: string) {
-    return <Markdown options={{ html: true }} source={text || ''} />
+    return (
+      <MarkdownStyleWrapper>
+        <Markdown options={{ html: true }} source={text || ''} />
+      </MarkdownStyleWrapper>
+    )
   }
 
   render() {
@@ -41,7 +45,7 @@ class CourseInfoDump extends React.Component<
     const { infoMarkdown, verifiedCertCost } = this.props
 
     return (
-      <Wrapper>
+      <ContentWrapper>
         <Helmet
           title={formatMessage(messages.pageTitle, {
             course: this.props.title
@@ -55,9 +59,10 @@ class CourseInfoDump extends React.Component<
             }
           ]}
         />
+        <br />
         {this.parseContent(infoMarkdown)}
         Verified certificate cost: US${verifiedCertCost}
-      </Wrapper>
+      </ContentWrapper>
     )
   }
 }
