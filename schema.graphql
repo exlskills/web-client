@@ -510,6 +510,7 @@ type SubmitAnswerPayload {
   unit: CourseUnit
   is_correct: Boolean
   explain_text: String
+  grading_response: String
   completionObj: CompletionObj
   next_question: NextQuestion
   clientMutationId: String

@@ -61,7 +61,6 @@ class CourseInfoDump extends React.Component<
         />
         <br />
         {this.parseContent(infoMarkdown)}
-        Verified certificate cost: US${verifiedCertCost}
       </ContentWrapper>
     )
   }

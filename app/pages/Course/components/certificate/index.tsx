@@ -72,6 +72,7 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
         title={title}
         description={description}
         logoUrl={logo_url}
+        infoMarkdown={info_md}
         verifiedCertCost={verified_cert_cost}
       />
     )

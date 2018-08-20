@@ -14,6 +14,7 @@ interface IProps {
   title: string
   description: string
   logoUrl: string
+  infoMarkdown: string
   verifiedCertCost?: number
 }
 
@@ -41,7 +42,7 @@ class CourseCertificateDump extends React.Component<
 
   render() {
     const { formatMessage } = this.props.intl
-    const { verifiedCertCost } = this.props
+    const { infoMarkdown, verifiedCertCost } = this.props
 
     return (
       <ContentWrapper>
@@ -58,6 +59,7 @@ class CourseCertificateDump extends React.Component<
             }
           ]}
         />
+        {this.parseContent(infoMarkdown)}
         <div>
           Get a certificate for just:
           {verifiedCertCost}

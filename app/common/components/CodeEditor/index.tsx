@@ -14,7 +14,7 @@ export interface EditorFileProps {
 }
 
 interface IProps {
-  id?: string
+  id: string
   name?: string
   environment?: string
   height?: string
@@ -36,9 +36,17 @@ export default class CodeEditor extends React.PureComponent<IProps, IStates> {
   }
 
   handleIFrameMsg = (self: any) => (evt: any) => {
-    const { event, payload } = JSON.parse(evt.data)
-    if (event === 'workspace.changed' && self.props.onWorkspaceUpdated) {
-      self.props.onWorkspaceUpdated(payload)
+    try {
+      const { event, workspaceId, payload } = JSON.parse(evt.data)
+      if (
+        event === 'workspace.changed' &&
+        self.props.onWorkspaceUpdated &&
+        this.props.id === workspaceId
+      ) {
+        self.props.onWorkspaceUpdated(payload)
+      }
+    } catch (error) {
+      console.log('invalid iframe msg: ', evt, ',ignoring error: ', error)
     }
   }
 
