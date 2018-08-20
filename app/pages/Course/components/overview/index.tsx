@@ -79,13 +79,6 @@ class CourseOverview extends React.Component<Mergedprops, {}> {
   }
   context: any
 
-  componentDidMount() {
-    const courseId = fromUrlId(
-      SchemaType.Course,
-      this.props.match.params.courseId
-    )
-  }
-
   queryRender = ({ error, props }: { error: Error; props: any }) => {
     if (error) {
       return (

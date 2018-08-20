@@ -40,6 +40,8 @@ const rootQuery = graphql`
           sections_list {
             id
             ema
+            title
+            headline
             hoverText: title
             cards_list {
               id

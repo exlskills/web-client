@@ -1,7 +1,7 @@
 import { ContentWrapper } from 'common/components/styledComponents'
 import Header from './Header'
 import UnitCard from './UnitCard'
-import ExamModal from './ExamDialog'
+import ExamDialog from './ExamDialog'
 import { IFreactalProps } from 'pages/Course'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { injectState } from 'freactal'
@@ -61,7 +61,7 @@ class CourseOverviewDump extends React.PureComponent<
             )
           })}
         </div>
-        <ExamModal isOpen={this.props.state.examModalOpen} />
+        <ExamDialog isOpen={this.props.state.examModalOpen} />
       </ContentWrapper>
     )
   }

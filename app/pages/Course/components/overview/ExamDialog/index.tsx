@@ -29,7 +29,8 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
   state: IStates = {
     showConfirmDialog: false
   }
-  updateQuizAction() {
+
+  updateQuizAction = () => {
     const { formatMessage } = this.props.intl
     document.getElementById('unit-' + this.props.state.examUnit.id).innerHTML =
       '<span>' + formatMessage(messages.takePracticeMessage) + '</span>'
@@ -40,6 +41,7 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
       this.props.state.course.id
     ).then((res: any) => {})
   }
+
   handleClose = () => {
     this.updateQuizAction()
   }
@@ -57,7 +59,6 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
     this.setState({ showConfirmDialog: false })
   }
   componentDidMount() {
-    //  alert("dasdas")
     //document.getElementsByClassName("pt-dialog-close-button pt-icon-small-cross")[0].innerHTML = "<span>Finsh Quiz</span>"
   }
 
@@ -136,4 +137,4 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
     )
   }
 }
-export default injectIntl(injectState(ExamDialog))
+export default injectState(injectIntl(ExamDialog))

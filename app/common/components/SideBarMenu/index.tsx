@@ -145,7 +145,7 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
         />
       )
     }
-    // return <MenuItem text={text} submenu={submenu} />
+
     return (
       <PlainLink key={idx} to={this.getUrl(pathExt)}>
         <ItemWrapper>

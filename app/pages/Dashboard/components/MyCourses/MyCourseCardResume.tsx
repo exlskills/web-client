@@ -41,6 +41,8 @@ const myCourseCardResumeQuery = graphql`
       sections_list {
         id
         title
+        headline
+        hoverText: title
       }
     }
   }
