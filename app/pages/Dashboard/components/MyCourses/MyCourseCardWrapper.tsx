@@ -15,7 +15,7 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { MyCourseCardResume } from './MyCourseCardResume'
-import { isExtraSmallMobile, isMobile } from "../../../../common/utils/screen";
+import { isExtraSmallMobile, isMobile } from '../../../../common/utils/screen'
 
 const myCourseCardWrapperQuery = graphql`
   query MyCourseCardWrapperQuery($course_id: String) {
@@ -47,8 +47,8 @@ class MyCourseCardWrapperComponent extends React.Component<
   IProps & InjectedIntlProps & RouteComponentProps<any>,
   IStates
 > {
-  handleCalendarClick = (data: any) => {
-    console.log(`Clicked on date ${data.date} with value:`, data.value)
+  getCourseUrl = (title: string, id: string) => {
+    return `/courses/${toUrlId(title, id)}`
   }
 
   handleCourseClick = (card: any) => {
@@ -76,15 +76,18 @@ class MyCourseCardWrapperComponent extends React.Component<
       last_accessed_unit,
       last_accessed_section,
       last_accessed_card
-    } = props.courseById;
+    } = props.courseById
     if (isExtraSmallMobile()) {
-      this.props.item.image = undefined;
+      this.props.item.image = undefined
     }
     if (!last_accessed_card || !last_accessed_unit || !last_accessed_section) {
       return (
         <CardWrapper>
           <Card
-            onClick={this.handleCourseClick}
+            cardUrl={this.getCourseUrl(
+              this.props.item.title,
+              this.props.item.id
+            )}
             {...this.props.item as CardProps}
           />
         </CardWrapper>

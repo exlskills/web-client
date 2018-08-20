@@ -18,7 +18,8 @@ import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
 import TakeQuiz from '../../mutations/TakeQuiz'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
-import { indexToLetter } from '../../../../../../common/utils/ordered-list'
+import { indexToLetter } from 'common/utils/ordered-list'
+import PlainLink from 'common/components/PlainLink'
 import {
   Button,
   Intent,
@@ -36,6 +37,7 @@ interface IProps {
   viewMsg: string
   unit: any
   index: number
+  sectionUrl: string
   section: {
     id: string
     title: string
@@ -70,23 +72,24 @@ class SectionRow extends React.Component<
       }
     })
   }
-  handleCellClick = (id: string, title: string) => {
+  getCellUrl = (id: string, title: string) => {
     const unitUrlId = toUrlId(this.props.unit.title, this.props.unit.id)
     const sectionUrlId = toUrlId(
       this.props.section.title,
       this.props.section.id
     )
-    const cardUrlId = toUrlId(title, id)
-    this.props.history.push(
-      `/courses/${this.props
-        .courseUrlId}/units/${unitUrlId}/sections/${sectionUrlId}/card/${cardUrlId}`
-    )
+    return `/courses/${this.props
+      .courseUrlId}/units/${unitUrlId}/sections/${sectionUrlId}/card/${toUrlId(
+      title,
+      id
+    )}`
   }
   render() {
     const {
       unit,
       section,
       onClick,
+      sectionUrl,
       isCenter,
       index,
       inProgressMsg,
@@ -106,10 +109,10 @@ class SectionRow extends React.Component<
         listKey={`${indexToLetter(index).toUpperCase()}.`}
         title={section.title}
         description={section.headline}
-        onClick={onClick}
         isCenter={isCenter}
         isNextStep={section.current}
         isComplete={section.proficient}
+        onClickUrl={sectionUrl}
         titleAccompany={
           <span>
             {section.ema > 80
@@ -126,12 +129,7 @@ class SectionRow extends React.Component<
                 : <span />}
           </span>
         }
-        bar={
-          <ProgressCells
-            onCellClick={this.handleCellClick}
-            items={cards_list}
-          />
-        }
+        bar={<ProgressCells getCellUrl={this.getCellUrl} items={cards_list} />}
         right={
           <Wrapper>
             <PracticeLink onClick={this.handlePracticeClick}>

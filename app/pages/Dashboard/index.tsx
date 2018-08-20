@@ -34,8 +34,8 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { Button, Intent, Tag } from '@blueprintjs/core'
-import { isExtraSmallMobile, isMobile } from "../../common/utils/screen";
-import { getBadgeURLForTopic } from "../../common/utils/topic-badges";
+import { isExtraSmallMobile, isMobile } from '../../common/utils/screen'
+import { getBadgeURLForTopic } from '../../common/utils/topic-badges'
 
 const rootQuery = graphql`
   query DashboardQuery($start_date: String, $end_date: String) {
@@ -105,18 +105,12 @@ class Dashboard extends React.Component<
     this.props.history.push('/courses')
   }
 
-  handleCourseClick = (card: any) => {
-    const cardUrlId = toUrlId(card.title, card.id)
-    if (card.type == 'course') {
-      this.props.history.push(`/courses/${cardUrlId}`)
-    } else {
-      this.props.history.push(`/classes/${cardUrlId}`)
-    }
+  getCourseUrlByCard = (card: any) => {
+    return this.getCourseUrl(card.title, card.id)
   }
 
-  handleWorkspaceClick = (card: any) => {
-    const cardUrlId = toUrlId(card.title, card.id)
-    this.props.history.push(`/workspaces/${cardUrlId}`)
+  getCourseUrl = (title: string, id: string) => {
+    return `/courses/${toUrlId(title, id)}`
   }
 
   minsToText = (mins: number) => {
@@ -252,7 +246,13 @@ class Dashboard extends React.Component<
         <Wrapper>
           <TopWrapper>
             {mine.length > 0 &&
-              <MyCoursesWrapper style={{minWidth: '320px', width: isMobile() ? '100%' : undefined, marginRight: isMobile() ? '0' : undefined}}>
+              <MyCoursesWrapper
+                style={{
+                  minWidth: '320px',
+                  width: isMobile() ? '100%' : undefined,
+                  marginRight: isMobile() ? '0' : undefined
+                }}
+              >
                 <div style={{ marginTop: '10px' }}>
                   <FormattedMessage {...messages.lbMyCourses} />
                   <PanelWrapper style={{ height: '426px' }}>
@@ -268,7 +268,9 @@ class Dashboard extends React.Component<
               <div
                 style={{
                   marginTop: '10px',
-                  width: isMobile() ? '100%' : (mine.length > 0 ? 'calc(60% - 30px)' : '100%'),
+                  width: isMobile()
+                    ? '100%'
+                    : mine.length > 0 ? 'calc(60% - 30px)' : '100%',
                   minWidth: '320px'
                 }}
               >
@@ -287,7 +289,7 @@ class Dashboard extends React.Component<
                         : {}
                     }
                     items={recommended}
-                    onCardClick={this.handleCourseClick}
+                    cardUrlResolver={this.getCourseUrlByCard}
                     viewAll={this.handleViewAllRecommended}
                     viewAllMsg={formatMessage(messages.lbViewAllMsg)}
                   />
@@ -295,8 +297,10 @@ class Dashboard extends React.Component<
               </div>}
           </TopWrapper>
           <div style={{ marginTop: '10px' }} />
-          {isExtraSmallMobile() ? <span /> : <span>
-              <FormattedMessage {...messages.lbLearningActivity} />
+          {isExtraSmallMobile()
+            ? <span />
+            : <span>
+                <FormattedMessage {...messages.lbLearningActivity} />
                 <CalendarWrapper>
                   <ActivitiesCalendar activities={activitiesList} />
                 </CalendarWrapper>

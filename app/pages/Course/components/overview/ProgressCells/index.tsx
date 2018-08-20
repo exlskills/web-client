@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Wrapper, Cell, PercentText, Tooltip } from './styledComponents'
 import ReactSly from 'common/components/ReactSly'
+import PlainLink from 'common/components/PlainLink'
 
 export interface ICellItem {
   id: string
@@ -12,12 +13,13 @@ export interface ICellItem {
 interface IProps {
   items: ICellItem[]
   activeItem?: string
-  onCellClick?: (id: string, title: string) => void
+  getCellUrl: (id: string, title: string) => string
   justify?: string
   width?: string
   cellSize?: number
   marginTop?: string
 }
+
 interface IStates {}
 
 class ProgressCells extends React.PureComponent<IProps, IStates> {
@@ -25,12 +27,6 @@ class ProgressCells extends React.PureComponent<IProps, IStates> {
     cellSize: 16,
     justify: 'flex-start',
     marginTop: '6px'
-  }
-
-  handleClick = (id: string, title: string) => () => {
-    if (this.props.onCellClick) {
-      this.props.onCellClick(id, title)
-    }
   }
 
   getSlyOptions = () => {
@@ -72,12 +68,9 @@ class ProgressCells extends React.PureComponent<IProps, IStates> {
               content={item.hoverText}
               isActive={item.id == activeItem}
             >
-              <Cell
-                id={item.id}
-                size={cellSize}
-                ema={item.ema}
-                onClick={this.handleClick(item.id, item.hoverText)}
-              />
+              <PlainLink to={this.props.getCellUrl(item.id, item.hoverText)}>
+                <Cell id={item.id} size={cellSize} ema={item.ema} />
+              </PlainLink>
             </Tooltip>
           )}
         </ReactSly>

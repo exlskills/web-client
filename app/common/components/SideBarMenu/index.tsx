@@ -19,6 +19,7 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { replacePathSuffix } from 'common/utils/routes'
 import { injectIntl } from 'react-intl'
 import { isMobile } from 'common/utils/screen'
+import PlainLink from 'common/components/PlainLink'
 
 export interface ISidebarItem {
   pathExt?: string
@@ -101,8 +102,8 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
     this.clearGlobalNavbar()
   }
 
-  handleClick = (value: string) => () => {
-    this.props.history.push(replacePathSuffix(this.props.basePath, value))
+  getUrl = (value: string) => {
+    return replacePathSuffix(this.props.basePath, value)
   }
 
   renderItem = (
@@ -146,17 +147,15 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
     }
     // return <MenuItem text={text} submenu={submenu} />
     return (
-      <ItemWrapper key={idx}>
-        <Item
-          onClick={this.handleClick(pathExt)}
-          iconName={iconName}
-          active={this.props.pathExt === pathExt}
-        >
-          <span>
-            {text}
-          </span>
-        </Item>
-      </ItemWrapper>
+      <PlainLink key={idx} to={this.getUrl(pathExt)}>
+        <ItemWrapper>
+          <Item iconName={iconName} active={this.props.pathExt === pathExt}>
+            <span>
+              {text}
+            </span>
+          </Item>
+        </ItemWrapper>
+      </PlainLink>
     )
   }
 

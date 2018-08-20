@@ -7,12 +7,12 @@ import {
   Headline
 } from './styledComponents'
 import { Icon } from 'common/components/styledComponents'
+import PlainLink from 'common/components/PlainLink'
 
 interface IProps {
   listKey?: string
   title: string
   description: string
-  onClick?: () => void
   icon?: string
   right?: React.ReactChild
   bar?: React.ReactChild
@@ -21,6 +21,7 @@ interface IProps {
   backgroundColor?: string
   isNextStep?: boolean
   isComplete?: boolean
+  onClickUrl?: string
 }
 
 export default ({
@@ -32,7 +33,7 @@ export default ({
   right,
   bar,
   titleAccompany,
-  onClick,
+  onClickUrl,
   isComplete,
   isNextStep
 }: IProps): React.ReactElement<IProps> =>
@@ -41,21 +42,46 @@ export default ({
     isComplete={isComplete}
     backgroundColor={backgroundColor}
   >
-    {listKey &&
-      <ListKeyTitle onClick={onClick}>
-        {listKey}
-      </ListKeyTitle>}
+    {onClickUrl
+      ? listKey &&
+        <PlainLink to={onClickUrl}>
+          <ListKeyTitle>
+            {listKey}
+          </ListKeyTitle>
+        </PlainLink>
+      : <ListKeyTitle>
+          {listKey}
+        </ListKeyTitle>}
+
     <Left>
-      <div style={{ marginBottom: '5px' }}>
-        <Title onClick={onClick} id={title}>
-          {!!icon && <Icon iconName={icon} style={{ marginRight: '0.3rem' }} />}
-          {title}
-        </Title>
-        {!!titleAccompany && titleAccompany}
-      </div>
-      <Headline onClick={onClick}>
-        {description}
-      </Headline>
+      {onClickUrl
+        ? listKey &&
+          <PlainLink to={onClickUrl}>
+            <div style={{ marginBottom: '5px' }}>
+              <Title id={title}>
+                {!!icon &&
+                  <Icon iconName={icon} style={{ marginRight: '0.3rem' }} />}
+                {title}
+              </Title>
+              {!!titleAccompany && titleAccompany}
+            </div>
+            <Headline>
+              {description}
+            </Headline>
+          </PlainLink>
+        : <div>
+            <div style={{ marginBottom: '5px' }}>
+              <Title id={title}>
+                {!!icon &&
+                  <Icon iconName={icon} style={{ marginRight: '0.3rem' }} />}
+                {title}
+              </Title>
+              {!!titleAccompany && titleAccompany}
+            </div>
+            <Headline>
+              {description}
+            </Headline>
+          </div>}
       {!!bar && bar}
     </Left>
     {!!right && right}

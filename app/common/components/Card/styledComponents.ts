@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Text } from '@blueprintjs/core'
 import { Flex } from 'grid-styled'
+import { Link } from 'react-router-dom'
 
 export const VerticalWrapper = styled.div.attrs({
   className: 'pt-card pt-interactive'
@@ -63,13 +64,23 @@ export const CardImage = styled.div`
   height: 100%;
 `
 
-export const HorizontalCardImage = CardImage.extend`
+export const HorizontalCardImageLink = styled(Link).attrs({
+  style: { color: 'unset' }
+})`
   max-width: 120px;
   width: 100%;
   height: 100%;
   box-shadow: unset;
-  cursor: pointer;
   position: relative;
+  &:hover {
+    text-decoration: unset;
+  }
+`
+
+export const HorizontalCardImage = CardImage.extend`
+  width: 100%;
+  height: 100%;
+  box-shadow: unset;
 `
 
 export const CardTitle = styled(Text).attrs({

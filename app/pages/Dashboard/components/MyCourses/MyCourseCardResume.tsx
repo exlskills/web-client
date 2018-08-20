@@ -75,13 +75,8 @@ class MyCourseCardResumeComponent extends React.Component<
     )
   }
 
-  handleCourseClick = (card: any) => {
-    const cardUrlId = toUrlId(card.title, card.id)
-    if (card.type == 'course') {
-      this.props.history.push(`/courses/${cardUrlId}`)
-    } else {
-      this.props.history.push(`/classes/${cardUrlId}`)
-    }
+  getCourseUrl = (title: string, id: string) => {
+    return `/courses/${toUrlId(title, id)}`
   }
 
   queryRender = ({ error, props }: RendererProps) => {
@@ -127,7 +122,7 @@ class MyCourseCardResumeComponent extends React.Component<
     return (
       <CardWrapper>
         <Card
-          onClick={this.handleCourseClick}
+          cardUrl={this.getCourseUrl(this.props.item.title, this.props.item.id)}
           {...this.props.item as CardProps}
         />
       </CardWrapper>

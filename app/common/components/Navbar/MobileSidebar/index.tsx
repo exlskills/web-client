@@ -174,7 +174,7 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
         </SidebarMenuHeader>
       )
     }
-    // return <MenuItem text={text} submenu={submenu} />
+    // NOTE: we don't use react router Links here because we need to close the menu via the callback in onclick for the time being...
     return (
       <ItemWrapper key={idx}>
         <InnerItem

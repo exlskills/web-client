@@ -7,6 +7,6 @@ export default defineMessages({
   },
   pageDescription: {
     id: 'pages.Course.Progress.pageDescription',
-    defaultMessage: 'EXLskills {course} Progress'
+    defaultMessage: 'EXLskills {description} Progress'
   }
 })

@@ -27,7 +27,7 @@ import {
 } from './styledComponents'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { Intent, Tag } from '@blueprintjs/core'
-import { getBadgeURLForTopic } from "../../common/utils/topic-badges";
+import { getBadgeURLForTopic } from '../../common/utils/topic-badges'
 
 const rootQuery = graphql`
   query CourseListingQuery(
@@ -131,9 +131,16 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
     })
   }
 
+  getUrlForCourse = (title: string, id: string) => {
+    return `/courses/${toUrlId(title, id)}`
+  }
+
+  getUrlForCard = (card: any) => {
+    return this.getUrlForCourse(card.title, card.id)
+  }
+
   handleCourseClick = (card: any) => {
-    const urlId = toUrlId(card.title, card.id)
-    this.props.history.push(`/courses/${urlId}`)
+    this.props.history.push(this.getUrlForCard(card))
   }
 
   handleSearchSubmit = (value: string) => {
@@ -288,7 +295,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
                   badge={getBadgeURLForTopic(edge.node.primary_topic)}
                   title={edge.node.title}
                   description={edge.node.headline}
-                  onClick={this.handleCourseClick}
+                  cardUrl={this.getUrlForCourse(edge.node.title, edge.node.id)}
                   footer={
                     <CourseFooter>
                       <CourseEnrolls>

@@ -9,8 +9,13 @@ import {
   CardDesc,
   HorizontalInnerWrapper,
   HorizontalFooterWrapper,
-  HorizontalCardImage, CardBadge, CardImageContainer
-} from "./styledComponents";
+  HorizontalCardImage,
+  CardBadge,
+  CardImageContainer,
+  HorizontalCardImageLink
+} from './styledComponents'
+import PlainLink from 'common/components/PlainLink'
+import { Link } from 'react-router-dom'
 
 export interface IProps {
   id: string
@@ -19,10 +24,10 @@ export interface IProps {
   horizontal?: boolean
   badge?: string
   type?: string
-  onClick?: (card: IProps) => void
   boxWidth?: number | string | [number | string]
   image?: string
   footer?: React.ReactChild
+  cardUrl: string
 }
 
 class Card extends React.PureComponent<IProps, void> {
@@ -33,54 +38,57 @@ class Card extends React.PureComponent<IProps, void> {
     description: ''
   }
 
-  handleClick = () => {
-    if (this.props.onClick) {
-      this.props.onClick({
-        id: this.props.id,
-        type: this.props.type,
-        title: this.props.title,
-        description: this.props.description,
-        image: this.props.image
-      })
-    }
-  }
-
   renderVertical() {
-    const { id, boxWidth, image, badge, title, description, footer } = this.props
+    const {
+      cardUrl,
+      boxWidth,
+      image,
+      badge,
+      title,
+      description,
+      footer
+    } = this.props
     return (
       <Box p={2} width={boxWidth}>
-        <VerticalWrapper onClick={this.handleClick}>
-          <CardImageContainer>
-            {badge && <CardBadge imageUrl={badge}/>}
-            <CardImage imageUrl={image} />
-          </CardImageContainer>
-          <CardTitle>
-            {title}
-          </CardTitle>
-          <CardDesc>
-            {description}
-          </CardDesc>
-          {!!footer && footer}
-        </VerticalWrapper>
+        <PlainLink to={cardUrl}>
+          <VerticalWrapper>
+            <CardImageContainer>
+              {badge && <CardBadge imageUrl={badge} />}
+              <CardImage imageUrl={image} />
+            </CardImageContainer>
+            <CardTitle>
+              {title}
+            </CardTitle>
+            <CardDesc>
+              {description}
+            </CardDesc>
+            {!!footer && footer}
+          </VerticalWrapper>
+        </PlainLink>
       </Box>
     )
   }
 
   renderHorizontal() {
-    const { id, boxWidth, image, title, description, footer } = this.props
+    const { cardUrl, boxWidth, image, title, description, footer } = this.props
     return (
       <Box width={boxWidth}>
         <HorizontalWrapper>
-          <HorizontalCardImage onClick={this.handleClick} imageUrl={image} />
+          <HorizontalCardImageLink to={cardUrl}>
+            <HorizontalCardImage imageUrl={image} />
+          </HorizontalCardImageLink>
+
           <HorizontalInnerWrapper>
-            <div style={{ cursor: 'pointer' }} onClick={this.handleClick}>
+            <PlainLink to={cardUrl}>
               <CardTitle>
                 {title}
               </CardTitle>
-            </div>
-            <CardDesc style={{ cursor: 'pointer' }} onClick={this.handleClick}>
-              {description}
-            </CardDesc>
+            </PlainLink>
+            <PlainLink to={cardUrl}>
+              <CardDesc>
+                {description}
+              </CardDesc>
+            </PlainLink>
             {!!footer &&
               <HorizontalFooterWrapper>
                 {footer}

@@ -9,7 +9,7 @@ import { SliderWrapper } from './styledComponents'
 
 interface IProps {
   items: CardProps[]
-  onCardClick?: (card: CardProps) => void
+  cardUrlResolver?: (card: any) => string
   sliderSettings?: SliderProps
   viewAll: () => void
   viewAllMsg: string
@@ -43,7 +43,11 @@ class CardCarousel extends React.PureComponent<IProps, IStates> {
         <Slider {...sliderSettings}>
           {this.props.items.map(item =>
             <div key={item.id}>
-              <Card {...item} boxWidth={1} onClick={this.props.onCardClick} />
+              <Card
+                {...item}
+                boxWidth={1}
+                cardUrl={this.props.cardUrlResolver(item)}
+              />
             </div>
           )}
         </Slider>

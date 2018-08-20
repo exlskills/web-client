@@ -245,24 +245,21 @@ class UnitCard extends React.Component<
         </CardHeader>
         <CardContent isOpen={open}>
           {sections_list.map((s, idx) =>
-            <div key={s.id}>
-              <noscript>
-                <a href={this.getSectionLink(s)} />
-              </noscript>
-              <SectionRow
-                index={idx}
-                ref={this.assignSectionElem(s)}
-                onClick={this.handleSectionClick(s)}
-                unit={this.props.unit}
-                isCenter={this.state.isCenter}
-                section={s}
-                courseUrlId={toUrlId(course.title, course.id)}
-                inProgressMsg={formatMessage(messages.inProgress)}
-                viewMsg={formatMessage(messages.viewLessonDropdown)}
-                practiceMsg={formatMessage(messages.practiceLessonDropdown)}
-                practiceLessonMsg={formatMessage(messages.practiceSection)}
-              />
-            </div>
+            <SectionRow
+              key={s.id}
+              index={idx}
+              ref={this.assignSectionElem(s)}
+              onClick={this.handleSectionClick(s)}
+              unit={this.props.unit}
+              isCenter={this.state.isCenter}
+              section={s}
+              sectionUrl={this.getSectionLink(s)}
+              courseUrlId={toUrlId(course.title, course.id)}
+              inProgressMsg={formatMessage(messages.inProgress)}
+              viewMsg={formatMessage(messages.viewLessonDropdown)}
+              practiceMsg={formatMessage(messages.practiceLessonDropdown)}
+              practiceLessonMsg={formatMessage(messages.practiceSection)}
+            />
           )}
           <UnitExam
             index={sections_list.length}

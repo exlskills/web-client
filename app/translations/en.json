@@ -82,7 +82,7 @@
   "pages.Course.InfoPage.pageTitle": "EXLskills - {course} Info",
   "pages.Course.Overview.pageDescription": "EXLskills {description}",
   "pages.Course.Overview.pageTitle": "EXLskills - {course}",
-  "pages.Course.Progress.pageDescription": "EXLskills {course} Progress",
+  "pages.Course.Progress.pageDescription": "EXLskills {description} Progress",
   "pages.Course.Progress.pageTitle": "EXLskills - {course} Progress",
   "pages.Course.Sidebar.menuCertificate": "Certificate",
   "pages.Course.Sidebar.menuContent": "Content",
