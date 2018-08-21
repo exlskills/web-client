@@ -40,6 +40,10 @@ export default (requiredAuthLevel = 0) => (Component: any) => {
     }
 
     loadIntercom() {
+      if (navigator.userAgent.startsWith('bot-exlpre-')) {
+        // Don't load intercom for the exl prerender bot
+        return
+      }
       if (window.location.pathname.startsWith('/learn/exams')) {
         // Don't show intercom during exams
         ;(window as any).Intercom('shutdown')
