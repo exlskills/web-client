@@ -50,5 +50,8 @@ export default styled.div`
     border: none;
     margin-top: 24px;
     margin-bottom: 20px;
+    background: #000
+      url(https://s3-us-west-2.amazonaws.com/exlskills-misc-assets/iframe-loading.gif)
+      center center no-repeat;
   }
 `
