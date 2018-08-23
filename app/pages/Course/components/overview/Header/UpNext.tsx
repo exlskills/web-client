@@ -263,7 +263,7 @@ class UpNext extends React.Component<
         units[curUnitId].suggestedUnit ||
         i == examAllUnits.unitIds.length - 1
       ) {
-        if (units[curUnitId].unit_processing == -1) {
+        if (units[curUnitId].unit_progress_state == -1) {
           return this.renderPreExam(
             i + 1,
             units[curUnitId],

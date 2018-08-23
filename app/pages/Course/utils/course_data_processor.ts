@@ -9,7 +9,7 @@ export const processCourseData = (input: {
   let markedSuggestedUnit = false
   for (let i = 0; i < d.unitIds.length; i++) {
     const curUnitId = d.unitIds[i]
-    const unitComplete = d.unitsById[curUnitId].unit_processing === 1
+    const unitComplete = d.unitsById[curUnitId].unit_progress_state === 1
     if (unitComplete) {
       completedUnits++
       d.unitsById[curUnitId].suggestedUnit = false

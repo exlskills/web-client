@@ -80,7 +80,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     let unit = allUnits.unitsById[newData.id]
     unit.ema = newData.ema
     unit.grade = newData.grade
-    unit.unit_processing = newData.unit_processing
+    unit.unit_progress_state = newData.unit_progress_state
     unit.sections_list = newData.sections_list
     this.props.effects.setExamAllUnits(processCourseData(allUnits))
   }

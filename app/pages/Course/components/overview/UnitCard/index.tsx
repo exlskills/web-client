@@ -41,9 +41,8 @@ interface IProps {
     index: number
     title: string
     attempts_left: number
-    unit_processing: number
+    unit_progress_state: number
     ema: number
-    quiz_lvl: number
     examIsNextStep: boolean
     suggestedUnit: boolean
     sections_list: {
@@ -186,9 +185,8 @@ class UnitCard extends React.Component<
       index,
       sections_list,
       attempts_left,
-      unit_processing,
+      unit_progress_state,
       ema,
-      quiz_lvl,
       is_continue_exam,
       exam_attempt_id,
       examIsNextStep,
@@ -198,7 +196,7 @@ class UnitCard extends React.Component<
     const { course } = this.props.state
     let showEma: any = this.round(ema, 2)
     showEma += '%'
-    if (unit_processing == -1) {
+    if (unit_progress_state == -1) {
       showEma = this.props.intl.formatMessage(messages.noGrades)
     }
     let styleFortooltip: any = {
@@ -227,16 +225,17 @@ class UnitCard extends React.Component<
               />
             </UnitProgressTooltip>
             <span style={{ marginLeft: '10px' }} className={'pt-text-muted'}>
-              {unit_processing == -1
+              {unit_progress_state == -1
                 ? this.props.intl.formatMessage(messages.notStarted)
                 : `${this.round(ema, 0)}%`}
             </span>
-            {unit_processing == 1 && <UnitPassedIcon iconName={'endorsed'} />}
+            {unit_progress_state == 1 &&
+              <UnitPassedIcon iconName={'endorsed'} />}
           </HeaderLeft>
           <HeaderRight>
             <UnitActionButton
               onTakeQuiz={this.handleTakeQuiz}
-              isPractice={unit_processing != -1}
+              isPractice={unit_progress_state != -1}
               unit_id={id}
               suggested={suggestedUnit}
             />
@@ -268,7 +267,7 @@ class UnitCard extends React.Component<
             is_continue_exam={is_continue_exam}
             exam_attempt_id={exam_attempt_id}
             isNextStep={examIsNextStep}
-            alreadyPassed={unit_processing == 1}
+            alreadyPassed={unit_progress_state == 1}
           />
         </CardContent>
       </Wrapper>

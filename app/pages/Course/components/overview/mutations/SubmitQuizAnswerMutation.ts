@@ -9,7 +9,7 @@ const mutation = graphql`
         id
         ema
         grade
-        unit_processing
+        unit_progress_state
         sections_list {
           id
           ema

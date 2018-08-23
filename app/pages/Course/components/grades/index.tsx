@@ -31,10 +31,9 @@ const rootQuery = graphql`
           title
           headline
           attempts_left
-          unit_processing
+          unit_progress_state
           ema
           grade
-          quiz_lvl
           is_continue_exam
           exam_attempt_id
           sections_list {
@@ -73,6 +72,13 @@ const rootQuery = graphql`
           final_exam_weight_pct
           grade
           passed
+          sections_list {
+            id
+            cards_list {
+              id
+              ema
+            }
+          }
         }
       }
     }

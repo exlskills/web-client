@@ -133,14 +133,13 @@ type CourseUnit implements Node {
   pre_exams: [String]
   final_exam_weight_pct: Float!
   attempts_left: Int
-  unit_processing: Int
+  unit_progress_state: Int
   ema: Float
   grade: Float
   is_continue_exam: Boolean
 
   # The ID of an object
   exam_attempt_id: ID!
-  quiz_lvl: Int
   last_attempted_at: String
   attempts: Int
   passed: Boolean
@@ -325,7 +324,6 @@ type Query {
     id: ID!
   ): Node
   courseById(course_id: String): Course
-  courseUnitSummary(course_id: String): Course
 
   # SectionCard Entry
   cardEntry(course_id: ID!, unit_id: ID!, section_id: ID!, card_id: ID!): SectionCard
@@ -373,7 +371,7 @@ type Query {
   # get Question by Unit
   questionPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): QuestionConnection
 
-  # get Question by Exam
+  # get Questions For Exam
   questionPagingExam(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): QuestionConnection
   topicFilter: [ListDef]
 }
@@ -394,7 +392,7 @@ type Question implements Node {
   question_text: String!
   data: QuestionData!
   question_answer: String
-  hint: String!
+  hint: String
   hint_exists: Boolean
 
   # The ID of an object
@@ -455,14 +453,14 @@ type ReadNotificationPayload {
 type SectionCard implements Node {
   # The ID of an object
   id: ID!
-  index: Int!
-  title: String!
-  headline: String!
-  content_id: ID!
-  tags: [String]!
-  question_ids: [ID]!
+  index: Int
+  title: String
+  headline: String
+  content_id: ID
+  tags: [String]
+  question_ids: [ID]
   ema: Float
-  card_ref: EmbeddedDocRef!
+  card_ref: EmbeddedDocRef
   content: VersionedContentRecord
   question: Question
   questions: [Question]
@@ -547,9 +545,9 @@ type TakeQuizPayload {
 type UnitSection implements Node {
   # The ID of an object
   id: ID!
-  index: Int!
-  title: String!
-  headline: String!
+  index: Int
+  title: String
+  headline: String
   ema: Float
   cards_list: [SectionCard]
 
