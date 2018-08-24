@@ -5,24 +5,6 @@ import * as uuid from 'uuid'
 const mutation = graphql`
   mutation SubmitQuizAnswerMutation($input: SubmitAnswerInput!) {
     submitAnswer(input: $input) {
-      unit {
-        id
-        ema
-        grade
-        unit_progress_state
-        sections_list {
-          id
-          ema
-          title
-          headline
-          hoverText: title
-          cards_list {
-            id
-            ema
-            hoverText: title
-          }
-        }
-      }
       is_correct
       explain_text
       completionObj {

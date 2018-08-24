@@ -75,16 +75,6 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     return JSON.stringify(answer)
   }
 
-  reloadUnit(newData: any) {
-    let allUnits = { ...this.props.state.examAllUnits }
-    let unit = allUnits.unitsById[newData.id]
-    unit.ema = newData.ema
-    unit.grade = newData.grade
-    unit.unit_progress_state = newData.unit_progress_state
-    unit.sections_list = newData.sections_list
-    this.props.effects.setExamAllUnits(processCourseData(allUnits))
-  }
-
   handleSubmitClick = () => {
     if (this.props.state.examQuestion == null) {
       return
@@ -110,9 +100,6 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
         }
 
         if (res.submitAnswer.is_correct) {
-          if (res.submitAnswer.unit) {
-            this.reloadUnit(res.submitAnswer.unit)
-          }
           this.setState({ showPopover: true, result: 'correct' })
           if (document.getElementById('havent-learn')) {
             document
@@ -310,7 +297,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
         <Button
           id="havent-learn"
           text={formatMessage(messages.notLearnedButton)}
-          disabled={disableButtonHave ? true : false}
+          disabled={disableButtonHave}
           intent={Intent.WARNING}
           onClick={this.handleNotLearnedClick}
         />

@@ -17,6 +17,7 @@ import { IFreactalProps } from 'pages/Course'
 import messages from './messages'
 import { Prompt } from 'react-router'
 import UpdateQuizlvl from '../mutations/UpdateQuizMutation'
+import { processCourseData } from '../../../utils/course_data_processor'
 interface IProps {
   isOpen: boolean
 }
@@ -40,6 +41,17 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
       this.props.state.examUnit.id,
       this.props.state.course.id
     ).then((res: any) => {})
+  }
+
+  // TODO fetch and reload unit on exit
+  reloadUnit(newData: any) {
+    let allUnits = { ...this.props.state.examAllUnits }
+    let unit = allUnits.unitsById[newData.id]
+    unit.ema = newData.ema
+    unit.grade = newData.grade
+    unit.unit_progress_state = newData.unit_progress_state
+    unit.sections_list = newData.sections_list
+    this.props.effects.setExamAllUnits(processCourseData(allUnits))
   }
 
   handleClose = () => {
