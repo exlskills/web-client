@@ -20,13 +20,13 @@ import {
 } from './styledComponents'
 const rootQuery = graphql`
   query PreExamQuery($unit_id: String, $course_id: String) {
-    oneExam(unit_id: $unit_id, course_id: $course_id) {
+    examToTake(unit_id: $unit_id, course_id: $course_id) {
       id
       est_time
       time_limit
       question_count
     }
-    specificExamAttempt(unit_id: $unit_id) {
+    examAttempt(unit_id: $unit_id) {
       is_active
     }
   }
@@ -90,12 +90,12 @@ class ExamPage extends React.Component<
       questionsList.push(item.node.id)
       questionsById[item.node.id] = item.node
     }
-    let dataExam = props.oneExam
+    let dataExam = props.examToTake
     const limit_time = dataExam.time_limit ? dataExam.time_limit : 0
     const est_time = dataExam.est_time ? dataExam.est_time : 0
     const question_count = dataExam.question_count
     let is_active_exam = false
-    let dataExamAttempt = props.specificExamAttempt
+    let dataExamAttempt = props.examAttempt
     if (dataExamAttempt.length > 0) {
       is_active_exam = dataExamAttempt[0].is_active
     }

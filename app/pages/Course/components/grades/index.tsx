@@ -61,7 +61,10 @@ const rootQuery = graphql`
         }
       }
     }
-    gradesList: unitStatusPaging(first: $first, resolverArgs: $resolverArgs) {
+    gradesList: userCourseUnitExamStatusPaging(
+      first: $first,
+      resolverArgs: $resolverArgs
+    ) {
       edges {
         node {
           id

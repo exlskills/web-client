@@ -8,7 +8,7 @@ import environment from 'relayEnvironment'
 
 const rootQuery = graphql`
   query QuestionHintQuery($resolverArgs: [QueryResolverArgs]!) {
-    questionEntry(resolverArgs: $resolverArgs) {
+    questionHint(resolverArgs: $resolverArgs) {
       hint
     }
   }
@@ -33,7 +33,7 @@ class QuestionHint extends React.PureComponent<IProps, any> {
       return <Loading mt="0" />
     }
 
-    const hint = props.questionEntry ? props.questionEntry.hint : ''
+    const hint = props.questionHint ? props.questionHint.hint : ''
 
     return (
       <span>

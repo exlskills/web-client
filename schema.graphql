@@ -331,14 +331,12 @@ type Query {
   # Card Entry by question ID
   cardByQuestion(question_id: String!): SectionCard
   userActivity(start_date: String, end_date: String): [UserActivity]
-  profileSpecific(user_id: String): User
   userProfile(user_id: String): User
-  userActivityById(user_id: String, start_date: String, end_date: String): [UserActivity]
-  oneExam(unit_id: String, course_id: String): Exam
-  specificExamAttempt(unit_id: String): [ExamAttempt]
+  examToTake(unit_id: String, course_id: String): Exam
+  examAttempt(unit_id: String): [ExamAttempt]
 
   # Course Unit
-  unitSpec(course_id: String, unit_id: String): CourseUnit
+  courseUnit(course_id: String, unit_id: String): CourseUnit
 
   # Content Latest Version
   oneVersionedContent(content_id: String!, version: String): VersionedContentRecord
@@ -353,7 +351,7 @@ type Query {
   unitPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseUnitConnection
 
   # User exam status for Course
-  unitStatusPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseUnitConnection
+  userCourseUnitExamStatusPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): CourseUnitConnection
 
   # all Sections in the Unit
   sectionPaging(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): UnitSectionConnection
@@ -365,7 +363,7 @@ type Query {
   notificationPaging: notificationPaging
 
   # Question Entry
-  questionEntry(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): Question
+  questionHint(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): Question
   langType: [Lang]
 
   # get Question by Unit

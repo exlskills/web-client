@@ -58,7 +58,7 @@ const rootQuery = graphql`
       title
       logo_url
     }
-    unitSpec(unit_id: $unit_id, course_id: $course_id) {
+    courseUnit(unit_id: $unit_id, course_id: $course_id) {
       title
       attempts_left
     }
@@ -123,10 +123,10 @@ class ExamPage extends React.Component<
       return <Loading />
     }
     let is_active_exam = false
-    let dataExamAttempt = props.specificExamAttempt
+    let dataExamAttempt = props.examAttempt
     if (dataExamAttempt && dataExamAttempt.length > 0) {
       is_active_exam = dataExamAttempt[0].is_active
-      if (props.unitSpec.attempts_left <= 0) {
+      if (props.courseUnit.attempts_left <= 0) {
         //top.location.href = `/courses/${this.props.match.params.courseId}/`
         //return <Loading />
       }
@@ -152,14 +152,14 @@ class ExamPage extends React.Component<
         <Helmet
           title={formatMessage(messages.pageTitle, {
             course: props.courseById.title,
-            unit: props.unitSpec.title
+            unit: props.courseUnit.title
           })}
           meta={[
             {
               name: 'description',
               content: formatMessage(messages.pageDescription, {
                 course: props.courseById.title,
-                unit: props.unitSpec.title
+                unit: props.courseUnit.title
               })
             }
           ]}
@@ -172,7 +172,7 @@ class ExamPage extends React.Component<
           questionsById={questionsById}
           completed={completed}
           logo_url={props.courseById.logo_url}
-          title_unit={props.unitSpec.title}
+          title_unit={props.courseUnit.title}
           examAttemptId={this.state.examAttemptId!}
           examTimeLimit={this.state.examTimeLimit!}
         />

@@ -35,7 +35,7 @@ const myCourseCardResumeQuery = graphql`
       id
       title
     }
-    unitSpec(course_id: $course_id, unit_id: $unit_id) {
+    courseUnit(course_id: $course_id, unit_id: $unit_id) {
       id
       title
       sections_list {
@@ -98,7 +98,7 @@ class MyCourseCardResumeComponent extends React.Component<
     }
 
     let sectionTitle = ''
-    props.unitSpec.sections_list.forEach((sect: any) => {
+    props.courseUnit.sections_list.forEach((sect: any) => {
       if (sect.id == this.props.section_id) {
         sectionTitle = sect.title
       }
@@ -107,10 +107,10 @@ class MyCourseCardResumeComponent extends React.Component<
       <CourseFooter style={{ padding: '5px 0px 0px 8px' }}>
         <Button
           onClick={this.handleCourseResumeClick(
-            props.unitSpec.id,
+            props.courseUnit.id,
             this.props.section_id,
             props.cardEntry.id,
-            props.unitSpec.title,
+            props.courseUnit.title,
             sectionTitle,
             props.cardEntry.title
           )}
