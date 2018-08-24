@@ -122,16 +122,16 @@ type CourseEdge {
 type CourseUnit implements Node {
   # The ID of an object
   id: ID!
-  index: Int!
-  title: String!
-  headline: String!
+  index: Int
+  title: String
+  headline: String
 
   # Course units
   sections(orderBy: [OrderBy], filterValues: FilterValues, resolverArgs: [QueryResolverArgs], after: String, first: Int, before: String, last: Int): UnitSectionConnection
   sections_list: [UnitSection]
   final_exams: [String]
   pre_exams: [String]
-  final_exam_weight_pct: Float!
+  final_exam_weight_pct: Float
   attempts_left: Int
   unit_progress_state: Int
   ema: Float
@@ -325,6 +325,9 @@ type Query {
   ): Node
   courseById(course_id: String): Course
 
+  # Course Unit
+  courseUnit(course_id: String, unit_id: String): CourseUnit
+
   # SectionCard Entry
   cardEntry(course_id: ID!, unit_id: ID!, section_id: ID!, card_id: ID!): SectionCard
 
@@ -334,9 +337,6 @@ type Query {
   userProfile(user_id: String): User
   examToTake(unit_id: String, course_id: String): Exam
   examAttempt(unit_id: String): [ExamAttempt]
-
-  # Course Unit
-  courseUnit(course_id: String, unit_id: String): CourseUnit
 
   # Content Latest Version
   oneVersionedContent(content_id: String!, version: String): VersionedContentRecord
@@ -503,7 +503,6 @@ input SubmitAnswerInput {
 }
 
 type SubmitAnswerPayload {
-  unit: CourseUnit
   is_correct: Boolean
   explain_text: String
   grading_response: String

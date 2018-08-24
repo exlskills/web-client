@@ -18,6 +18,39 @@ import messages from './messages'
 import { Prompt } from 'react-router'
 import UpdateQuizlvl from '../mutations/UpdateQuizMutation'
 import { processCourseData } from '../../../utils/course_data_processor'
+const { fetchQuery, graphql } = require('react-relay/compat')
+import environment from 'relayEnvironment'
+
+const refreshUnitQuery = graphql`
+  query ExamDialogRefreshUnitQuery(
+    $first: Int!,
+    $resolverArgs: [QueryResolverArgs]!
+  ) {
+    unitPaging(first: $first, resolverArgs: $resolverArgs) {
+      edges {
+        node {
+          id
+          unit_progress_state
+          grade
+          ema
+          sections_list {
+            id
+            ema
+            title
+            headline
+            hoverText: title
+            cards_list {
+              id
+              ema
+              hoverText: title
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 interface IProps {
   isOpen: boolean
 }
@@ -43,19 +76,37 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
     ).then((res: any) => {})
   }
 
-  // TODO fetch and reload unit on exit
-  reloadUnit(newData: any) {
-    let allUnits = { ...this.props.state.examAllUnits }
-    let unit = allUnits.unitsById[newData.id]
-    unit.ema = newData.ema
-    unit.grade = newData.grade
-    unit.unit_progress_state = newData.unit_progress_state
-    unit.sections_list = newData.sections_list
-    this.props.effects.setExamAllUnits(processCourseData(allUnits))
+  reloadUnit = () => {
+    fetchQuery(environment, refreshUnitQuery, {
+      first: 1,
+      resolverArgs: [
+        {
+          param: 'course_id',
+          value: this.props.state.course.id
+        },
+        {
+          param: 'unit_id',
+          value: this.props.state.examUnit.id
+        }
+      ]
+    }).then((data: any) => {
+      if (!data.unitPaging.edges || data.unitPaging.edges.length != 1) {
+        console.error('Missing/invalid edges for course progress reload')
+      }
+      const newData = data.unitPaging.edges[0].node
+      let allUnits = { ...this.props.state.examAllUnits }
+      let unit = allUnits.unitsById[newData.id]
+      unit.ema = newData.ema
+      unit.grade = newData.grade
+      unit.unit_progress_state = newData.unit_progress_state
+      unit.sections_list = newData.sections_list
+      this.props.effects.setExamAllUnits(processCourseData(allUnits))
+    })
   }
 
   handleClose = () => {
     this.updateQuizAction()
+    this.reloadUnit()
   }
 
   handleCloseConfirm = () => {
@@ -63,15 +114,12 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
       this.setState({ showConfirmDialog: true })
     } else {
       this.props.effects.setExamModalOpen(false)
-      this.updateQuizAction()
+      this.handleClose()
     }
   }
 
   handleCloseCancel = () => {
     this.setState({ showConfirmDialog: false })
-  }
-  componentDidMount() {
-    //document.getElementsByClassName("pt-dialog-close-button pt-icon-small-cross")[0].innerHTML = "<span>Finsh Quiz</span>"
   }
 
   componentWillUnmount() {
@@ -80,13 +128,7 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
 
   render() {
     const { isOpen } = this.props
-    const {
-      examType,
-      examUnit,
-      examSection,
-      examCardOpen,
-      examQuestion
-    } = this.props.state
+    const { examType, examUnit, examSection, examCardOpen } = this.props.state
     const { formatMessage } = this.props.intl
 
     const title = examType == 'unit' ? examUnit.title : examSection.title
