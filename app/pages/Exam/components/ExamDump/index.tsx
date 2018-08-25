@@ -119,39 +119,16 @@ class ExamDump extends React.PureComponent<
   }
 
   handleQuestionChange = (value: any) => {
-    if (this.state.activeQuestion != SUBMIT_KEY) {
-      let answerData = null
-      if (this.getCurrentAnswer()) {
-        answerData = this.encodeAnswers(this.getCurrentAnswer())
-      }
-      AnswerExamQuestionMutation(
-        this.props.examAttemptId,
-        this.state.activeQuestion,
-        answerData
-      ).then(res => {
-        console.log('in AnswerExamQuestionMutation', res)
-      })
-    }
+    this.submitCurrentAnswer()
     this.setState({ activeQuestion: value.id })
   }
 
-  encodeAnswers(answer: any) {
+  encodeAnswers(answer: AnswerProps) {
     return JSON.stringify(answer)
   }
 
   handleAnswerChange = (answer: AnswerProps) => {
     const questionId = this.state.activeQuestion
-
-    const answerData = this.encodeAnswers(answer)
-    if (questionId != SUBMIT_KEY) {
-      AnswerExamQuestionMutation(
-        this.props.examAttemptId,
-        questionId,
-        answerData
-      ).then(res => {
-        console.log('in AnswerExamQuestionMutation', res)
-      })
-    }
 
     this.setState({
       answersByQuestion: {
@@ -243,10 +220,28 @@ class ExamDump extends React.PureComponent<
     return { ...currentQuestion, number }
   }
 
+  submitCurrentAnswer = () => {
+    const questionId = this.state.activeQuestion
+    const curAnswer = this.state.answersByQuestion[questionId]
+    if (!curAnswer) {
+      return
+    }
+    if (questionId != SUBMIT_KEY) {
+      AnswerExamQuestionMutation(
+        this.props.examAttemptId,
+        questionId,
+        this.encodeAnswers(curAnswer)
+      ).then(res => {
+        console.log('in AnswerExamQuestionMutation', res)
+      })
+    }
+  }
+
   goToNextQuestion = () => {
     const { activeQuestion } = this.state
     const { questionsList, questionsById } = this.getQuestions()
     const number = questionsList.indexOf(activeQuestion) + 1
+    this.submitCurrentAnswer()
     this.setState({ activeQuestion: questionsList[number] })
   }
 
@@ -257,6 +252,7 @@ class ExamDump extends React.PureComponent<
     this.setState({ skippedQuestions: skippedQuestions })
     const { questionsList, questionsById } = this.getQuestions()
     const number = questionsList.indexOf(activeQuestion) + 1
+    this.submitCurrentAnswer()
     this.setState({ activeQuestion: questionsList[number] })
   }
 
