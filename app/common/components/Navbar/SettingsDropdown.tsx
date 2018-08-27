@@ -12,7 +12,12 @@ import {
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import { getViewer } from '../../utils/viewer'
 import { isMobile } from '../../utils/screen'
-const UserAvatar = require('react-user-avatar') as any
+import styled from 'styled-components'
+const UserAvatar = styled(require('react-user-avatar') as any).attrs<any>({})`
+  .UserAvatar--img {
+    background-color: #FFF
+  }
+`
 
 interface IProps {
   onLogoutClick: () => void
@@ -57,7 +62,9 @@ class SettingsDropdown extends React.Component<
     const viewer = getViewer()
     return viewer.full_name
       ? viewer.full_name
-      : viewer.username ? viewer.username : viewer.user_id ? viewer.user_id : "Anonymous"
+      : viewer.username
+        ? viewer.username
+        : viewer.user_id ? viewer.user_id : 'Anonymous'
   }
 
   renderLoggedIn() {
