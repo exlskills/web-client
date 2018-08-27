@@ -246,5 +246,10 @@
   "pages.UnitActionButton.preExamTitle": "EXLskills - Unit Exam",
   "pages.UnitActionButton.timeEst": "Estimated time to complete",
   "pages.UnitActionButton.timeLimit": "Time limit",
-  "pages.UnitActionButton.warningActive": "This exam is in progress. Please finish it first before taking another one."
+  "pages.UnitActionButton.warningActive": "This exam is in progress. Please finish it first before taking another one.",
+  "pages.UpgradeCallback.dialog.holdOn": "Hold on as this might take some time...",
+  "pages.UpgradeCallback.dialog.thisPageWillReload": "This page will reload when ready",
+  "pages.UpgradeCallback.dialog.upgradingYourAccount": "Upgrading Your Account",
+  "pages.UpgradeCallback.pageDescription": "EXLskills Account Upgrade Pending",
+  "pages.UpgradeCallback.pageTitle": "EXLskills - Upgrade Pending..."
 }

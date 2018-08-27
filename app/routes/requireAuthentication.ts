@@ -44,7 +44,7 @@ export default (requiredAuthLevel = 0) => (Component: any) => {
         // Don't load intercom for the exl prerender bot
         return
       }
-      if (window.location.pathname.startsWith('/learn/exams')) {
+      if (window.location.pathname.match(new RegExp('/learn.*/exams'))) {
         // Don't show intercom during exams
         ;(window as any).Intercom('shutdown')
         return

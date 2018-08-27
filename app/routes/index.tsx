@@ -31,7 +31,7 @@ class Routes extends React.PureComponent<IProps, void> {
     return (
       <Switch location={this.props.location.toJS()}>
         {/*<Route exact={true} path="/" component={loaders.Landing} />*/}
-        <Redirect exact={true} path={'/'} to={'/dashboard'}/>
+        <Redirect exact={true} path={'/'} to={'/dashboard'} />
         <Route
           exact={true}
           path="/exams/:courseId/:unitId"
@@ -81,6 +81,7 @@ class Routes extends React.PureComponent<IProps, void> {
           path="/notifications"
           component={loaders.Notifications}
         />
+        <Route path="/upgrade-callback" component={loaders.UpgradeCallback} />
         <Route exact={true} path="" component={loaders.NotFound} />
       </Switch>
     )

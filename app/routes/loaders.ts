@@ -49,3 +49,8 @@ export const Notifications = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+export const UpgradeCallback = Loadable({
+  loader: () => System.import('pages/UpgradeCallback'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
