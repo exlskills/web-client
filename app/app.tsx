@@ -26,27 +26,26 @@ import 'file-loader?name=[name].[ext]!./.htaccess'
 import configureStore from './store'
 
 // Import i18n messages
-import { appLocales, translationMessages } from "./i18n";
-const detectNearestBrowserLocale = require('detect-nearest-browser-locale');
+import { appLocales, translationMessages } from './i18n'
+const detectNearestBrowserLocale = require('detect-nearest-browser-locale')
 
 // Import CSS reset and Global Styles
 import * as FontFaceObserver from 'fontfaceobserver'
 import './common/styles/globalStyles.ts'
 import { FocusStyleManager } from '@blueprintjs/core'
-import { getPathLocale, setPathLocale } from "./common/utils/cookies";
+import { getPathLocale, setPathLocale } from './common/utils/cookies'
 import {
-  getCurrentPathWithLocale,
   getPathLocaleFromURL,
   redirectForLocaleIfNecessary
-} from "./common/utils/path-locale";
-import { getViewer } from "./common/utils/viewer";
-import { jwtRefresh } from "./common/http/auth";
+} from './common/utils/path-locale'
+import { getViewer } from './common/utils/viewer'
+import { jwtRefresh } from './common/http/auth'
 
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
 const html = document.documentElement
 
-html.classList.add('fonts-loading')
+html.classList.add('fonts-loaded')
 
 notoSansFontObserver
   .load()
@@ -58,14 +57,27 @@ notoSansFontObserver
     html.classList.remove('fonts-loading')
     html.classList.add('fonts-failed')
   })
+
+// Try to preload large fonts used by blueprint
+const icon20FontObserver = new FontFaceObserver('Icons20')
+icon20FontObserver.load().then().catch()
+const icon16FontObserver = new FontFaceObserver('Icons16')
+icon16FontObserver.load().then().catch()
+// Small custom font used by Sly
+//const slickFontObserver = new FontFaceObserver('slick')
+//slickFontObserver
+//  .load()
+//  .then()
+//  .catch()
+
 // Only shows blue highlight on tabs and input elements
 FocusStyleManager.onlyShowFocusOnTabs()
 
 // This code inserts our anon pixel that will check if the user has a login, and if not, set the user's cookies for anon browsing
-let anonImg = document.createElement('img');
-anonImg.style.display = 'none';
-anonImg.src = `${process.env.AUTH_BASE_URL}/anonymous.gif`;
-document.getElementById('anon-pixel-container').appendChild(anonImg);
+let anonImg = document.createElement('img')
+anonImg.style.display = 'none'
+anonImg.src = `${process.env.AUTH_BASE_URL}/anonymous.gif`
+document.getElementById('anon-pixel-container').appendChild(anonImg)
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -75,13 +87,13 @@ const initialState = {}
 
 if (!getPathLocale()) {
   if (getPathLocaleFromURL()) {
-    setPathLocale(getPathLocaleFromURL());
+    setPathLocale(getPathLocaleFromURL())
   } else {
-    setPathLocale(detectNearestBrowserLocale(appLocales));
+    setPathLocale(detectNearestBrowserLocale(appLocales))
   }
 }
 
-redirectForLocaleIfNecessary();
+redirectForLocaleIfNecessary()
 
 const browserHistory = createBrowserHistory({
   basename: `/learn-${getPathLocale()}`,
@@ -92,9 +104,9 @@ const store = configureStore(initialState, browserHistory)
 const render = (messages: any) => {
   let isAuthedInterval = setInterval(async () => {
     if (getViewer() && getViewer('user_id')) {
-      clearInterval(isAuthedInterval);
+      clearInterval(isAuthedInterval)
       if (getViewer('is_demo') === false) {
-        await jwtRefresh();
+        await jwtRefresh()
       }
       ReactDOM.render(
         <Provider store={store}>
@@ -105,9 +117,9 @@ const render = (messages: any) => {
           </LanguageProvider>
         </Provider>,
         document.getElementById('app')
-      );
+      )
     }
-  }, 100);
+  }, 100)
 }
 
 // Hot reloadable translation json files

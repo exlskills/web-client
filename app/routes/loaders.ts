@@ -54,3 +54,8 @@ export const UpgradeCallback = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+export const Navbar = Loadable({
+  loader: () => System.import('common/components/Navbar'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})

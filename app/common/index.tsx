@@ -5,7 +5,7 @@ import Routes from 'routes/index'
 import { AppWrapper } from 'common/components/styledComponents'
 import { ReactNode } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import Navbar from 'common/components/Navbar'
+//import Navbar from 'common/components/Navbar'
 import { NAVBAR_ROUTES } from 'common/constants'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -17,6 +17,8 @@ import { ThemeProvider } from 'styled-components'
 import { getViewer } from 'common/utils/viewer'
 import { Route } from 'react-router-dom'
 import ReactGA from 'react-ga'
+
+import { Navbar } from '../routes/loaders'
 
 // TODO import and show SubscriptionDialog in the future
 // import SubscriptionDialog from 'common/components/SubscriptionDialog';

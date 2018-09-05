@@ -12,6 +12,7 @@ npm-debug.log
 .envprod
 .envlan
 .envlocalhost
+nginx_config
 
 yarn-error.log
 app/**/*.js.map

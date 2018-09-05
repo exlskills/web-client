@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Text } from '@blueprintjs/core'
 import { Flex } from 'grid-styled'
 
 interface WrapperProps {
