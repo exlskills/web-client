@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { CourseImage, Wrapper } from './styledComponents'
-import SidebarMenu from 'common/components/SideBarMenu'
-import Loading from 'common/components/Loading'
+import { Wrapper } from './styledComponents'
+import { SideBarMenu } from 'common/components/loaders'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
@@ -14,7 +13,7 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { IconName } from '@blueprintjs/core'
-import { getBadgeURLForTopic } from "../../../../../common/utils/topic-badges";
+import { getBadgeURLForTopic } from '../../../../../common/utils/topic-badges'
 
 const rootQuery = graphql`
   query SidebarQuery($course_id: String) {
@@ -89,7 +88,7 @@ class Sidebar extends React.PureComponent<
     ].concat(menuItems) as any
     return (
       <Wrapper>
-        <SidebarMenu
+        <SideBarMenu
           items={allMenuItems.map(
             (item: any) =>
               item.isHeader || item.isDivider

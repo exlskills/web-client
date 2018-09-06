@@ -18,7 +18,7 @@ import { getViewer } from 'common/utils/viewer'
 import { Route } from 'react-router-dom'
 import ReactGA from 'react-ga'
 
-import { Navbar } from '../routes/loaders'
+import { Navbar } from 'common/components/loaders'
 
 // TODO import and show SubscriptionDialog in the future
 // import SubscriptionDialog from 'common/components/SubscriptionDialog';

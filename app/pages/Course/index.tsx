@@ -1,14 +1,15 @@
 import * as React from 'react'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
-import Sidebar from './components/common/Sidebar'
+// import InjectedIntlProps = ReactIntl.InjectedIntlProps
+// import Sidebar from './components/common/Sidebar'
 import { Wrapper, SplitPane } from './components/styledComponents'
 import { Switch, Route } from 'react-router-dom'
 import * as Loadable from 'react-loadable'
 import Loading from 'common/components/Loading'
 import { Redirect, RouteComponentProps } from 'react-router'
-import { injectState, update, provideState } from 'freactal'
+import { update, provideState } from 'freactal'
+// injectState,
 import requireAuthentication from 'routes/requireAuthentication'
-import { isMobile } from 'common/utils/screen'
+// import { isMobile } from 'common/utils/screen'
 import { AnswerProps } from '../../common/components/ExamQuestion'
 
 const DELAY_INTERVAL = 500
@@ -35,6 +36,12 @@ const CourseInfo = Loadable({
 })
 const CourseCertificate = Loadable({
   loader: () => System.import('pages/Course/components/certificate'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+
+const Sidebar = Loadable({
+  loader: () => System.import('pages/Course/components/common/Sidebar'),
   loading: Loading,
   delay: DELAY_INTERVAL
 })

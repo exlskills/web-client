@@ -1,4 +1,4 @@
-import { Collapse } from '@blueprintjs/core/dist'
+// import { Collapse } from '@blueprintjs/core/dist'
 import * as React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import Activities from '../ActivitiesList/index'
@@ -6,7 +6,7 @@ import CalendarHeatmap from '../CalendarHeatmap'
 import { ACTIVITY_DAYS } from '../constants'
 import { ActivitiesCollapse, ActivitiesHeader } from './styledComponents'
 import messages from './messages'
-import moment = require("moment");
+import moment = require('moment')
 
 interface IProps {
   activities: any

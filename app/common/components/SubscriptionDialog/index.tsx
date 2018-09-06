@@ -1,4 +1,4 @@
-import ConfirmDialog from 'common/components/ConfirmDialog'
+import { ConfirmDialog } from 'common/components/loaders'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import * as React from 'react'
 import {
@@ -12,12 +12,15 @@ import {
   PricingPreHeader,
   PricingHeader,
   PricingDescription,
-  PricingFeature, PricingColInner, PricingCheckedIcon, PricingExcludedIcon
-} from "./styledComponents";
-import * as SplitPane from 'react-split-pane'
+  PricingFeature,
+  PricingColInner,
+  PricingCheckedIcon,
+  PricingExcludedIcon
+} from './styledComponents'
+//import * as SplitPane from 'react-split-pane'
 import messages from './messages'
-import { Prompt } from 'react-router'
-import { Icon } from "@blueprintjs/core";
+//import { Prompt } from 'react-router'
+//import { Icon } from "@blueprintjs/core";
 interface IProps {
   isOpen: boolean
 }
@@ -37,33 +40,33 @@ class SubscriptionDialog extends React.PureComponent<MergedProps, IStates> {
     essentials: {
       level: 3000,
       annual: {
-        planCode: "EXLskills-008",
+        planCode: 'EXLskills-008',
         usd: 8
       },
       monthly: {
-        planCode: "EXLskills-009",
+        planCode: 'EXLskills-009',
         usd: 80
       }
     },
     professional: {
       level: 5000,
       annual: {
-        planCode: "EXLskills-010",
+        planCode: 'EXLskills-010',
         usd: 30
       },
       monthly: {
-        planCode: "EXLskills-011",
+        planCode: 'EXLskills-011',
         usd: 300
       }
     },
     business: {
       level: 7000,
       annual: {
-        planCode: "EXLskills-012",
+        planCode: 'EXLskills-012',
         usd: 200
       },
       monthly: {
-        planCode: "EXLskills-015",
+        planCode: 'EXLskills-015',
         usd: 2000
       }
     }
@@ -93,7 +96,6 @@ class SubscriptionDialog extends React.PureComponent<MergedProps, IStates> {
     const { isOpen } = this.props
     const { formatMessage } = this.props.intl
 
-
     let promptMessage = {
       title: formatMessage(messages.txtConfirmLeaveQuizTitle),
       text: formatMessage(messages.txtConfirmLeaveQuizMessage),
@@ -118,17 +120,15 @@ class SubscriptionDialog extends React.PureComponent<MergedProps, IStates> {
         <DialogContent>
           <PricingFlexWrapper>
             <PricingCol>
-              <PricingTopGradient backgroundGradient={'linear-gradient(90deg, #0F61DF 0%, #4362CE 50%)'} />
+              <PricingTopGradient
+                backgroundGradient={
+                  'linear-gradient(90deg, #0F61DF 0%, #4362CE 50%)'
+                }
+              />
               <PricingColInner>
-                <PricingPreHeader>
-                  EXLskills
-                </PricingPreHeader>
-                <PricingHeader>
-                  Free
-                </PricingHeader>
-                <PricingDescription>
-                  Description
-                </PricingDescription>
+                <PricingPreHeader>EXLskills</PricingPreHeader>
+                <PricingHeader>Free</PricingHeader>
+                <PricingDescription>Description</PricingDescription>
                 <PricingFeature>
                   <PricingCheckedIcon iconName={'tick'} />
                   <span>Feature</span>
@@ -149,8 +149,8 @@ class SubscriptionDialog extends React.PureComponent<MergedProps, IStates> {
           messageText={promptMessage}
         />
         {/*<Prompt*/}
-          {/*message={JSON.stringify(promptMessage)}*/}
-          {/*when={!!this.props.state.examQuestion}*/}
+        {/*message={JSON.stringify(promptMessage)}*/}
+        {/*when={!!this.props.state.examQuestion}*/}
         {/*/>*/}
       </Wrapper>
     )

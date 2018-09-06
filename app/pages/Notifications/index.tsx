@@ -10,7 +10,7 @@ import AllNotifications from './AllNotifications'
 import messages from './messages'
 import { removeTrailingSlash } from '../../common/utils/routes'
 import { SplitPane, Wrapper, SidebarBox, ContentsBox } from './styledComponents'
-import SideBarMenu from '../../common/components/SideBarMenu'
+import { SideBarMenu } from '../../common/components/loaders'
 import { RouteComponentProps } from 'react-router'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import { injectIntl } from 'react-intl'

@@ -14,7 +14,7 @@ import AnswerExamQuestionMutation from '../../mutations/AnswerExamQuestionMutati
 import LeaveExamMutation from '../../mutations/LeaveExamMutation'
 import {
   ContentWrapper,
-  Goback,
+  //  Goback,
   Navigator,
   QuestionWrapper,
   SplitPane,
@@ -24,8 +24,8 @@ import {
 } from '../../styledComponents'
 import Sidebar from '../Sidebar'
 import SubmitCard from '../SubmitCard'
-import { Sticky } from 'react-sticky'
-import ConfirmDialog from 'common/components/ConfirmDialog'
+// import { Sticky } from 'react-sticky'
+import { ConfirmDialog } from 'common/components/loaders'
 
 interface IProps {
   courseId: string
