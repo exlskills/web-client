@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Loading from 'common/components/Loading'
-import wsclient from 'common/ws/client'
-import { WS_EVENTS } from 'common/ws/constants'
+//import wsclient from 'common/ws/client'
+//import { WS_EVENTS } from 'common/ws/constants'
 import { injectState, update, provideState } from 'freactal'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps

@@ -1,11 +1,12 @@
 import { Collapse, Intent, Popover, Position } from '@blueprintjs/core'
-import ExamQuestion, {
+import { ExamQuestion } from 'common/components/loaders'
+import {
   AnswerProps,
   QuestionProps,
   QuestionType
 } from 'common/components/ExamQuestion'
 import SectionCard from 'common/components/SectionCard'
-import Toaster from 'common/components/Toaster'
+// import Toaster from 'common/components/Toaster'
 import { fromUrlId, SchemaType, toUrlId } from 'common/utils/urlid'
 import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'
@@ -15,7 +16,7 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { Sticky, StickyContainer } from 'react-sticky'
 
 import CardQuestionHint from './CardQuestionHint'
-import Header from './components/Header'
+import { Header } from 'pages/Section'
 import messages from './messages'
 import SubmitCardAnswerMutation from './mutations/SubmitCardAnswerMutation'
 import {

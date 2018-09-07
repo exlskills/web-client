@@ -1,4 +1,5 @@
-import ExamQuestion, {
+import { ExamQuestion } from 'common/components/loaders'
+import {
   AnswerProps,
   QuestionType,
   QuestionProps

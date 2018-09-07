@@ -14,8 +14,18 @@ import { AnswerProps } from '../../common/components/ExamQuestion'
 
 const DELAY_INTERVAL = 500
 
+export const ProgressHeader = Loadable({
+  loader: () => System.import('pages/Course/components/common/ProgressHeader'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
 const CourseGrades = Loadable({
   loader: () => System.import('pages/Course/components/grades'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const GradesTable = Loadable({
+  loader: () => System.import('pages/Course/components/grades/GradesTable'),
   loading: Loading,
   delay: DELAY_INTERVAL
 })
@@ -29,6 +39,33 @@ const CourseContent = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+
+export const ExamDialog = Loadable({
+  loader: () => System.import('pages/Course/components/overview/ExamDialog'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const Header = Loadable({
+  loader: () => System.import('pages/Course/components/overview/Header'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const ProgressCells = Loadable({
+  loader: () => System.import('pages/Course/components/overview/ProgressCells'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const StatusCard = Loadable({
+  loader: () => System.import('pages/Course/components/overview/StatusCard'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const UnitCard = Loadable({
+  loader: () => System.import('pages/Course/components/overview/UnitCard'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+
 const CourseInfo = Loadable({
   loader: () => System.import('pages/Course/components/info'),
   loading: Loading,

@@ -1,16 +1,28 @@
 import Loading from 'common/components/Loading'
 import { CenterContainer } from 'common/components/styledComponents'
 import * as React from 'react'
-import Helmet from 'react-helmet'
+//import Helmet from 'react-helmet'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { QueryRenderer } from 'react-relay'
 import { RouteComponentProps } from 'react-router'
 import environment from 'relayEnvironment'
+import * as Loadable from 'react-loadable'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
 import requireAuthentication from 'routes/requireAuthentication'
+//import messages from './messages'
 
-import messages from './messages'
-import SectionDump from './SectionDump'
+const DELAY_INTERVAL = 500
+
+export const Header = Loadable({
+  loader: () => System.import('pages/Section/components/Header'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+const SectionDump = Loadable({
+  loader: () => System.import('pages/Section/SectionDump'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`

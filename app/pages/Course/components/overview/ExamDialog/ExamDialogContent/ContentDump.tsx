@@ -1,8 +1,6 @@
 import * as React from 'react'
-import ExamQuestion, {
-  QuestionProps,
-  AnswerProps
-} from 'common/components/ExamQuestion'
+import { ExamQuestion } from 'common/components/loaders'
+import { QuestionProps, AnswerProps } from 'common/components/ExamQuestion'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
 

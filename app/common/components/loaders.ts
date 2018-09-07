@@ -23,3 +23,18 @@ export const ConfirmDialog = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+export const ExamQuestion = Loadable({
+  loader: () => System.import('common/components/ExamQuestion'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const ReactSly = Loadable({
+  loader: () => System.import('common/components/ReactSly'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const PlainLink = Loadable({
+  loader: () => System.import('common/components/PlainLink'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})

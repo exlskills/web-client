@@ -1,11 +1,9 @@
 import * as React from 'react'
-import ProgressHeader from 'pages/Course/components/common/ProgressHeader'
 import { ContentWrapper } from 'common/components/styledComponents'
 import Loading from 'common/components/Loading'
-import GradesTable from './GradesTable'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
-import { IFreactalProps } from 'pages/Course'
+import { GradesTable, IFreactalProps, ProgressHeader } from 'pages/Course'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
