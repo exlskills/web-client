@@ -1,8 +1,8 @@
 import FormGroup, {
   FormGroupProps
 } from 'common/components/forms/inputs/FormGroup'
-import { Icon } from 'common/components/styledComponents'
-import { uniqueId } from 'lodash'
+// import { Icon } from 'common/components/styledComponents'
+// import { uniqueId } from 'lodash'
 import * as React from 'react'
 import { TagInput as BlueTagInput } from '@blueprintjs/labs'
 

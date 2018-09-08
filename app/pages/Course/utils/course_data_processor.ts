@@ -1,10 +1,10 @@
-import * as _ from 'lodash'
+import { cloneDeep } from 'lodash'
 
 export const processCourseData = (input: {
   unitIds: string[]
   unitsById: any
 }) => {
-  let d = _.cloneDeep(input)
+  let d = cloneDeep(input)
   let completedUnits = 0
   let markedSuggestedUnit = false
   for (let i = 0; i < d.unitIds.length; i++) {

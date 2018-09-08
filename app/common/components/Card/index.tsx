@@ -14,8 +14,7 @@ import {
   CardImageContainer,
   HorizontalCardImageLink
 } from './styledComponents'
-import PlainLink from 'common/components/PlainLink'
-import { Link } from 'react-router-dom'
+import { PlainLink } from 'common/components/loaders'
 
 export interface IProps {
   id: string
