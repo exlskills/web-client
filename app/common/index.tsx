@@ -49,9 +49,11 @@ class App extends React.PureComponent<
   }
 
   componentWillMount() {
-    ReactGA.initialize('UA-122120459-2', {
-      gaOptions: { userId: getViewer('user_id') }
-    })
+    if (!navigator.userAgent.startsWith('bot-exlpre-')) {
+      ReactGA.initialize('UA-122120459-2', {
+        gaOptions: { userId: getViewer('user_id') }
+      })
+    }
   }
 
   render() {
