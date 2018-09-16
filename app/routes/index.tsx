@@ -82,7 +82,8 @@ class Routes extends React.PureComponent<IProps, void> {
           component={loaders.Notifications}
         />
         <Route path="/upgrade-callback" component={loaders.UpgradeCallback} />
-        <Route exact={true} path="" component={loaders.NotFound} />
+        <Route path="/error/:errorCode" component={loaders.Error} />
+        <Redirect exact={true} path="" to={'/error/404'} />
       </Switch>
     )
   }

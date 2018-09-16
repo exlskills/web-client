@@ -14,6 +14,7 @@ import messages from '../messages'
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl'
 import SubmitQuizAnswerMutation from '../../mutations/SubmitQuizAnswerMutation'
 import TakeQuiz from '../../mutations/TakeQuiz'
+import { handleQueryRender } from 'common/utils/relay'
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`
@@ -112,19 +113,7 @@ class ExamDialogContent extends React.PureComponent<MergedProps, any> {
           .setAttribute('class', 'pt-button')
     }
   }
-  queryRender = ({ error, props }: RendererProps) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
 
     if (!props.questions || !props.questions.edges[0]) {
@@ -160,7 +149,7 @@ class ExamDialogContent extends React.PureComponent<MergedProps, any> {
       console.log(res)
     })
     return <ContentDump question={currentQuestion} />
-  }
+  })
 
   render() {
     const {

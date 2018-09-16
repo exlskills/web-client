@@ -1,26 +1,32 @@
 import * as React from 'react'
 import environment from 'relayEnvironment'
 import { MutationConfig, commitMutation } from 'react-relay'
+import { Redirect } from 'react-router'
+
+import Loading from 'common/components/Loading'
+import RedirectException from 'common/utils/redirect-exception'
 
 export interface RendererProps<T = any> {
   error: Error
   props: T
 }
 
-export const handleQueryRender = (
-  Component: new () => React.Component<any, any>
-) => {
+export const handleQueryRender = (fn: Function) => {
   return ({ error, props }: { error: Error; props: any }) => {
     if (error) {
+      if (error instanceof RedirectException) {
+        return <Redirect to={error.location} />
+      }
+
       return (
         <div>
           {error.message}
         </div>
       )
     } else if (props) {
-      return Component ? <Component viewer={props.viewer} /> : null
+      return fn ? fn({ props }) : null
     }
-    return <div>Loading</div>
+    return <Loading />
   }
 }
 

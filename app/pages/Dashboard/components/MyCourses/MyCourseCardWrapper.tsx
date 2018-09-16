@@ -1,21 +1,19 @@
-import { RendererProps } from '../../../../common/utils/relay'
+import { RendererProps } from 'common/utils/relay'
 
-import { toUrlId } from '../../../../common/utils/urlid'
+import { toUrlId } from 'common/utils/urlid'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import { RouteComponentProps, withRouter } from 'react-router'
 import * as React from 'react'
 import Loading from 'common/components/Loading'
 import { CardWrapper } from './styledComponents'
-import {
-  default as Card,
-  IProps as CardProps
-} from '../../../../common/components/Card'
+import { default as Card, IProps as CardProps } from 'common/components/Card'
 // Note: IDE might complain about these as duplicated identifiers, but that's not the case... Ignore..
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { MyCourseCardResume } from './MyCourseCardResume'
-import { isExtraSmallMobile, isMobile } from '../../../../common/utils/screen'
+import { isExtraSmallMobile, isMobile } from 'common/utils/screen'
+import { handleQueryRender } from 'common/utils/relay'
 
 const myCourseCardWrapperQuery = graphql`
   query MyCourseCardWrapperQuery($course_id: String) {
@@ -60,18 +58,7 @@ class MyCourseCardWrapperComponent extends React.Component<
     }
   }
 
-  queryRender = ({ error, props }: RendererProps) => {
-    if (error) {
-      return (
-        <div>
-          {error}
-        </div>
-      )
-    }
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const {
       last_accessed_unit,
       last_accessed_section,
@@ -102,7 +89,7 @@ class MyCourseCardWrapperComponent extends React.Component<
         item={this.props.item}
       />
     )
-  }
+  })
 
   render() {
     return (
