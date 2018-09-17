@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import * as ReactSplitPane from 'react-split-pane'
+import ReactSplitPane from 'react-split-pane'
 import { CenterContainer } from 'common/components/styledComponents'
 import { mobileBPCSS } from 'common/utils/screen'
 

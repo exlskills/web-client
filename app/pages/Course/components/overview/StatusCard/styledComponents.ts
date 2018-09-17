@@ -1,7 +1,7 @@
 import { Collapse, Tooltip as Tip, Position, Icon } from '@blueprintjs/core'
 import styled from 'styled-components'
 import { Title } from 'common/components/styledComponents'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import { CardWrapper } from 'pages/Course/components/styledComponents'
 import { fadeFromTop } from 'common/utils/animations'
 
@@ -23,7 +23,7 @@ export const Wrapper = CardWrapper.extend`
   ${(props: WrapperProps) => fadeFromTop(props.index * 0.1)};
 `
 
-export const CardHeader = styled(Flex).attrs({
+export const CardHeader = styled(Flex).attrs<FlexProps>({
   justify: 'space-between',
   width: 1,
   align: 'center'

@@ -1,10 +1,11 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { Wrapper, ChartWrapper } from './styledComponents'
 import ProgressChart from './ProgressChart'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 
 interface IProps {}
@@ -14,7 +15,7 @@ class ProgressHeader extends React.Component<
   {}
 > {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 

@@ -20,10 +20,31 @@ module.exports = options => ({
   module: {
     loaders: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
-        loader: 'babel-loader',
+        // test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.(j|t)sx?$/,
         exclude: /node_modules/,
-        query: options.babelQuery
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            babelrc: false,
+            presets: [
+              [
+                '@babel/preset-env',
+                { targets: { browsers: 'last 2 versions' } } // or whatever your project requires
+              ],
+              '@babel/preset-typescript',
+              '@babel/preset-react'
+            ],
+            plugins: [
+              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+              'relay',
+              ['@babel/plugin-proposal-decorators', { legacy: true }],
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              'react-hot-loader/babel'
+            ]
+          }
+        }
       },
       {
         // Do not transform vendor's CSS with CSS-modules
@@ -37,7 +58,15 @@ module.exports = options => ({
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
-        loader: 'file-loader'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -72,10 +101,10 @@ module.exports = options => ({
           limit: 10000
         }
       },
-      {
-        test: /\.tsx?$/,
-        loaders: ['react-hot-loader', 'awesome-typescript-loader']
-      },
+      // {
+      //   test: /\.tsx?$/,
+      //   loaders: [ 'awesome-typescript-loader']
+      // },
       {
         test: /\.scss$/,
         use: [

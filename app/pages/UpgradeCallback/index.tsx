@@ -80,4 +80,4 @@ class UpgradeCallback extends React.PureComponent<MergedProps, IStates> {
   }
 }
 
-export default injectIntl(withRouter<any>(UpgradeCallback))
+export default injectIntl(withRouter(UpgradeCallback))

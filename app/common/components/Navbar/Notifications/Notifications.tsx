@@ -94,7 +94,7 @@ class NotificationsDropdown extends React.Component<
               <Button
                 className="pt-minimal"
                 intent={Intent.PRIMARY}
-                iconName="inbox"
+                icon="inbox"
                 text={formatMessage(messages.archiveButton)}
                 onClick={this.handleArchiveAll}
               />}
@@ -142,7 +142,7 @@ class NotificationsDropdown extends React.Component<
         <div>
           <Button
             className={'pt-minimal'}
-            iconName={'notifications'}
+            icon={'notifications'}
             onClick={this.togglePopover}
           />
           {notifications.length > 0 &&

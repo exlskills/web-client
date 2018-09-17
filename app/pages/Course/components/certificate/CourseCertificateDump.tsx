@@ -1,11 +1,12 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { ContentWrapper } from 'common/components/styledComponents'
 import { IFreactalProps } from '../../index'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
 import messages from './messages'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import Helmet from 'react-helmet'
 const Markdown = require('react-remarkable')
 import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
@@ -28,7 +29,7 @@ class CourseCertificateDump extends React.Component<
 
   state = {}
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 

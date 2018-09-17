@@ -1,5 +1,5 @@
 import Loading from 'common/components/Loading'
-import { Flex, Box } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 import { Button, Collapse } from '@blueprintjs/core'
 import { Icon } from 'common/components/styledComponents'
 import { RendererProps } from 'common/utils/relay'
@@ -93,4 +93,4 @@ class Activities extends React.PureComponent<
   }
 }
 
-export default injectIntl<IProps>(Activities)
+export default injectIntl<IProps & InjectedIntlProps>(Activities)

@@ -119,7 +119,7 @@ class SectionRow extends React.Component<
         titleAccompany={
           <span>
             {section.ema > 80
-              ? <SectionCheckedIcon iconName={'tick'} />
+              ? <SectionCheckedIcon icon={'tick'} />
               : section.ema > 0
                 ? <span style={{ fontSize: '12px' }}>
                     <SectionProgPct>
@@ -141,13 +141,9 @@ class SectionRow extends React.Component<
             <Popover
               content={
                 <Menu>
+                  <MenuItem icon={'book'} text={viewMsg} onClick={onClick} />
                   <MenuItem
-                    iconName={'book'}
-                    text={viewMsg}
-                    onClick={onClick}
-                  />
-                  <MenuItem
-                    iconName={'social-media'}
+                    icon={'social-media'}
                     text={practiceMsg}
                     onClick={this.handlePracticeClick}
                   />
@@ -158,7 +154,7 @@ class SectionRow extends React.Component<
               <Button
                 style={{ marginLeft: '12px' }}
                 intent={Intent.NONE}
-                iconName={'more'}
+                icon={'more'}
               />
             </Popover>
           </Wrapper>

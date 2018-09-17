@@ -4,7 +4,7 @@ import FormGroup, {
 // import { Icon } from 'common/components/styledComponents'
 // import { uniqueId } from 'lodash'
 import * as React from 'react'
-import { TagInput as BlueTagInput } from '@blueprintjs/labs'
+import { TagInput as BlueTagInput } from '@blueprintjs/core'
 
 export type InputProps = IProps // & React.HTMLProps<HTMLInputElement>
 
@@ -15,7 +15,7 @@ export interface IProps extends FormGroupProps {
   onRemove?: (value: string) => void
 }
 
-class TagInput extends React.Component<InputProps, void> {
+class TagInput extends React.Component<InputProps> {
   static defaultProps: IProps = {
     values: [],
     error: '',
@@ -44,7 +44,6 @@ class TagInput extends React.Component<InputProps, void> {
         helpText={helpText}
       >
         <BlueTagInput
-          leftIconName={'tag'}
           onAdd={this.props.onAdd}
           onRemove={this.props.onRemove}
           values={this.props.values}

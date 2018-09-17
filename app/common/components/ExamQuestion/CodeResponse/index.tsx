@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Input from 'common/components/forms/inputs/Input'
+import * as PropTypes from 'prop-types'
 import CodeEditor from 'common/components/CodeEditor'
 
 export interface ICodeResponseProps {
@@ -16,7 +16,7 @@ interface IProps {
 
 class CodeResponse extends React.PureComponent<IProps, any> {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 

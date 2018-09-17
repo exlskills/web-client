@@ -11,7 +11,7 @@ interface IProps {
   placeholder?: string
 }
 
-class EmailInput extends React.Component<IProps, void> {
+class EmailInput extends React.Component<IProps> {
   // eslint-disable-line react/prefer-stateless-function
   static defaultProps: Partial<IProps> = {
     name: 'email'

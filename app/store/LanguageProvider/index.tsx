@@ -17,8 +17,7 @@ interface IStateToProps {
 }
 
 export class LanguageProvider extends React.PureComponent<
-  IProps & IStateToProps,
-  void
+  IProps & IStateToProps
 > {
   // eslint-disable-line react/prefer-stateless-function
   render() {

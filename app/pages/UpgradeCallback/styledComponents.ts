@@ -1,7 +1,7 @@
 import { ContentWrapper } from 'common/components/styledComponents'
-import styled from 'styled-components'
+import { FlexProps } from 'grid-styled'
 
-export const Wrapper = ContentWrapper.extend.attrs({
+export const Wrapper = ContentWrapper.extend.attrs<FlexProps>({
   column: false
 })`
   padding: 0;

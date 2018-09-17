@@ -1,5 +1,6 @@
 import QuestionHint from './QuestionHint'
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import {
   Wrapper,
   Row,
@@ -11,10 +12,6 @@ import {
   CorrectResult,
   ResultButton
 } from './styledComponents'
-import { QuestionType } from 'common/components/ExamQuestion'
-import ProgressCells, {
-  ICellItem
-} from 'pages/Course/components/overview/ProgressCells'
 import { Collapse, Intent, Popover, Position } from '@blueprintjs/core'
 import messages from '../messages'
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl'
@@ -23,7 +20,6 @@ import { IFreactalProps } from 'pages/Course'
 import SubmitQuizAnswerMutation from '../../mutations/SubmitQuizAnswerMutation'
 import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'
-import { processCourseData } from '../../../../utils/course_data_processor'
 interface IProps {
   disableSubmit?: boolean
   disableHint?: boolean
@@ -43,7 +39,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     disableHint: false
   }
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
   state: IStates = {
@@ -330,7 +326,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
           text={formatMessage(
             showHint ? messages.hideHintButton : messages.hintButton
           )}
-          iconName="help"
+          icon="help"
           onClick={this.toggleShowHint}
           style={{ marginBottom: '10px' }}
         />
@@ -357,7 +353,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
           )}
         </Title>
         <Button
-          iconName="book"
+          icon="book"
           text={formatMessage(
             cardOpen ? messages.backConceptButton : messages.viewConceptButton
           )}
@@ -408,4 +404,6 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
   }
 }
 
-export default injectIntl<IProps>(injectState(ExamModalSidebar))
+export default injectIntl<IProps & InjectedIntlProps>(
+  injectState(ExamModalSidebar)
+)

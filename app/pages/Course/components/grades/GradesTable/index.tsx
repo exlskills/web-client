@@ -30,9 +30,6 @@ class GradesTable extends React.Component<IProps, {}> {
       margin: 'auto',
       width: '60%'
     }
-    let styleCenterText = {
-      textAlign: 'center'
-    }
     return (
       <CardWrapper style={{ marginTop: '1.5rem' }}>
         <Table>
@@ -44,7 +41,7 @@ class GradesTable extends React.Component<IProps, {}> {
               <th>
                 <FormattedMessage {...messages.attemptsHeading} />
               </th>
-              <th style={styleCenterText}>
+              <th style={{ textAlign: 'center' }}>
                 <FormattedMessage {...messages.attemptsLeftHeading} />
               </th>
               <th>
@@ -70,7 +67,7 @@ class GradesTable extends React.Component<IProps, {}> {
                 <td>
                   {item.attempts}
                 </td>
-                <td style={styleCenterText}>
+                <td style={{ textAlign: 'center' }}>
                   {item.attemptsLeft}
                 </td>
                 <td>

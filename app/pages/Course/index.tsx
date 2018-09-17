@@ -1,5 +1,5 @@
 import * as React from 'react'
-// import InjectedIntlProps = ReactIntl.InjectedIntlProps
+//
 // import Sidebar from './components/common/Sidebar'
 import { Wrapper, SplitPane } from './components/styledComponents'
 import { Switch, Route } from 'react-router-dom'

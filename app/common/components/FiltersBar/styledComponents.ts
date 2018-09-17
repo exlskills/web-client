@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Grid, Flex } from 'grid-styled'
+import { Flex, FlexProps, Grid, GridProps } from 'grid-styled'
 
 export const Wrapper = styled(Flex)``
 

@@ -8,8 +8,7 @@ import NavbarRight from './NavbarRight'
 import { RouteComponentProps, withRouter } from 'react-router'
 import messages from './messages'
 import { Button, IconName } from '@blueprintjs/core'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { isMobile } from 'common/utils/screen'
 
 interface IProps {}
@@ -92,7 +91,7 @@ class Navbar extends React.PureComponent<MergedProps, IStates> {
                   <NavItem
                     active={item.active}
                     text={item.text}
-                    iconName={item.iconName}
+                    icon={item.iconName}
                     onClick={this.handleNavItemClick(item.path)}
                     key={idx}
                   />
@@ -105,4 +104,4 @@ class Navbar extends React.PureComponent<MergedProps, IStates> {
   }
 }
 
-export default injectIntl(withRouter<IProps & InjectedIntlProps>(Navbar))
+export default injectIntl(withRouter(Navbar))

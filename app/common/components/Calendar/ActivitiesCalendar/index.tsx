@@ -6,7 +6,7 @@ import CalendarHeatmap from '../CalendarHeatmap'
 import { ACTIVITY_DAYS } from '../constants'
 import { ActivitiesCollapse, ActivitiesHeader } from './styledComponents'
 import messages from './messages'
-import moment = require('moment')
+import * as moment from 'moment'
 
 interface IProps {
   activities: any
@@ -56,7 +56,7 @@ class ActivitiesCalendar extends React.PureComponent<MergedProps, any> {
     }
     return (
       <ActivitiesCollapse isOpen={this.state.showList}>
-        <ActivitiesHeader>
+        <ActivitiesHeader align={'center'}>
           <h4>
             {formatMessage(messages.lbActivitiesOnDate, {
               date: moment(this.state.selectedDate, 'YYYY-MM-DD').format('LL')
@@ -98,4 +98,4 @@ class ActivitiesCalendar extends React.PureComponent<MergedProps, any> {
   }
 }
 
-export default injectIntl<IProps>(ActivitiesCalendar)
+export default injectIntl<MergedProps>(ActivitiesCalendar)

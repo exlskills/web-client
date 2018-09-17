@@ -1,4 +1,4 @@
-import { Intent, Tab2, Tabs2, Toaster, Position } from '@blueprintjs/core'
+import { Intent, Tab, Tabs, Toaster, Position } from '@blueprintjs/core'
 import { signIn, signUp } from 'common/http/auth'
 import GithubIcon from 'pages/Landing/components/icons/Github'
 import GoogleIcon from 'pages/Landing/components/icons/Google'
@@ -148,19 +148,19 @@ class AuthForm extends React.Component<MergedProps, IStates> {
 
     return (
       <Wrapper>
-        <Tabs2
+        <Tabs
           id="login-register-tabs"
           selectedTabId={selectedTab}
           onChange={this.handleTabChange}
         >
-          <Tab2
+          <Tab
             id={LOGIN_TAB_ID}
             title={formatMessage(messages.login)}
             panel={
               <SignIn onSubmit={this.handleSignIn} isLoading={isLoading} />
             }
           />
-          <Tab2
+          <Tab
             id={REGISTER_TAB_ID}
             title={formatMessage(messages.register)}
             panel={
@@ -171,7 +171,7 @@ class AuthForm extends React.Component<MergedProps, IStates> {
               />
             }
           />
-        </Tabs2>
+        </Tabs>
         <Divider />
         <SocialButtons>
           <GoogleButton disabled={isLoading} onClick={this.handleSignInGoogle}>
@@ -188,4 +188,4 @@ class AuthForm extends React.Component<MergedProps, IStates> {
   }
 }
 
-export default injectIntl<IProps>(withRouter(AuthForm))
+export default injectIntl<IProps & InjectedIntlProps>(withRouter(AuthForm))

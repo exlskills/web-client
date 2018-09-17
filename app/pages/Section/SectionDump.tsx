@@ -11,6 +11,7 @@ import { fromUrlId, SchemaType, toUrlId } from 'common/utils/urlid'
 import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { Sticky, StickyContainer } from 'react-sticky'
@@ -65,7 +66,7 @@ class SectionDump extends React.PureComponent<
   IStates
 > {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -498,7 +499,7 @@ class SectionDump extends React.PureComponent<
                 ? messages.hideHintButton
                 : messages.hintButton
             )}
-            iconName="help"
+            icon="help"
             onClick={this.toggleShowHint}
           />
           <HintWrapper>
@@ -688,4 +689,4 @@ class SectionDump extends React.PureComponent<
   }
 }
 
-export default withRouter<IProps>(injectIntl(SectionDump))
+export default withRouter<any>(injectIntl(SectionDump))

@@ -2,8 +2,8 @@ import * as React from 'react'
 import { MenuDivider, IconName } from '@blueprintjs/core'
 import { ISidebarItem } from '../../SideBarMenu'
 import { ITopNavItem } from '../index'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import { slide as BurgerMenu } from 'react-burger-menu'
 import {
   HeaderAvatar,
@@ -165,7 +165,7 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
     } else if (isHeader) {
       return (
         <SidebarMenuHeader key={idx}>
-          {iconName && <MenuHeaderIcon iconSize={20} iconName={iconName} />}
+          {iconName && <MenuHeaderIcon iconSize={20} icon={iconName} />}
           {avatarName &&
             <HeaderAvatar size={20} name={avatarName} src={avatarSrc} />}
           <span>
@@ -199,7 +199,7 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
   render() {
     return (
       <div>
-        <BurgerButton iconName={'menu'} onClick={this.toggleMenu} />
+        <BurgerButton icon={'menu'} onClick={this.toggleMenu} />
         <BurgerMenu
           styles={bmStyles}
           right={true}
@@ -216,4 +216,4 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
   }
 }
 
-export default injectIntl(withRouter<any>(MobileSidebar))
+export default injectIntl(withRouter(MobileSidebar))

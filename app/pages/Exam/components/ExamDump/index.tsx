@@ -52,10 +52,9 @@ interface IStates {
   showSubmitConfirmDialog: boolean
 }
 
-class ExamDump extends React.PureComponent<
-  IProps & InjectedIntlProps & RouteComponentProps<any>,
-  IStates
-> {
+type MergedProps = IProps & InjectedIntlProps & RouteComponentProps<any>
+
+class ExamDump extends React.PureComponent<MergedProps, IStates> {
   static defaultProps: Partial<IProps> = {
     completed: false,
     questionsList: [],
@@ -405,4 +404,4 @@ class ExamDump extends React.PureComponent<
   }
 }
 
-export default injectIntl<IProps>(withRouter(ExamDump))
+export default withRouter<any>(injectIntl(ExamDump))

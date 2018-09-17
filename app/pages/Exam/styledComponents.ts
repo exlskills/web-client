@@ -1,6 +1,6 @@
 import { Button } from '@blueprintjs/core'
-import { Box, Flex } from 'grid-styled'
-import * as ReactSplitPane from 'react-split-pane'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
+import ReactSplitPane from 'react-split-pane'
 import styled from 'styled-components'
 import { StickyContainer } from 'react-sticky'
 
@@ -21,12 +21,12 @@ export const RightPanelWrapper = styled(StickyContainer)`
   padding-bottom: 20px;
 `
 
-export const ContentWrapper = styled(Flex).attrs({
+export const ContentWrapper = styled(Flex).attrs<FlexProps>({
   column: true,
   align: 'center'
 })``
 
-export const HeaderWrapper = styled(Flex).attrs({
+export const HeaderWrapper = styled(Flex).attrs<FlexProps>({
   // justify: 'space-between',
   align: 'center',
   // py: '0.7rem',
@@ -50,7 +50,7 @@ export const Navigator = styled.div`
   text-align: center;
 `
 
-export const QuestionWrapper = styled(Box).attrs({
+export const QuestionWrapper = styled(Box).attrs<BoxProps>({
   width: [1, 1, 3 / 4]
 })`
 max-height: ${window.innerHeight - 210}px;

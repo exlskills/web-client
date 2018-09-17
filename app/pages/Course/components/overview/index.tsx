@@ -1,10 +1,11 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import Loading from 'common/components/Loading'
 //import wsclient from 'common/ws/client'
 //import { WS_EVENTS } from 'common/ws/constants'
 import { injectState, update, provideState } from 'freactal'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import { RouteComponentProps, withRouter } from 'react-router'
 import { SchemaType, fromUrlId } from 'common/utils/urlid'
 
@@ -74,7 +75,7 @@ type Mergedprops = IProps &
 
 class CourseOverview extends React.Component<Mergedprops, {}> {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -157,4 +158,6 @@ class CourseOverview extends React.Component<Mergedprops, {}> {
 
 class CourseContent extends CourseOverview {}
 
-export default injectIntl<IProps>(injectState(withRouter(CourseOverview)))
+export default injectIntl<IProps & InjectedIntlProps>(
+  injectState(withRouter(CourseOverview))
+)

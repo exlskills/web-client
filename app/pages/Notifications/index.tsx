@@ -12,8 +12,8 @@ import { removeTrailingSlash } from '../../common/utils/routes'
 import { SplitPane, Wrapper, SidebarBox, ContentsBox } from './styledComponents'
 import { SideBarMenu } from '../../common/components/loaders'
 import { RouteComponentProps } from 'react-router'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
-import { injectIntl } from 'react-intl'
+
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`

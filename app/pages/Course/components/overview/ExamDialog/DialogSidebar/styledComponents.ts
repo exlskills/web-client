@@ -1,8 +1,8 @@
-import { Flex, Box } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 import styled from 'styled-components'
 import { Text, Button as Btn } from '@blueprintjs/core'
 
-export const Wrapper = styled(Flex).attrs({
+export const Wrapper = styled(Flex).attrs<FlexProps>({
   column: true,
   align: 'flex-start'
 })`
@@ -11,7 +11,7 @@ export const Wrapper = styled(Flex).attrs({
   padding: 0px 15px;
 `
 
-export const Row = styled(Box).attrs({
+export const Row = styled(Box).attrs<BoxProps>({
   column: true,
   align: 'flex-start'
 })`

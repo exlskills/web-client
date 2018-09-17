@@ -1,4 +1,4 @@
-import { Box, Flex } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 import styled from 'styled-components'
 
 export const ContentWrapper = styled.div``
@@ -11,7 +11,7 @@ export const EventWrapper = styled.div`
   cursor: pointer;
   &:first-child {
     border-top: none;
-  }  
+  }
 `
 export const EventTime = styled.div`
   float: right;
@@ -32,8 +32,7 @@ export const EventTitle = styled.div`
   max-width: calc(100% - 174px);
   font-weight: 600;
 `
-export const EventAuthor = styled.span`
-`
+export const EventAuthor = styled.span``
 export const EventBody = styled.div`margin-right: 174px;`
 export const EventBodyList = styled.ul`
   position: relative;
@@ -69,6 +68,4 @@ export const Listitem = styled.li`
   font-size: 1rem;
 `
 
-export const EmptyText = styled.div`
-  font-size: 1rem;
-`
+export const EmptyText = styled.div`font-size: 1rem;`

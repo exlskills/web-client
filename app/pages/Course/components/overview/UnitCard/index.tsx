@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import {
   CardHeader,
   UnitTitle,
@@ -26,14 +27,13 @@ import TakeQuiz from '../mutations/TakeQuiz'
 import wsclient from 'common/ws/client'
 const { graphql } = require('react-relay/compat')
 import messages from './messages'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
 
 import { WS_EVENTS } from 'common/ws/constants'
 import { createFragmentContainer } from 'react-relay'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
 import $ from 'jquery'
 import { Icon, Intent } from '@blueprintjs/core'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 interface IProps {
   defaultOpen?: boolean
   unit: {
@@ -80,7 +80,7 @@ class UnitCard extends React.Component<
     isCenter: ''
   }
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -229,8 +229,7 @@ class UnitCard extends React.Component<
                 ? this.props.intl.formatMessage(messages.notStarted)
                 : `${this.round(ema, 0)}%`}
             </span>
-            {unit_progress_state == 1 &&
-              <UnitPassedIcon iconName={'endorsed'} />}
+            {unit_progress_state == 1 && <UnitPassedIcon icon={'endorsed'} />}
           </HeaderLeft>
           <HeaderRight>
             <UnitActionButton
@@ -275,4 +274,4 @@ class UnitCard extends React.Component<
   }
 }
 
-export default withRouter(injectIntl(injectState<any>(UnitCard)))
+export default withRouter(injectIntl(injectState(UnitCard)))

@@ -1,14 +1,14 @@
 import { CardWrapper } from 'pages/Course/components/styledComponents'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import styled from 'styled-components'
 import { Button, IButtonProps, Intent } from '@blueprintjs/core'
 
 export const Wrapper = styled.div``
 
-export const BodyWrapper = styled(Flex).attrs({
+export const BodyWrapper = styled(Flex).attrs<FlexProps>({
   justify: 'flex-start',
   width: 1,
-  wrap: true,
+  wrap: 'true',
   align: 'flex-start'
 })`
   margin-top: 30px;
@@ -37,7 +37,7 @@ export const ChartWrapper = styled.div`
   overflow-y: auto;
 `
 
-export const TopWrapper = styled(Flex).attrs({
+export const TopWrapper = styled(Flex).attrs<FlexProps>({
   justify: 'flex-start',
   width: 1,
   align: 'flex-start'

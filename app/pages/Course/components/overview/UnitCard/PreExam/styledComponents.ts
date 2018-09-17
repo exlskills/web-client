@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 
 export const TopScoreText = styled.div`
   width: 100%;

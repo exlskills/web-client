@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import { Text, Tooltip as Tip, Position } from '@blueprintjs/core'
 
 interface WrapperProps {
@@ -7,7 +7,7 @@ interface WrapperProps {
   marginTop?: string
 }
 
-export const Wrapper = styled(Flex).attrs({
+export const Wrapper = styled(Flex).attrs<FlexProps>({
   align: 'center',
   justify: 'flex-start'
 })`

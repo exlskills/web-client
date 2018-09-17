@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Tag, Text } from '@blueprintjs/core'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 
 interface NotifItemProps {
   iconName: string
@@ -34,7 +34,7 @@ export const Header = styled.li.attrs({
   justify-content: space-between;
 `
 
-export const IconWrapper = styled(Flex).attrs({
+export const IconWrapper = styled(Flex).attrs<FlexProps>({
   align: 'center',
   justify: 'center',
   width: 1 / 7
@@ -47,7 +47,7 @@ export const NotifItemTitle = styled(Text)`
   1.1rem;
 `
 
-export const DateWrapper = styled(Flex).attrs({
+export const DateWrapper = styled(Flex).attrs<FlexProps>({
   align: 'center',
   justify: 'flex-end',
   className: 'pt-text-muted',
@@ -55,7 +55,7 @@ export const DateWrapper = styled(Flex).attrs({
   mt: '0.4rem'
 })``
 
-export const NotifContent = styled(Flex).attrs({
+export const NotifContent = styled(Flex).attrs<FlexProps>({
   column: true,
   justify: 'space-around',
   align: 'flex-start',

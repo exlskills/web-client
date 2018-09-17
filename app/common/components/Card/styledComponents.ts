@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Text } from '@blueprintjs/core'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import { Link } from 'react-router-dom'
 
 export const VerticalWrapper = styled.div.attrs({
@@ -11,7 +11,7 @@ export const VerticalWrapper = styled.div.attrs({
   width: 100%;
 `
 
-export const HorizontalWrapper = styled(Flex).attrs({
+export const HorizontalWrapper = styled(Flex).attrs<FlexProps>({
   className: 'pt-card',
   justify: 'flex-start'
 })`
@@ -106,8 +106,8 @@ export const CardDesc = styled.div.attrs({
   max-width: 250px;
 `
 
-export const CardFooter = styled(Flex).attrs({
-  wrap: true
+export const CardFooter = styled(Flex).attrs<FlexProps>({
+  wrap: 'true'
 })`
   padding: 8px;
 `

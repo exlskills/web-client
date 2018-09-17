@@ -1,5 +1,9 @@
 import { Classes, MenuItem } from '@blueprintjs/core'
-import { ISelectItemRendererProps, MultiSelect } from '@blueprintjs/labs'
+import {
+  IMultiSelectProps,
+  IMultiSelectState,
+  MultiSelect
+} from '@blueprintjs/select'
 import FormGroup from 'common/components/forms/inputs/FormGroup'
 import * as React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -16,7 +20,7 @@ interface IProps {
   items?: SearchItem[]
   selectedItems?: SearchItem[]
   itemRenderer?: (
-    itemProps: ISelectItemRendererProps<SearchItem>,
+    itemProps: IMultiSelectProps<SearchItem>,
     data: { isSelected: boolean }
   ) => JSX.Element
   onItemSelect?: (item: SearchItem) => void
@@ -69,7 +73,8 @@ class SearchBar extends React.Component<IProps & InjectedIntlProps, IStates> {
     )
   }
 
-  renderItem = (selectItem: ISelectItemRendererProps<SearchItem>) => {
+  /*
+  renderItem = (selectItem: SearchItem) => {
     const { handleClick, isActive, item } = selectItem
     const isSelected = this.isItemSelected(item)
 
@@ -80,7 +85,7 @@ class SearchBar extends React.Component<IProps & InjectedIntlProps, IStates> {
     return (
       <MenuItem
         className={`${isActive ? 'pt-active pt-intent-primary' : ''}`}
-        iconName={this.isItemSelected(item) ? 'tick' : 'blank'}
+        icon={this.isItemSelected(item) ? 'tick' : 'blank'}
         key={item.value}
         label={item.label}
         onClick={handleClick}
@@ -89,6 +94,7 @@ class SearchBar extends React.Component<IProps & InjectedIntlProps, IStates> {
       />
     )
   }
+  */
 
   renderTag = (item: SearchItem) => {
     return item.text
@@ -98,31 +104,7 @@ class SearchBar extends React.Component<IProps & InjectedIntlProps, IStates> {
     const { items, selectedItems, popoverMinimal, buttonText } = this.props
     const { formatMessage } = this.props.intl
 
-    return (
-      <SearchWrapper hasButton={!!buttonText}>
-        <SearchSelect
-          items={items}
-          selectedItems={selectedItems}
-          itemRenderer={this.renderItem}
-          itemPredicate={this.filterItem}
-          onItemSelect={this.handleItemSelect}
-          tagRenderer={this.renderTag}
-          tagInputProps={{
-            onRemove: this.handleTagRemove,
-            placeholder: this.props.placeholder || 'Search...'
-          }}
-          noResults={
-            <MenuItem
-              disabled={true}
-              text={formatMessage(messages.noResults)}
-            />
-          }
-          popoverProps={{
-            popoverClassName: popoverMinimal ? Classes.MINIMAL : ''
-          }}
-        />
-      </SearchWrapper>
-    )
+    return <SearchWrapper hasButton={!!buttonText} />
   }
 
   renderButton() {
@@ -150,4 +132,4 @@ class SearchBar extends React.Component<IProps & InjectedIntlProps, IStates> {
   }
 }
 
-export default injectIntl(SearchBar)
+export default injectIntl<IProps & InjectedIntlProps>(SearchBar)

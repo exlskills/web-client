@@ -1,4 +1,4 @@
-import { SVGTooltip } from '@blueprintjs/core'
+import { Tooltip } from '@blueprintjs/core'
 import { range, reduce } from 'lodash'
 import * as React from 'react'
 
@@ -303,13 +303,13 @@ class CalendarHeatmap extends React.PureComponent<IProps, IStates> {
     const tooltip = this.getTooltipForIndex(index)
     if (tooltip) {
       return (
-        <SVGTooltip
+        <Tooltip
           key={`tooltip_${index}`}
           content={tooltip}
           {...this.getTooltipDataAttrsForIndex(index)}
         >
           {cellJsx}
-        </SVGTooltip>
+        </Tooltip>
       )
     }
 

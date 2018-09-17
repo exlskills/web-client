@@ -16,7 +16,7 @@ interface IProps {
   location: Record.Instance<Location>
 }
 
-class Routes extends React.PureComponent<IProps, void> {
+class Routes extends React.PureComponent<IProps> {
   // eslint-disable-line react/prefer-stateless-function
 
   context: {

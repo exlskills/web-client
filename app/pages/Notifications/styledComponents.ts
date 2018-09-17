@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { ContentWrapper } from 'common/components/styledComponents'
-import { Box, Flex } from 'grid-styled'
-import * as ReactSplitPane from 'react-split-pane'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
+import ReactSplitPane from 'react-split-pane'
 import { mobileBPCSS } from '../../common/utils/screen'
 
 export const Wrapper = ContentWrapper.extend`padding: 0;`
@@ -12,7 +12,7 @@ export const NotificationTime = styled.div`
   margin-left: auto;
 `
 
-export const SidebarBox = styled(Flex).attrs({
+export const SidebarBox = styled(Flex).attrs<FlexProps>({
   justify: 'flex-start',
   column: true
 })`
@@ -21,7 +21,7 @@ export const SidebarBox = styled(Flex).attrs({
   height: 100%;
 `
 
-export const ContentsBox = styled(Box).attrs({
+export const ContentsBox = styled(Box).attrs<BoxProps>({
   px: 2
 })`
   width: 100%;

@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 
 interface WrapperProps {
   backgroundColor?: string
-  borderBottom: string
+  borderBottom?: string
   isNextStep?: boolean
   isComplete?: boolean
 }
@@ -39,7 +39,7 @@ interface LeftProps {
   onClick?: () => void
 }
 
-export const Left = styled(Flex).attrs({
+export const Left = styled(Flex).attrs<FlexProps>({
   column: true,
   align: 'flex-start',
   justify: 'space-between',

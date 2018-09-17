@@ -1,4 +1,4 @@
-import { Button, Intent } from '@blueprintjs/core/dist'
+import { Button, Intent } from '@blueprintjs/core'
 import FormGroup, {
   FormGroupProps
 } from 'common/components/forms/inputs/FormGroup'
@@ -6,7 +6,7 @@ import { Wrapper } from 'common/components/styledComponents'
 import { uniqueId } from 'lodash'
 import * as React from 'react'
 import { SelectOptions } from 'typings/client'
-import { Flex, Box } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 
 interface IProps extends FormGroupProps {
   options: SelectOptions
@@ -27,7 +27,7 @@ interface IProps extends FormGroupProps {
 
 export type SelectProps = IProps // & React.HTMLProps<HTMLSelectElement>
 
-export default class Select extends React.Component<SelectProps, void> {
+export default class Select extends React.Component<SelectProps> {
   static defaultProps: Partial<IProps> = {
     emptyValue: ''
   }
@@ -99,8 +99,8 @@ export default class Select extends React.Component<SelectProps, void> {
     if (rightButton) {
       return (
         <Flex>
-          <Box flex={1} style={{ marginRight: '10px'}}>
-          {this.renderSelect()}
+          <Box flex={1} style={{ marginRight: '10px' }}>
+            {this.renderSelect()}
           </Box>
           {rightButton}
         </Flex>

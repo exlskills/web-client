@@ -1,8 +1,8 @@
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import styled from 'styled-components'
 import { Button } from '@blueprintjs/core'
 
-export const Wrapper = styled(Flex).attrs({
+export const Wrapper = styled(Flex).attrs<FlexProps>({
   justify: 'flex-start',
   column: true
 })`

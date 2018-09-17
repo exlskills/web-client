@@ -1,4 +1,4 @@
-import { Box } from 'grid-styled'
+import { Box, BoxProps } from 'grid-styled'
 import * as React from 'react'
 
 import {
@@ -29,7 +29,7 @@ export interface IProps {
   cardUrl: string
 }
 
-class Card extends React.PureComponent<IProps, void> {
+class Card extends React.PureComponent<IProps> {
   static defaultProps = {
     boxWidth: '300px',
     image: '',

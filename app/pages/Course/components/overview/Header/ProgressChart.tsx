@@ -9,8 +9,8 @@ import {
   PolarAngleAxis,
   Label
 } from 'recharts'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 import { ProgressOverlay, ProgressOverlaySub } from './styledComponents'
 

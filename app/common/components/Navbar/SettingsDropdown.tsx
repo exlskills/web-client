@@ -1,7 +1,8 @@
 import * as React from 'react'
+import PropTypes from 'prop-types'
 import { LoginSignupButton, UserButton } from './styledComponents'
 import messages from './messages'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import {
   Popover,
   Menu,
@@ -9,7 +10,7 @@ import {
   MenuDivider,
   Position
 } from '@blueprintjs/core'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+
 import { getViewer } from '../../utils/viewer'
 import { isMobile } from '../../utils/screen'
 import styled from 'styled-components'
@@ -25,12 +26,9 @@ interface IProps {
   onLoginClick: () => void
   isDemoUser: boolean
 }
-class SettingsDropdown extends React.Component<
-  IProps & InjectedIntlProps,
-  void
-> {
+class SettingsDropdown extends React.Component<IProps & InjectedIntlProps> {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -44,13 +42,13 @@ class SettingsDropdown extends React.Component<
     return (
       <Menu>
         <MenuItem
-          iconName="cog"
+          icon="cog"
           text={formatMessage(messages.settingsDropdownSettings)}
           onClick={onSettingsClick}
         />
         <MenuDivider />
         <MenuItem
-          iconName="log-out"
+          icon="log-out"
           text={formatMessage(messages.settingsDropdownLogout)}
           onClick={onLogoutClick}
         />
@@ -106,4 +104,4 @@ class SettingsDropdown extends React.Component<
   }
 }
 
-export default injectIntl<IProps>(SettingsDropdown)
+export default injectIntl<IProps & InjectedIntlProps>(SettingsDropdown)

@@ -7,7 +7,7 @@ interface IProps {
   error?: boolean
 }
 
-export default class EmailInput extends React.Component<IProps, void> {
+export default class EmailInput extends React.Component<IProps> {
   static defaultProps = {
     error: false
   }
@@ -20,9 +20,7 @@ export default class EmailInput extends React.Component<IProps, void> {
         onChange={onChange}
         value={value}
         className="pt-large"
-        leftIconName="envelope"
         placeholder="Email"
-        intent={error && Intent.DANGER}
       />
     )
   }

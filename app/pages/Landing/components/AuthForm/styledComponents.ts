@@ -1,5 +1,5 @@
 import { Button } from '@blueprintjs/core'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div``
@@ -34,8 +34,8 @@ export const Divider = styled.div`
   }
 `
 
-export const SocialButtons = styled(Flex).attrs({
-  wrap: true
+export const SocialButtons = styled(Flex).attrs<FlexProps>({
+  wrap: 'true'
 })``
 
 const SocialButton = styled(Button)`

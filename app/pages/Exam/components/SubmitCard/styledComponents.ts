@@ -1,8 +1,8 @@
 import { Button } from '@blueprintjs/core'
-import { Box, Flex } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 import styled from 'styled-components'
 
-export const Wrapper = styled(Flex).attrs({
+export const Wrapper = styled(Flex).attrs<FlexProps>({
   className: 'pt-card',
   column: true,
   align: 'center'

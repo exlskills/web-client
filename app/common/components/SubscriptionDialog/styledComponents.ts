@@ -1,7 +1,7 @@
 import { CenterContainer } from 'common/components/styledComponents'
 import styled from 'styled-components'
-import { Dialog, Icon, IDialogProps } from "@blueprintjs/core";
-import { Flex } from 'grid-styled'
+import { Dialog, Icon, IDialogProps } from '@blueprintjs/core'
+import { Flex, FlexProps } from 'grid-styled'
 
 export const Wrapper = styled(Dialog)`
   max-width: 1300px;
@@ -18,7 +18,7 @@ export const DialogContent = styled.div.attrs({
   height: 100%;
 `
 
-export const Header = styled(Flex).attrs({
+export const Header = styled(Flex).attrs<FlexProps>({
   column: true,
   justify: 'space-between',
   align: 'flex-start'
@@ -59,9 +59,7 @@ export const PricingFlexWrapper = styled(Flex)`
   margin: 20px;
 `
 
-export const PricingCol = styled.div`
-  width: 25%;
-`
+export const PricingCol = styled.div`width: 25%;`
 
 export const PricingColInner = styled.div`
   background-color: rgb(250, 250, 250);
@@ -70,8 +68,12 @@ export const PricingColInner = styled.div`
   padding: 20px;
 `
 
-export const PricingTopGradient = styled.div.attrs<{ backgroundGradient?: string }>({})`
-  background: ${props => {return props.backgroundGradient}};
+export const PricingTopGradient = styled.div.attrs<{
+  backgroundGradient?: string
+}>({})`
+  background: ${props => {
+    return props.backgroundGradient
+  }};
   width: 100%;
   height: 1.25em;
 `
@@ -102,18 +104,14 @@ export const PricingFeature = styled.div.attrs({
   
 `
 
-export const PricingExcludedIcon = styled(Icon).attrs({
-})`
+export const PricingExcludedIcon = styled(Icon).attrs({})`
   color: red;
   margin-right: 4px;
 `
 
-export const PricingCheckedIcon = styled(Icon).attrs({
-})`
+export const PricingCheckedIcon = styled(Icon).attrs({})`
   color: green;
   margin-right: 4px;
 `
 
-export const PricingTopCard = styled.div`
-
-`
+export const PricingTopCard = styled.div``

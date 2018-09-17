@@ -1,16 +1,17 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { UpgradeButtonStyled } from './styledComponents'
 import messages from './messages'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import { getViewer, isViewerPremium } from '../../utils/viewer'
 
 interface IProps {
   onUpgradeClick: () => void
 }
-class UpgradeButton extends React.Component<IProps & InjectedIntlProps, void> {
+class UpgradeButton extends React.Component<IProps & InjectedIntlProps> {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -26,4 +27,4 @@ class UpgradeButton extends React.Component<IProps & InjectedIntlProps, void> {
   }
 }
 
-export default injectIntl<IProps>(UpgradeButton)
+export default injectIntl<IProps & InjectedIntlProps>(UpgradeButton)

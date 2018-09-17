@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import Helmet from 'react-helmet'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import { RouteComponentProps } from 'react-router'
 import { ContentsBox, SidebarBox, SplitPane, Wrapper } from './styledComponents'
 import { Switch, Route } from 'react-router-dom'

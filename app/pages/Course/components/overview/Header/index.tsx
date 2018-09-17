@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import {
   Wrapper,
   ChartWrapper,
@@ -16,8 +17,8 @@ import {
 import ProgressChart from './ProgressChart'
 import { injectState } from 'freactal'
 import { StatusCard, IFreactalProps } from 'pages/Course'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 // import { toUrlId } from '../../../../../common/utils/urlid'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -32,7 +33,7 @@ class ProgressHeader extends React.Component<
   {}
 > {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 

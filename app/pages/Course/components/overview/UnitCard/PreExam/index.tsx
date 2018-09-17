@@ -3,8 +3,8 @@ import { Button, Intent } from '@blueprintjs/core'
 import CardRow from 'pages/Course/components/overview/UnitCard/CardRow'
 import { TopScoreText } from './styledComponents'
 import { RowRightWrapper } from '../styledComponents'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 
 interface IProps {
@@ -24,7 +24,7 @@ class UnitActionButton extends React.Component<IProps & InjectedIntlProps, {}> {
     return (
       <Button
         id={`unit-${this.props.unit_id}`}
-        iconName={isPractice ? 'social-media' : 'log-in'}
+        icon={isPractice ? 'social-media' : 'log-in'}
         text={
           isPractice
             ? formatMessage(messages.takePracticeQuiz)

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Wrapper } from './styledComponents'
 import { Button } from '@blueprintjs/core'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 import LineNavigator from 'common/components/LineNavigator'
 import { Tooltip } from './styledComponents'
@@ -52,7 +52,7 @@ class Header extends React.Component<IProps & InjectedIntlProps, {}> {
     return (
       <Wrapper>
         <Button
-          iconName="arrow-left"
+          icon="arrow-left"
           text={formatMessage(messages.backCourseButton)}
           onClick={this.handleBackCourseClick}
         />
@@ -69,7 +69,7 @@ class Header extends React.Component<IProps & InjectedIntlProps, {}> {
             />
           </div>}
         <Button
-          iconName={cardView ? 'duplicate' : 'document'}
+          icon={cardView ? 'duplicate' : 'document'}
           text={
             cardView
               ? formatMessage(messages.showPageViewButton)
@@ -82,4 +82,4 @@ class Header extends React.Component<IProps & InjectedIntlProps, {}> {
   }
 }
 
-export default injectIntl<IProps>(Header)
+export default injectIntl<IProps & InjectedIntlProps>(Header)

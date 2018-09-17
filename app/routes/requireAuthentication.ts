@@ -17,7 +17,7 @@ interface IDispatchToProps {
 type MergedProps = RouteComponentProps<string> & IDispatchToProps
 
 export default (requiredAuthLevel = 0) => (Component: any) => {
-  class AuthenticatedRoute extends React.Component<MergedProps, void> {
+  class AuthenticatedRoute extends React.Component<MergedProps> {
     componentDidMount() {
       if (!getUserDataCookie()) {
         anonymousAccess().then(() => {

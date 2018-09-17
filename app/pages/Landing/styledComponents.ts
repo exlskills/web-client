@@ -1,7 +1,7 @@
 import { Button } from '@blueprintjs/core'
 import { CenterContainer } from 'common/components/styledComponents'
 import styled from 'styled-components'
-import { Box } from 'grid-styled'
+import { Box, BoxProps } from 'grid-styled'
 
 export const Wrapper = styled.div`
   // background-image: url('https://www.pixelstalk.net/wp-content/uploads/2016/07/Computer-Science-HD-Wallpapers.jpg');
@@ -50,7 +50,7 @@ export const LoginWrapper = styled.div.attrs({
     width: 300px;
   }
 `
-export const ContentWrapper = styled(Box).attrs({
+export const ContentWrapper = styled(Box).attrs<BoxProps>({
   width: [1, 1 / 2]
 })`
   margin-bottom: 20px;

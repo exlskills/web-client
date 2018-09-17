@@ -20,7 +20,7 @@ export interface IProps extends FormGroupProps {
   textarea?: boolean
 }
 
-class Input extends React.Component<InputProps, void> {
+class Input extends React.Component<InputProps> {
   static defaultProps = {
     type: 'text',
     error: '',

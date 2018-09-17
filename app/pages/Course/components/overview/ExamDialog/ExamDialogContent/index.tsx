@@ -137,7 +137,7 @@ class ExamDialogContent extends React.PureComponent<MergedProps, any> {
           </h3>
           <Button
             intent={Intent.NONE}
-            iconName={'repeat'}
+            icon={'repeat'}
             text={formatMessage(messages.lbRetakeQuiz)}
             onClick={this.handleRetakeQuiz}
           />

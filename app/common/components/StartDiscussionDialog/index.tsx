@@ -167,4 +167,4 @@ class StartDiscussionDialog extends React.PureComponent<
   }
 }
 
-export default injectIntl<IProps>(StartDiscussionDialog)
+export default injectIntl<IProps & InjectedIntlProps>(StartDiscussionDialog)

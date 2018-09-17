@@ -87,7 +87,7 @@ interface IStates {
 }
 
 @requireAuthentication(1)
-class CourseListing extends React.PureComponent<MergedProps, IStates> {
+class CourseListing extends React.Component<MergedProps, IStates> {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props: MergedProps) {
     super(props)
@@ -104,7 +104,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
     }
   }
 
-  componentWillReceiveProps = (nextProps: MergedProps) => {
+  componentWillReceiveProps(nextProps: MergedProps) {
     if (nextProps.location.pathname.endsWith('enrolled')) {
       this.handleMenuChange(MenuItems.MY_COURSES)
       return
@@ -354,4 +354,4 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
   }
 }
 
-export default injectIntl(withRouter<any>(CourseListing))
+export default injectIntl(withRouter(CourseListing))

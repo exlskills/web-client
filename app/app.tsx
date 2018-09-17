@@ -59,10 +59,12 @@ notoSansFontObserver
   })
 
 // Try to preload large fonts used by blueprint
+/*
 const icon20FontObserver = new FontFaceObserver('Icons20')
 icon20FontObserver.load().then().catch()
 const icon16FontObserver = new FontFaceObserver('Icons16')
 icon16FontObserver.load().then().catch()
+*/
 // Small custom font used by Sly
 //const slickFontObserver = new FontFaceObserver('slick')
 //slickFontObserver

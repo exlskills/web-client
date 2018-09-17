@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { findIndex } from 'lodash'
 
 import Routes from 'routes/index'
@@ -37,12 +38,11 @@ const mapStateToProps = createStructuredSelector({
 })
 
 class App extends React.PureComponent<
-  IProps & IStateToProps & RouteComponentProps<string>,
-  void
+  IProps & IStateToProps & RouteComponentProps<string>
 > {
   // eslint-disable-line react/prefer-stateless-function
   static childContextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   getChildContext() {
     return {

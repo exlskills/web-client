@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import * as PropTypes from 'prop-types'
 import {
   CardHeader,
   UnitTitle,
@@ -13,8 +13,8 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
 import commit from '../mutations/UpdateUserCourseRoleMutation'
 import messages from './messages'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import { Switch } from '@blueprintjs/core'
 
 interface IProps {
@@ -46,7 +46,7 @@ class StatusCardDump extends React.Component<
     enrollDisabled: false
   }
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -58,7 +58,7 @@ class StatusCardDump extends React.Component<
     })
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.setState({ enrolled: this.props.enrolled })
   }
 

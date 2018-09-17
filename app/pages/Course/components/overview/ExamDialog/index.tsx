@@ -10,8 +10,7 @@ import {
   SubHeaderText
 } from './styledComponents'
 import DialogSidebar from './DialogSidebar'
-import * as SplitPane from 'react-split-pane'
-import { ICellItem } from '../ProgressCells/index'
+import SplitPane from 'react-split-pane'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
 import messages from './messages'
@@ -66,8 +65,9 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
 
   updateQuizAction = () => {
     const { formatMessage } = this.props.intl
-    document.getElementById('unit-' + this.props.state.examUnit.id).innerHTML =
-      '<span>' + formatMessage(messages.takePracticeMessage) + '</span>'
+    document.getElementById(
+      `unit-${this.props.state.examUnit.id}`
+    ).innerHTML = `<span>${formatMessage(messages.takePracticeMessage)}</span>`
     this.props.effects.setExamModalOpen(false)
     this.setState({ showConfirmDialog: false })
     UpdateQuizlvl(
@@ -162,7 +162,7 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
         onClose={this.handleCloseConfirm}
         canOutsideClickClose={true}
       >
-        <DialogContent>
+        <DialogContent isOpen={isOpen}>
           <SplitPane
             size={300}
             primary="second"

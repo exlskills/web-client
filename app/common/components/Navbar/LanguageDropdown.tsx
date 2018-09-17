@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import * as PropTypes from 'prop-types'
 import {
   Menu,
   Popover,
@@ -45,7 +45,7 @@ class LanguageDropdown extends React.PureComponent<
     contentPop: ''
   }
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
   handleLocaleClick = (locale: SupportedLocales) => () => {

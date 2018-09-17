@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Wrapper } from './styledComponents'
 import { SideBarMenu } from 'common/components/loaders'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+
 import messages from './messages'
 import { RouteComponentProps } from 'react-router'
 import { getFirstPath } from 'common/utils/routes'

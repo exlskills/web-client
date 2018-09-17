@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Dialog } from '@blueprintjs/core'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 
 export const Wrapper = styled(Dialog)`
   max-width: 1300px;
@@ -17,7 +17,7 @@ export const DialogContent = styled.div.attrs({
   height: 100%;
 `
 
-export const Header = styled(Flex).attrs({
+export const Header = styled(Flex).attrs<FlexProps>({
   column: true,
   justify: 'space-between',
   align: 'flex-start'

@@ -7,7 +7,7 @@ import {
 } from '@blueprintjs/core'
 import styled from 'styled-components'
 import { Title } from 'common/components/styledComponents'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 import { CardWrapper } from 'pages/Course/components/styledComponents'
 import { fadeFromTop } from 'common/utils/animations'
 
@@ -115,8 +115,8 @@ export const CardContent = styled(Collapse)`
   }
 `
 
-export const RowRightWrapper = styled(Flex).attrs({
-  wrap: true,
+export const RowRightWrapper = styled(Flex).attrs<FlexProps>({
+  wrap: 'true',
   flex: 2,
   align: 'center',
   justify: 'flex-end'
@@ -126,7 +126,7 @@ export const RowRightWrapper = styled(Flex).attrs({
 
 export const HeaderLeft = styled.div`cursor: pointer;`
 
-export const HeaderRight = styled(Flex).attrs({
+export const HeaderRight = styled(Flex).attrs<FlexProps>({
   align: 'center',
   justify: 'flex-end',
   width: 1 / 4

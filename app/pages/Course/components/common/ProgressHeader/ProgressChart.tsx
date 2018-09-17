@@ -8,8 +8,8 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 import CustomizedAxisTick from './CustomizedAxisTick'
 

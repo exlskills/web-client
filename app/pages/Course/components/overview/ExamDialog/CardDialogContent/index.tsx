@@ -4,6 +4,7 @@ import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 
 import { injectState } from 'freactal'
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 
@@ -12,7 +13,6 @@ import { ConceptMesssage } from './styledComponents'
 import { WS_EVENTS } from 'common/ws/constants'
 import wsclient from 'common/ws/client'
 
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
 let Markdown = require('react-remarkable')
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`
@@ -36,7 +36,7 @@ class CardDialogContent extends React.Component<
   IStates
 > {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 

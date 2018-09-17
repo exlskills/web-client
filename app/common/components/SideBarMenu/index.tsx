@@ -12,12 +12,11 @@ import {
 } from './styledComponents'
 import CollapsibleItem from './CollapsibleItem'
 import { MenuHeaderIcon } from './styledComponents'
-// import { InjectedIntlProps } from 'react-intl'
 import { setMobileSidebarData } from '../../store/actions'
 import { createStructuredSelector } from 'reselect'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { replacePathSuffix } from 'common/utils/routes'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { isMobile } from 'common/utils/screen'
 import { PlainLink } from 'common/components/loaders'
 
@@ -61,6 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch<string>) => ({
 })
 
 type MergedProps = IProps &
+  InjectedIntlProps &
   IDispatchToProps &
   IStateToProps &
   RouteComponentProps<any>
@@ -84,20 +84,20 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
     }
   }
 
-  componentWillReceiveProps = (p: MergedProps) => {
+  componentWillReceiveProps(p: MergedProps) {
     if (isMobile()) {
       this.deferToGlobalNavbar(p)
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     window.addEventListener('resize', this.updateIsMobile)
     if (isMobile()) {
       this.deferToGlobalNavbar(this.props)
     }
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.updateIsMobile)
     this.clearGlobalNavbar()
   }
@@ -124,7 +124,7 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
     } else if (isHeader) {
       return (
         <SidebarMenuHeader key={idx}>
-          {iconName && <MenuHeaderIcon iconName={iconName} />}
+          {iconName && <MenuHeaderIcon icon={iconName} />}
           {avatarName &&
             <HeaderAvatar size={30} name={avatarName} src={avatarSrc} />}
           {/* TODO put text and avatar on the same line*/}
@@ -193,4 +193,4 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
 export default connect<IStateToProps, IDispatchToProps, IProps>(
   mapStateToProps,
   mapDispatchToProps
-)(injectIntl(withRouter<any>(SideBarMenu)))
+)(injectIntl(withRouter(SideBarMenu)))

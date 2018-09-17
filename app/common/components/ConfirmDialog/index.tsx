@@ -25,7 +25,6 @@ export default class ConfirmDialog extends React.PureComponent<
     return (
       <Dialog
         className={localStorage.getItem('theme')}
-        iconName="inbox"
         isOpen={props.showDialog}
         onClose={props.onCancel}
         title={messageText.title}

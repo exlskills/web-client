@@ -130,11 +130,11 @@ class SubscriptionDialog extends React.PureComponent<MergedProps, IStates> {
                 <PricingHeader>Free</PricingHeader>
                 <PricingDescription>Description</PricingDescription>
                 <PricingFeature>
-                  <PricingCheckedIcon iconName={'tick'} />
+                  <PricingCheckedIcon icon={'tick'} />
                   <span>Feature</span>
                 </PricingFeature>
                 <PricingFeature>
-                  <PricingExcludedIcon iconName={'cross'} />
+                  <PricingExcludedIcon icon={'cross'} />
                   <span>Feature</span>
                 </PricingFeature>
               </PricingColInner>

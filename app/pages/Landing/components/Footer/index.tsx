@@ -1,5 +1,5 @@
 import Logo from 'common/components/Navbar/Logo'
-import { Box, Flex } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 import * as React from 'react'
 
 import {
@@ -12,7 +12,7 @@ import {
 
 interface IProps {}
 
-class Footer extends React.Component<IProps, void> {
+class Footer extends React.Component<IProps> {
   render() {
     return (
       <Wrapper>

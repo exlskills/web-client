@@ -1,7 +1,5 @@
-import { Button } from '@blueprintjs/core'
-import { Box, Flex } from 'grid-styled'
 import styled from 'styled-components'
-import * as ReactSplitPane from 'react-split-pane'
+import ReactSplitPane from 'react-split-pane'
 
 const pointWidth = 60
 const pointMargin = 10

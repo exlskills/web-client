@@ -9,7 +9,8 @@ import {
   Timer,
   TextTitle
 } from './styledComponents'
-import { Icon, Intent } from '@blueprintjs/core'
+import { Intent } from '@blueprintjs/core'
+import { Icon } from 'common/components/styledComponents'
 import messages from '../../messages'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 

@@ -12,7 +12,7 @@ export interface IProps extends FormGroupProps {
   groupStyle?: any
 }
 
-class Search extends React.Component<InputProps, void> {
+class Search extends React.Component<InputProps> {
   static defaultProps = {
     type: 'search',
     error: '',

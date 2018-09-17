@@ -10,12 +10,16 @@ import * as ruTranslationMessages from './translations/ru.json'
 import * as zhHKTranslationMessages from './translations/zh-HK.json'
 import * as zhTWTranslationMessages from './translations/zh-TW.json'
 import * as esTranslationMessages from './translations/es.json'
-import Messages = ReactIntl.Messages
 const DEFAULT_LOCALE = 'en'
 
 export const appLocales = ['en', 'zh', 'ru', 'es', 'zh-HK', 'zh-TW']
 
-addLocaleData([...enLocaleData, ...zhLocaleData, ...esLocaleData, ...ruLocaleData])
+addLocaleData([
+  ...enLocaleData,
+  ...zhLocaleData,
+  ...esLocaleData,
+  ...ruLocaleData
+])
 
 export const formatTranslationMessages = (locale: string, messages: any) => {
   const defaultFormattedMessages =

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { injectIntl } from 'react-intl'
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 import CardRow from 'pages/Course/components/overview/UnitCard/CardRow'
 import { ExamButton } from './styledComponents'
 import { RowRightWrapper } from 'pages/Course/components/overview/UnitCard/styledComponents'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+
 import messages from './messages'
 import { indexToLetter } from '../../../../../../common/utils/ordered-list'
 import { Intent } from '@blueprintjs/core'
@@ -46,7 +46,7 @@ class UnitExamRow extends React.Component<IProps & InjectedIntlProps, {}> {
             <ExamButton
               intent={isNextStep ? Intent.SUCCESS : Intent.NONE}
               onClick={onStart}
-              iconName={'clipboard'}
+              icon={'clipboard'}
               text={
                 this.props.is_continue_exam == false
                   ? formatMessage(messages.takeExam)

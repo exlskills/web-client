@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import {
   Wrapper,
   //  ChartWrapper,
@@ -20,8 +21,8 @@ import {
 } from './styledComponents'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
+
 import messages from './messages'
 // import StatusCard from '../StatusCard'
 import { toUrlId } from '../../../../../common/utils/urlid'
@@ -37,7 +38,7 @@ class UpNext extends React.Component<
   {}
 > {
   static contextTypes = {
-    viewer: React.PropTypes.object
+    viewer: PropTypes.object
   }
   context: any
 
@@ -128,7 +129,7 @@ class UpNext extends React.Component<
             fontSize: '92px',
             marginBottom: '20px'
           }}
-          iconName={'star'}
+          icon={'star'}
         />
         <div style={{ marginBottom: '15px' }}>
           {formatMessage(messages.lbUpNextCongratulations, {
@@ -163,13 +164,13 @@ class UpNext extends React.Component<
         </UpNextHeadline>
         <UpNextPrimaryButton
           onClick={this.handleUnitExamStart(unit)}
-          iconName={'clipboard'}
+          icon={'clipboard'}
         >
           {formatMessage(messages.takeExam)}
         </UpNextPrimaryButton>
         <UpNextSecondaryButton
           onClick={this.handleTakeUnitQuiz(unit)}
-          iconName={'social-media'}
+          icon={'social-media'}
         >
           {formatMessage(messages.practice)}
         </UpNextSecondaryButton>
@@ -192,13 +193,13 @@ class UpNext extends React.Component<
         </UpNextHeadline>
         <UpNextPrimaryButton
           onClick={this.handleTakeUnitQuiz(unit)}
-          iconName={'log-in'}
+          icon={'log-in'}
         >
           {formatMessage(messages.preQuiz)}
         </UpNextPrimaryButton>
         <UpNextSecondaryButton
           onClick={this.handleSectionClick(unit, firstSection)}
-          iconName={'double-chevron-right'}
+          icon={'double-chevron-right'}
         >
           {formatMessage(messages.jumpIn)}
         </UpNextSecondaryButton>
@@ -228,13 +229,13 @@ class UpNext extends React.Component<
         </UpNextHeadline>
         <UpNextPrimaryButton
           onClick={this.handleCardClick(unit, section, card)}
-          iconName={'log-in'}
+          icon={'log-in'}
         >
           {formatMessage(messages.continueLearning)}
         </UpNextPrimaryButton>
         <UpNextSecondaryButton
           onClick={this.handleTakeSectionQuiz(unit, section)}
-          iconName={'social-media'}
+          icon={'social-media'}
         >
           {formatMessage(messages.practice)}
         </UpNextSecondaryButton>

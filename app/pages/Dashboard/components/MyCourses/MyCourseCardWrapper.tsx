@@ -36,10 +36,10 @@ interface LastAccessedFields {
 }
 
 interface IProps {
-  item: CardProps
-  unit_id: string
-  section_id: string
-  card_id: string
+  item?: CardProps
+  unit_id?: string
+  section_id?: string
+  card_id?: string
 }
 interface IStates {}
 
@@ -117,7 +117,5 @@ class MyCourseCardWrapperComponent extends React.Component<
 }
 
 // I have no idea why I have to do this... None of the other export methods that I tried worked (compiler errors)
-let MyCourseCardWrapper = injectIntl(
-  withRouter<any>(MyCourseCardWrapperComponent)
-)
+let MyCourseCardWrapper = injectIntl(withRouter(MyCourseCardWrapperComponent))
 export { MyCourseCardWrapper }

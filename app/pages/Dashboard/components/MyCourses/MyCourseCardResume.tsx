@@ -151,7 +151,5 @@ class MyCourseCardResumeComponent extends React.Component<
 }
 
 // I have no idea why I have to do this... None of the other export methods that I tried worked (compiler errors)
-let MyCourseCardResume = injectIntl(
-  withRouter<any>(MyCourseCardResumeComponent)
-)
+let MyCourseCardResume = injectIntl(withRouter(MyCourseCardResumeComponent))
 export { MyCourseCardResume }

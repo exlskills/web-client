@@ -1,16 +1,16 @@
 import { ContentWrapper } from 'common/components/styledComponents'
 import styled from 'styled-components'
-import { Box, Flex } from 'grid-styled'
-import * as ReactSplitPane from 'react-split-pane'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
+import ReactSplitPane from 'react-split-pane'
 import { mobileBPCSS } from '../../common/utils/screen'
 
-export const Wrapper = ContentWrapper.extend.attrs({
+export const Wrapper = ContentWrapper.extend.attrs<FlexProps>({
   column: false
 })`
   padding: 0;
 `
 
-export const SidebarBox = styled(Flex).attrs({
+export const SidebarBox = styled(Flex).attrs<FlexProps>({
   justify: 'flex-start',
   column: true
 })`
@@ -19,7 +19,7 @@ export const SidebarBox = styled(Flex).attrs({
   height: 100%;
 `
 
-export const ContentsBox = styled(Box).attrs({
+export const ContentsBox = styled(Box).attrs<BoxProps>({
   px: 2
 })`
   width: 100%;

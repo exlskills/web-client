@@ -1,5 +1,5 @@
 import { CenterContainer } from 'common/components/styledComponents'
-import { Box, Flex } from 'grid-styled'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
 import styled from 'styled-components'
 
 export const Wrapper = CenterContainer.extend`
@@ -8,8 +8,8 @@ export const Wrapper = CenterContainer.extend`
   font-size: 1.3rem;
 `
 
-export const TopWrapper = styled(Flex).attrs({
-  wrap: true,
+export const TopWrapper = styled(Flex).attrs<FlexProps>({
+  wrap: 'true',
   justify: 'flex-start'
 })`
   margin: 15px 0;
@@ -32,16 +32,16 @@ export const CalendarWrapper = PanelWrapper.extend`
   margin-bottom: 50px;
 `
 
-export const MetricWrapper = styled(Flex).attrs({
+export const MetricWrapper = styled(Flex).attrs<FlexProps>({
   className: 'pt-card',
-  wrap: true,
+  wrap: 'true',
   justify: 'space-around'
 })`
   margin: 30px 0;
   font-size: 1rem;
 `
 
-export const Metric = styled(Box).attrs({
+export const Metric = styled(Box).attrs<BoxProps>({
   width: [1, 1 / 4]
 })`
   text-align: center;

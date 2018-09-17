@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Text, Tag as BTag } from '@blueprintjs/core'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 
 export const CenterContainer = styled.div`
   margin: 0 auto;
@@ -47,7 +47,7 @@ export const Icon = styled.span.attrs<IconProps>({
   ${props => props.link && 'cursor: pointer;'}
 `
 
-export const ContentWrapper = styled(Flex).attrs({
+export const ContentWrapper = styled(Flex).attrs<FlexProps>({
   column: true,
   pt: 3,
   pb: 3

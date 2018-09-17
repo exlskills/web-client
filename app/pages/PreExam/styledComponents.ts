@@ -1,6 +1,6 @@
 import { Button, Intent } from '@blueprintjs/core'
-import { Box, Flex } from 'grid-styled'
-import * as ReactSplitPane from 'react-split-pane'
+import { Flex, FlexProps, Box, BoxProps } from 'grid-styled'
+import ReactSplitPane from 'react-split-pane'
 import styled from 'styled-components'
 export const Wrapper = styled.div``
 export const TakeButton = styled(Button).attrs({

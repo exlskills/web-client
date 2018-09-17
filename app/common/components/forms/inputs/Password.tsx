@@ -49,11 +49,7 @@ export default class PasswordInput extends React.Component<IProps, IState> {
         onChange={onChange}
         value={value}
         className="pt-large"
-        type={showPassword ? 'text' : 'password'}
-        leftIconName="lock"
-        rightElement={togglable && this.renderEyeToggle()}
         placeholder="Password"
-        intent={error && Intent.DANGER}
       />
     )
   }

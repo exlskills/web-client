@@ -5,8 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
 import { GradesTable, IFreactalProps, ProgressHeader } from 'pages/Course'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
-import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { InjectedIntlProps, injectIntl } from 'react-intl'
 
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'

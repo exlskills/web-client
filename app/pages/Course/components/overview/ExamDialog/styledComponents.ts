@@ -1,7 +1,7 @@
 import { CenterContainer } from 'common/components/styledComponents'
-import styled from 'styled-components'
+import styled, { ThemedOuterStyledProps } from 'styled-components'
 import { Dialog, IDialogProps } from '@blueprintjs/core'
-import { Flex } from 'grid-styled'
+import { Flex, FlexProps } from 'grid-styled'
 
 export const Wrapper = styled(Dialog)`
   max-width: 1300px;
@@ -10,7 +10,7 @@ export const Wrapper = styled(Dialog)`
   padding-bottom: 0;
 `
 
-export const DialogContent = styled.div.attrs({
+export const DialogContent = styled.div.attrs<IDialogProps>({
   className: 'pt-dialog-body'
 })`
   position: relative;
@@ -18,7 +18,7 @@ export const DialogContent = styled.div.attrs({
   height: 100%;
 `
 
-export const Header = styled(Flex).attrs({
+export const Header = styled(Flex).attrs<FlexProps>({
   column: true,
   justify: 'space-between',
   align: 'flex-start'
