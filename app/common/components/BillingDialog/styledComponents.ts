@@ -1,6 +1,6 @@
 import { CenterContainer } from 'common/components/styledComponents'
 import styled from 'styled-components'
-import { Dialog, IDialogProps, IPopoverProps, Popover } from '@blueprintjs/core'
+import { Dialog, Icon, IDialogProps } from '@blueprintjs/core'
 import { Flex } from 'grid-styled'
 
 export const Wrapper = styled(Dialog)`
@@ -8,12 +8,9 @@ export const Wrapper = styled(Dialog)`
   width: 85%;
   min-height: 650px;
   padding-bottom: 0;
-  height: 90%;
-  margin-top: 0px;
   
-  @media (max-width: 768px) {
+  @media (max-width: 769px) {
     width: 100%;
-    height: unset;
     margin: 0;
     top: 0;
     bottom: 0;
@@ -24,28 +21,14 @@ export const Wrapper = styled(Dialog)`
 export const DialogContent = styled.div.attrs({
   className: 'pt-dialog-body'
 })`
+  padding: 20px;
   margin: 0;
 `
 
-export interface IFooterWrapperProps {
-  isMobile?: boolean
-  examCardOpen?: boolean
-}
-
-export const DialogContentInner = styled.div.attrs<IFooterWrapperProps>({})`
+export const DialogContentInner = styled.div`
   position: absolute;
   width: 100%;
-  ${props => {
-    if (props.isMobile && props.examCardOpen) {
-      return `height: calc(100% - 60px);`
-    } else if (props.isMobile) {
-      return `height: calc(100% - 200px);`
-    } else if (props.examCardOpen) {
-      return `height: calc(100% - 60px);`
-    } else {
-      return `height: calc(100% - 110px);`
-    }
-  }}
+  height: 100%;
   overflow-y: scroll;
 `
 
@@ -56,25 +39,6 @@ export const Header = styled(Flex).attrs({
 })`
   margin-top: 0.4rem;
 `
-
-export const FooterWrapper = styled.div.attrs<IFooterWrapperProps>({})`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  overflow-y: auto;
-  ${props => {
-    if (props.isMobile && props.examCardOpen) {
-      return `height: 60px;`
-    } else if (props.isMobile) {
-      return `height: 240px;`
-    } else if (props.examCardOpen) {
-      return `height: 60px;`
-    } else {
-      return `height: 110px;`
-    }
-  }}
-`
-
 export const ConceptMesssage = styled.div`
   position: relative;
   font-size: 1em;
@@ -97,6 +61,7 @@ export const ResultWrapper = CenterContainer.extend`
   margin-top: 6rem;
   height: auto;
   h3 {
+    color: #333;
     margin-bottom: 15px;
   }
   .pt-icon {

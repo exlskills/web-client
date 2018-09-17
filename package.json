@@ -209,6 +209,7 @@
     "react-slick": "^0.14.11",
     "react-split-pane": "^0.1.64",
     "react-sticky": "^6.0.1",
+    "react-stripe-elements": "^2.0.1",
     "react-transition-group": "^2.2.1",
     "react-user-avatar": "^1.10.0",
     "recharts": "^1.0.0-alpha.2",

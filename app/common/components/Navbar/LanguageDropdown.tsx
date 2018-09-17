@@ -89,7 +89,9 @@ class LanguageDropdown extends React.PureComponent<
     //this.setState({contentPop:this.renderMenu(props)})
     return (
       <Popover
-        popoverClassName={`pt-minimal ${this.props.theme}`}
+        popoverClassName={`pt-minimal ${this.props.theme == 'pt-dark'
+          ? 'pt-dark'
+          : ''}`}
         content={this.state.contentPop}
         position={Position.BOTTOM_RIGHT}
       >

@@ -135,7 +135,9 @@ class NotificationsDropdown extends React.Component<
       <Popover
         isOpen={this.state.popoverOpen}
         onInteraction={this.onPopoverInteraction}
-        popoverClassName={`pt-minimal ${this.props.theme}`}
+        popoverClassName={`pt-minimal ${this.props.theme == 'pt-dark'
+          ? 'pt-dark'
+          : ''}`}
         position={Position.BOTTOM_RIGHT}
         content={this.renderNotifications(notifications)}
       >

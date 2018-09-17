@@ -13,6 +13,7 @@ type MergedProps = IProps & IFreactalProps
 
 class ContentDump extends React.PureComponent<MergedProps, any> {
   handleAnswerChange = (answer: AnswerProps) => {
+    console.log('GOT ANSWER CHANGE: ', answer)
     this.props.effects.setExamAnswer(answer)
   }
 
@@ -22,11 +23,13 @@ class ContentDump extends React.PureComponent<MergedProps, any> {
     const explanation = this.props.state.examExplanation
     let explanationData: any = {}
     if (explanation) {
-      explanationData.defaultShowExplan = true
-      explanationData.explanContent = explanation
+      explanationData.defaultShowExplanation = true
+      explanationData.explanationContent = explanation
     } else {
-      explanationData.defaultShowExplan = false
+      explanationData.defaultShowExplanation = false
     }
+
+    console.log('RERENDER: ', this.props.state.examAnswer)
 
     return (
       <ExamQuestion

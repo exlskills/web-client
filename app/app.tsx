@@ -42,6 +42,8 @@ import {
 import { getViewer } from './common/utils/viewer'
 import { jwtRefresh } from './common/http/auth'
 
+const rse = require('react-stripe-elements') as any
+
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
 const html = document.documentElement
@@ -109,11 +111,13 @@ const render = (messages: any) => {
       clearInterval(isAuthedInterval)
       ReactDOM.render(
         <Provider store={store}>
+          {/* TODO stripe <rse.StripeProvider apiKey="">*/}
           <LanguageProvider messages={messages}>
             <ConnectedRouter history={browserHistory}>
               <App />
             </ConnectedRouter>
           </LanguageProvider>
+          {/*</rse.StripeProvider>*/}
         </Provider>,
         document.getElementById('app')
       )

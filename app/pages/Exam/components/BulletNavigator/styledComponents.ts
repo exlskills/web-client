@@ -13,6 +13,7 @@ const Arrow = styled(Icon).attrs({
   font-weight: bold !important;
   color: ${(props: ArrowProps) => (props.disabled ? '#aaa' : '#666')};
   position: relative;
+  max-width: 300px;
 
   &:after {
     content: "";

@@ -238,7 +238,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
             <SideBarMenu
               items={[
                 {
-                  text: 'Courses',
+                  text: formatMessage(messages.lbCoursesHeading),
                   iconName: 'book',
                   isHeader: true
                 },

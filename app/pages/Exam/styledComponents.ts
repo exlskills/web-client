@@ -48,6 +48,10 @@ export const Goback = styled(Button)`
 export const Navigator = styled.div`
   flex: 1;
   text-align: center;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 6px;
+  margin-bottom: 18px;
 `
 
 export const QuestionWrapper = styled(Box).attrs({

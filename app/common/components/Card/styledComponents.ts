@@ -44,7 +44,7 @@ export const CardBadge = styled.div`
   height: 50px;
   left: 5px;
   top: 5px;
-  z-index: 100;
+  z-index: 1;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

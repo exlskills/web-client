@@ -9,12 +9,12 @@ import {
   ErrorResult,
   WrongResult,
   CorrectResult,
-  ResultButton
+  ResultButton,
+  ButtonRow,
+  HalfRow,
+  AnswerHintRow
 } from './styledComponents'
-import { QuestionType } from 'common/components/ExamQuestion'
-import ProgressCells, {
-  ICellItem
-} from 'pages/Course/components/overview/ProgressCells'
+
 import { Collapse, Intent, Popover, Position } from '@blueprintjs/core'
 import messages from '../messages'
 import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl'
@@ -23,7 +23,8 @@ import { IFreactalProps } from 'pages/Course'
 import SubmitQuizAnswerMutation from '../../mutations/SubmitQuizAnswerMutation'
 import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'
-import { processCourseData } from '../../../../utils/course_data_processor'
+import { AnswerButtonPopover } from './styledComponents'
+
 interface IProps {
   disableSubmit?: boolean
   disableHint?: boolean
@@ -37,7 +38,7 @@ interface IStates {
   explanation: string
 }
 
-class ExamModalSidebar extends React.Component<MergedProps, IStates> {
+class ExamDialogFooter extends React.Component<MergedProps, IStates> {
   static defaultProps = {
     disableSubmit: false,
     disableHint: false
@@ -81,41 +82,46 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     }
     const { examQuestion, examAnswer, examQuizId, examUnit } = this.props.state
     if (this.hasAnswer()) {
-      this.setState({
-        showPopover: true,
-        result: 'checking'
-      })
-      SubmitQuizAnswerMutation(
-        examQuestion.id,
-        examQuizId,
-        this.encodeAnswers(examAnswer),
-        false
-      ).then((res: any) => {
-        if (!res || !res.submitAnswer) {
-          this.setState({
-            showPopover: true,
-            result: 'error'
-          })
-          return
-        }
-
-        if (res.submitAnswer.is_correct) {
-          this.setState({ showPopover: true, result: 'correct' })
-          if (document.getElementById('havent-learn')) {
-            document
-              .getElementById('havent-learn')
-              .setAttribute('disabled', 'true')
-          }
-          return
-        }
-        // const explain = res.submitAnswer.explain_text
-        // this.setState({ explainText: explain })
-        this.setState({
+      this.setState(
+        {
           showPopover: true,
-          result: 'wrong',
-          explanation: res.submitAnswer.explain_text
-        })
-      })
+          result: 'checking'
+        },
+        () => {
+          SubmitQuizAnswerMutation(
+            examQuestion.id,
+            examQuizId,
+            this.encodeAnswers(examAnswer),
+            false
+          ).then((res: any) => {
+            if (!res || !res.submitAnswer) {
+              this.setState({
+                showPopover: true,
+                result: 'error'
+              })
+              return
+            }
+
+            if (res.submitAnswer.is_correct) {
+              this.setState({ showPopover: true, result: 'correct' })
+              if (document.getElementById('havent-learn')) {
+                document
+                  .getElementById('havent-learn')
+                  .setAttribute('disabled', 'true')
+              }
+              return
+            }
+            // const explain = res.submitAnswer.explain_text
+            // this.setState({ explainText: explain })
+            console.log('WRONG: ', res)
+            this.setState({
+              showPopover: true,
+              result: 'wrong',
+              explanation: res.submitAnswer.explain_text
+            })
+          })
+        }
+      )
     } else {
       this.setState({
         showPopover: true,
@@ -192,6 +198,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
         </div>
       )
     } else if (this.state.result == 'answer') {
+      console.log('make fooooooo ', this.props.state.examAnswer)
       content = (
         <ErrorResult>
           <FormattedMessage {...messages.txtAnswerEmpty} />
@@ -219,12 +226,16 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
           />
         </div>
       )
-    } else {
-      // if (this.state.result == 'checking') {
+    } else if (this.state.result == 'checking') {
       content = (
         <div>
           <FormattedMessage {...messages.txtChecking} />
         </div>
+      )
+    } else {
+      console.log(
+        'Have empty result type when rendering dialog contents. this.state=',
+        this.state
       )
     }
 
@@ -234,6 +245,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
       </ResultPopoverContent>
     )
   }
+
   renderButtonAnswer = () => {
     const haveQuestion = this.props.state.examQuestion
     const { intl, disableSubmit } = this.props
@@ -245,7 +257,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
 
     if (this.props.state.examExplanation == '') {
       return (
-        <Popover
+        <AnswerButtonPopover
           isOpen={this.state.showPopover}
           onInteraction={this.onInteraction}
           content={this.renderResultPopover()}
@@ -257,7 +269,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
             intent={Intent.PRIMARY}
             onClick={this.handleSubmitClick}
           />
-        </Popover>
+        </AnswerButtonPopover>
       )
     } else {
       return (
@@ -275,8 +287,7 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
       return <div />
     }
 
-    const { intl } = this.props
-    const { formatMessage } = intl
+    const { formatMessage } = this.props.intl
     const haveQuestion = this.props.state.examQuestion
     let disableButtonHave = false
     if (!haveQuestion) {
@@ -288,20 +299,20 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     if (this.props.state.examExplanation != '') {
       disableButtonHave = true
     }
+
     return (
-      <Row>
-        <Title>
-          {formatMessage(messages.answerTitle)}
-        </Title>
-        {this.renderButtonAnswer()}
-        <Button
-          id="havent-learn"
-          text={formatMessage(messages.notLearnedButton)}
-          disabled={disableButtonHave}
-          intent={Intent.WARNING}
-          onClick={this.handleNotLearnedClick}
-        />
-      </Row>
+      <HalfRow>
+        <ButtonRow>
+          {this.renderButtonAnswer()}
+          <Button
+            id="havent-learn"
+            text={formatMessage(messages.notLearnedButton)}
+            disabled={disableButtonHave}
+            intent={Intent.WARNING}
+            onClick={this.handleNotLearnedClick}
+          />
+        </ButtonRow>
+      </HalfRow>
     )
   }
 
@@ -320,11 +331,12 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     if (haveQuestion == null) {
       disableHint = true
     }
+
     return (
-      <Row>
-        <Title>
-          {formatMessage(messages.hintTitle)}
-        </Title>
+      <HalfRow>
+        <Collapse isOpen={showHint}>
+          <QuestionHint shouldFetch={showHint} questionId={questionId} />
+        </Collapse>
         <Button
           disabled={disableHint}
           text={formatMessage(
@@ -332,12 +344,9 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
           )}
           iconName="help"
           onClick={this.toggleShowHint}
-          style={{ marginBottom: '10px' }}
+          style={{ marginBottom: '10px', float: 'right' }}
         />
-        <Collapse isOpen={showHint}>
-          <QuestionHint shouldFetch={showHint} questionId={questionId} />
-        </Collapse>
-      </Row>
+      </HalfRow>
     )
   }
 
@@ -351,11 +360,6 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
     }
     return (
       <Row>
-        <Title>
-          {formatMessage(
-            cardOpen ? messages.readyTitle : messages.learnMoreTitle
-          )}
-        </Title>
         <Button
           iconName="book"
           text={formatMessage(
@@ -369,43 +373,19 @@ class ExamModalSidebar extends React.Component<MergedProps, IStates> {
   }
 
   render() {
-    const {
-      examQuestion,
-      examAnswer,
-      examQuizId,
-      examAllUnits,
-      examUnit,
-      examUnitId,
-      examSection,
-      examSectionId,
-      examType
-    } = this.props.state
-    const currUnit = examAllUnits.unitsById[examUnitId]
-    let progressList = currUnit.sections_list
-    if (examType == 'section') {
-      const sectionData = currUnit.sections_list.find(
-        (item: any) => item.id == examSection.id
-      )
-      progressList = []
-      if (sectionData) {
-        progressList = sectionData.cards_list
-      }
-    }
-    const activeCardId = examQuestion ? examQuestion.card_id : null
+    console.log('RENDERING FOOTER: ', this.props.state.examAnswer)
+    console.log('RENDERING FOOTER RES: ', this.state.result)
 
     return (
       <Wrapper>
-        {/*<ProgressCells*/}
-        {/*width="100%"*/}
-        {/*items={progressList}*/}
-        {/*activeItem={activeCardId}*/}
-        {/*/>*/}
-        {this.renderAnswerBlock()}
-        {this.renderHintBlock()}
+        <AnswerHintRow>
+          {this.renderAnswerBlock()}
+          {this.renderHintBlock()}
+        </AnswerHintRow>
         {this.renderGoToConceptBlock()}
       </Wrapper>
     )
   }
 }
 
-export default injectIntl<IProps>(injectState(ExamModalSidebar))
+export default injectIntl<IProps>(injectState(ExamDialogFooter))

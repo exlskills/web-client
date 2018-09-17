@@ -38,7 +38,7 @@ class SectionPage extends React.Component<
               items={[
                 {
                   isHeader: true,
-                  text: formatMessage(messages.personalSettingsHeader),
+                  text: formatMessage(messages.settingsHeader),
                   iconName: 'cog'
                 },
                 {
@@ -73,8 +73,16 @@ class SectionPage extends React.Component<
           <ContentsBox>
             <Switch>
               <Route exact={true} path="/settings" component={Profile} />
-              <Route exact={true} path="/settings/privacy" component={Privacy} />
-              <Route exact={true} path="/settings/billing" component={Billing} />
+              <Route
+                exact={true}
+                path="/settings/privacy"
+                component={Privacy}
+              />
+              <Route
+                exact={true}
+                path="/settings/billing"
+                component={Billing}
+              />
               <Route exact={true} path="/settings/help" component={Help} />
             </Switch>
           </ContentsBox>

@@ -23,6 +23,7 @@ export interface ITopNavItem {
   text: string
   iconName: IconName
   path: string
+  pullBottom?: boolean
 }
 
 type MergedProps = IProps & RouteComponentProps<string> & InjectedIntlProps
@@ -79,6 +80,16 @@ class Navbar extends React.PureComponent<MergedProps, IStates> {
         path: '/courses'
       }
     ] as ITopNavItem[]
+    const mobileNavItems = [
+      ...topNavItems,
+      {
+        active: startingPath === 'settings',
+        text: formatMessage(messages.navbarSettings),
+        iconName: 'cog',
+        path: '/settings',
+        pullBottom: true
+      }
+    ] as ITopNavItem[]
     return (
       <nav className="pt-navbar pt-fixed-top">
         <CenterContainer>
@@ -98,7 +109,7 @@ class Navbar extends React.PureComponent<MergedProps, IStates> {
                   />
                 )}
           </div>
-          <NavbarRight topNavItems={topNavItems} mobile={mobile} />
+          <NavbarRight topNavItems={mobileNavItems} mobile={mobile} />
         </CenterContainer>
       </nav>
     )

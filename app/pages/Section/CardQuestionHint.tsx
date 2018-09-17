@@ -36,9 +36,9 @@ class CardQuestionHint extends React.PureComponent<IProps, any> {
     const hint = props.questionHint ? props.questionHint.hint : ''
 
     return (
-      <span>
+      <div>
         {hint}
-      </span>
+      </div>
     )
   }
 

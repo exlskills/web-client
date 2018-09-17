@@ -14,14 +14,31 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { IconName } from '@blueprintjs/core'
-import { getBadgeURLForTopic } from "../../../../../common/utils/topic-badges";
+import { getBadgeURLForTopic } from '../../../../../common/utils/topic-badges'
 
 const rootQuery = graphql`
-  query SidebarQuery($course_id: String) {
+  query SidebarQuery(
+    $first: Int!,
+    $resolverArgs: [QueryResolverArgs]!,
+    $course_id: String
+  ) {
     course: courseById(course_id: $course_id) {
       title
       logo_url
       primary_topic
+    }
+    unitPaging(first: $first, resolverArgs: $resolverArgs) {
+      edges {
+        node {
+          id
+          index
+          title
+          sections_list {
+            id
+            title
+          }
+        }
+      }
     }
   }
 `
@@ -87,6 +104,7 @@ class Sidebar extends React.PureComponent<
       },
       { isDivider: true }
     ].concat(menuItems) as any
+
     return (
       <Wrapper>
         <SidebarMenu
@@ -121,7 +139,16 @@ class Sidebar extends React.PureComponent<
     return (
       <QueryRenderer
         query={rootQuery}
-        variables={{ course_id }}
+        variables={{
+          first: 20,
+          course_id: course_id,
+          resolverArgs: [
+            {
+              param: 'course_id',
+              value: course_id
+            }
+          ]
+        }}
         environment={environment}
         render={queryRender}
       />

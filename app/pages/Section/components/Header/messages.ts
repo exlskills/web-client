@@ -11,6 +11,6 @@ export default defineMessages({
   },
   backCourseButton: {
     id: 'pages.Section.Header.backCourseBtn',
-    defaultMessage: 'Back to course'
+    defaultMessage: 'Course'
   }
 })

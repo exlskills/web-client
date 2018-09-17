@@ -9,9 +9,9 @@ export default defineMessages({
     id: 'pages.Settings.pageDescription',
     defaultMessage: 'EXLskills User Settings'
   },
-  personalSettingsHeader: {
-    id: 'pages.Settings.Sidebar.personalSettingsHeader',
-    defaultMessage: 'My Settings'
+  settingsHeader: {
+    id: 'pages.Settings.Sidebar.settingsHeader',
+    defaultMessage: 'Settings'
   },
   profileItem: {
     id: 'pages.Settings.Sidebar.profileItem',
