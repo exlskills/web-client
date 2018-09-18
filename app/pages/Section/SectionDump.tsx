@@ -409,11 +409,7 @@ class SectionDump extends React.PureComponent<
 
   handleResultButton = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    if (this.getNextCardId()) {
-      this.goToNextCard()
-    } else {
-      this.handleTheLastNext()
-    }
+    this.navigateCards(false)
   }
 
   fetchAndNavigateToSection = (
