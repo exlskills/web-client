@@ -10,7 +10,7 @@ RUN git clone https://github.com/facebook/watchman.git \
     && make install \
     && cd ..
 COPY . /app/
-RUN cp .envdefault .env
+RUN cp .envprod .env
 RUN yarn install
 RUN yarn run relay
 RUN yarn run build
