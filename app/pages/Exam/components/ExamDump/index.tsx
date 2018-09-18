@@ -14,7 +14,6 @@ import AnswerExamQuestionMutation from '../../mutations/AnswerExamQuestionMutati
 import LeaveExamMutation from '../../mutations/LeaveExamMutation'
 import {
   ContentWrapper,
-  Goback,
   Navigator,
   QuestionWrapper,
   SplitPane,
@@ -25,7 +24,6 @@ import {
 import Sidebar from '../Sidebar'
 import MobileActions from '../MobileActions'
 import SubmitCard from '../SubmitCard'
-import { Sticky } from 'react-sticky'
 import ConfirmDialog from 'common/components/ConfirmDialog'
 import { isMobile } from '../../../../common/utils/screen'
 

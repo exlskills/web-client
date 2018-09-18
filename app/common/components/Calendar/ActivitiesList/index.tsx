@@ -3,14 +3,13 @@ import { Flex, Box } from 'grid-styled'
 import { Button, Collapse } from '@blueprintjs/core'
 import { Icon } from 'common/components/styledComponents'
 import { RendererProps } from 'common/utils/relay'
-import * as moment from 'moment'
 import * as React from 'react'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { createPaginationContainer } from 'react-relay'
 import { RouteComponentProps, withRouter } from 'react-router'
-import messages from './messages'
+import { handleQueryRender } from 'common/utils/relay'
 import {
   ContentWrapper,
   EventBody,
@@ -53,19 +52,7 @@ class Activities extends React.PureComponent<
     count: PER_PAGE
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading mt="0" />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     return (
       <ActivitiesContainer
         {...props}
@@ -74,7 +61,8 @@ class Activities extends React.PureComponent<
         isOpen={this.props.isOpen}
       />
     )
-  }
+  })
+
   render() {
     return (
       <QueryRenderer

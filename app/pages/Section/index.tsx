@@ -1,15 +1,12 @@
-import Loading from 'common/components/Loading'
-import { CenterContainer } from 'common/components/styledComponents'
 import * as React from 'react'
-import Helmet from 'react-helmet'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { QueryRenderer } from 'react-relay'
 import { RouteComponentProps } from 'react-router'
 import environment from 'relayEnvironment'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
 import requireAuthentication from 'routes/requireAuthentication'
-
-import messages from './messages'
+import Loading from 'common/components/Loading'
+import { handleQueryRender } from 'common/utils/relay'
 import SectionDump from './SectionDump'
 
 const { graphql } = require('react-relay/compat')
@@ -103,19 +100,7 @@ class SectionPage extends React.Component<
     )
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     let cards = props.cardPaging ? props.cardPaging.edges : []
     let units: any[] = props.unitPaging ? props.unitPaging.edges : []
 
@@ -135,7 +120,7 @@ class SectionPage extends React.Component<
         units={units}
       />
     )
-  }
+  })
 
   render() {
     let variables: any = {

@@ -15,6 +15,7 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import CourseInfoQuery from '../info/queries/CourseInfoQuery'
+import { handleQueryRender } from 'common/utils/relay'
 
 interface IProps {}
 
@@ -45,19 +46,7 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
     return fromUrlId(SchemaType.Course, this.props.match.params.courseId)
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const {
       id,
       title,
@@ -76,7 +65,7 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
         verifiedCertCost={verified_cert_cost}
       />
     )
-  }
+  })
 
   render() {
     const courseId = fromUrlId(

@@ -1,5 +1,6 @@
 import { Environment, Network, RecordSource, Store } from 'relay-runtime'
 import { GRAPHQL_URL } from 'common/constants'
+import RedirectException from 'common/utils/redirect-exception'
 
 const source = new RecordSource()
 const store = new Store(source)
@@ -19,6 +20,12 @@ function fetchQuery(operation: { text: string }, variables: any) {
       variables
     })
   }).then(response => {
+    switch (response.status) {
+      case 403:
+      case 400:
+      case 500:
+        throw new RedirectException(`/error/${response.status}`)
+    }
     return response.json()
   })
 }

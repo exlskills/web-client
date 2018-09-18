@@ -4,6 +4,7 @@ import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 
 import NotificationsContainer from './Notifications'
+import { handleQueryRender } from 'common/utils/relay'
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`
@@ -20,21 +21,9 @@ interface IProps {
 interface IStates {}
 
 class NotificationsDropdown extends React.Component<IProps, IStates> {
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading mt="0" />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     return <NotificationsContainer {...props} />
-  }
+  })
 
   render() {
     return (
