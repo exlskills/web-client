@@ -21,8 +21,6 @@
   "common.componentsActivitiesCalendar.lbNumActivitiesOnDate": "{number, plural, =0 {No activity} one {# activity} other {# activities}} on {date}",
   "common.componentsActivitiesCalendar.txtSortByTime": "Sort by time",
   "common.componentsActivitiesCalendar.txtSortByType": "Sort by type",
-  "common.pages.NotFound.backToDashboard": "Go Back to the Dashboard?",
-  "common.pages.NotFound.header": "Oh no! The page you were looking for could not be found!",
   "dialogs.Billing.headline": "Manage your payment methods and purchase credits",
   "dialogs.Billing.title": "EXLskills Billing",
   "pages.Course.CertificatePage.pageDescription": "EXLskills {description}",
