@@ -126,8 +126,6 @@ class SectionPage extends React.Component<
       (s: any) => s.id === this.state.sectionId
     )
 
-    console.log('Render section dump')
-
     return (
       <SectionDump
         initialUnit={unit}

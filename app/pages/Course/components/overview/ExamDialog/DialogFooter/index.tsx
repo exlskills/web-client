@@ -61,15 +61,21 @@ class ExamDialogFooter extends React.Component<MergedProps, IStates> {
   private onInteraction = (state: boolean) => this.handleInteraction(state)
 
   private handleInteraction = (nextOpenState: boolean) => {
-    const question = this.props.state.examQuestion
-    let nextState = nextOpenState
-    if (!question) {
-      nextState = false
-    }
-    if (this.state.result == 'correct' || this.state.result == 'wrong') {
-      nextState = true
-    }
-    this.setState({ showPopover: nextState })
+    this.setState((prevState: IStates, props: MergedProps) => {
+      let nextState = Object.assign({}, prevState)
+      const question = props.state.examQuestion
+      let nextShowPopover = nextOpenState
+      if (!question) {
+        nextShowPopover = false
+      }
+      if (prevState.result == 'correct' || prevState.result == 'wrong') {
+        nextShowPopover = true
+      } else if (!prevState.result) {
+        nextShowPopover = false
+      }
+      nextState.showPopover = nextShowPopover
+      return nextState
+    })
   }
 
   encodeAnswers(answer: any) {
@@ -113,7 +119,6 @@ class ExamDialogFooter extends React.Component<MergedProps, IStates> {
             }
             // const explain = res.submitAnswer.explain_text
             // this.setState({ explainText: explain })
-            console.log('WRONG: ', res)
             this.setState({
               showPopover: true,
               result: 'wrong',
@@ -198,7 +203,6 @@ class ExamDialogFooter extends React.Component<MergedProps, IStates> {
         </div>
       )
     } else if (this.state.result == 'answer') {
-      console.log('make fooooooo ', this.props.state.examAnswer)
       content = (
         <ErrorResult>
           <FormattedMessage {...messages.txtAnswerEmpty} />
@@ -231,11 +235,6 @@ class ExamDialogFooter extends React.Component<MergedProps, IStates> {
         <div>
           <FormattedMessage {...messages.txtChecking} />
         </div>
-      )
-    } else {
-      console.log(
-        'Have empty result type when rendering dialog contents. this.state=',
-        this.state
       )
     }
 
@@ -373,8 +372,10 @@ class ExamDialogFooter extends React.Component<MergedProps, IStates> {
   }
 
   render() {
-    console.log('RENDERING FOOTER: ', this.props.state.examAnswer)
-    console.log('RENDERING FOOTER RES: ', this.state.result)
+    // @svarlamov I DON'T KNOW WHY, BUT WE HAVE TO REFER TO THIS HERE OTHERWISE IT'S EQUAL TO NULL IN THE REST OF THE RENDER.
+    if (this.props.state.examAnswer) {
+      /* Nothing... Just use the var... */
+    }
 
     return (
       <Wrapper>

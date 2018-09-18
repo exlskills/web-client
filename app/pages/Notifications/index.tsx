@@ -104,8 +104,6 @@ class Notifications extends React.Component<
                 exact={true}
                 path="/notifications"
                 render={fwdProps => {
-                  console.log(fwdProps)
-                  console.log(props)
                   const mergedProps = Object.assign({}, props, fwdProps)
                   return <AllNotifications {...mergedProps} />
                 }}

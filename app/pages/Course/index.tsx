@@ -202,12 +202,9 @@ export const wrapComponentWithState = provideState<
     setExamQuestionCursor: update((state: IFreactalStates, cursor: any) => ({
       examQuestionCursor: cursor
     })),
-    setExamAnswer: update((state: IFreactalStates, answer: AnswerProps) => {
-      console.log('setAnswer ', answer)
-      return {
-        examAnswer: answer
-      }
-    }),
+    setExamAnswer: update((state: IFreactalStates, answer: AnswerProps) => ({
+      examAnswer: answer
+    })),
     setExamQuizId: update((state: IFreactalStates, quiz_id: string) => ({
       examQuizId: quiz_id
     })),
