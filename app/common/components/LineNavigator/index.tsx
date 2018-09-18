@@ -1,13 +1,14 @@
 import * as React from 'react'
-const HorizontalTimeline = require('react-horizontal-timeline').default
-import { LineWrapper } from './styledComponents'
-import * as moment from 'moment'
+import { BackArrow, Dot, DotNav, DotsList, NextArrow } from './styledComponents'
+
 interface IProps {
   items: any
   activeValue: any
   onClick: (activeValue: any) => void
+  // onBeyondBounds direction is positive if out of beyonds forward, negative if in reverse
+  onBeyondBounds?: (direction: number) => void
+  ignoreLinearProgress?: boolean
   hasSubmit?: boolean
-  cursorBased?: boolean
   labelWidth?: number
   linePadding?: number
   formatLabel?: (item: any, index: number) => any
@@ -16,49 +17,17 @@ interface IProps {
 
 interface IStates {
   previous: number
-  minEventPadding: number
-  maxEventPadding: number
-  linePadding: number
-  labelWidth: number
-  fillingMotionStiffness: number
-  fillingMotionDamping: number
-  slidingMotionStiffness: number
-  slidingMotionDamping: number
-  stylesBackground: string
-  stylesForeground: string
-  stylesOutline: string
-  isTouchEnabled: boolean
-  isKeyboardEnabled: boolean
-  isOpenEnding: boolean
-  isOpenBeginning: boolean
 }
+
 class LineNavigator extends React.Component<IProps, IStates> {
   constructor(props: any) {
     super(props)
     this.state = {
-      previous: 0,
-      minEventPadding: 0,
-      maxEventPadding: 0,
-      linePadding: this.props.linePadding || 50,
-      labelWidth: this.props.labelWidth || 50,
-      fillingMotionStiffness: 150,
-      fillingMotionDamping: 25,
-      slidingMotionStiffness: 150,
-      slidingMotionDamping: 25,
-      stylesBackground: '#f8f8f8',
-      stylesForeground: '#3671b6',
-      stylesOutline: '#dfdfdf',
-      isTouchEnabled: true,
-      isKeyboardEnabled: true,
-      isOpenEnding: true,
-      isOpenBeginning: true
+      previous: 0
     }
   }
 
   handleClickIndex = (index: any) => {
-    if (this.props.cursorBased) {
-      index = index - 1
-    }
     this.props.onClick(this.props.items[index])
   }
 
@@ -70,55 +39,54 @@ class LineNavigator extends React.Component<IProps, IStates> {
     }
   }
 
-  render() {
-    const state = this.state
-    let select = this.props.items.findIndex(
+  getCurrentIndex = () => {
+    return this.props.items.findIndex(
       (x: any) => x.id == this.props.activeValue.id
     )
-    let maxWidth = this.props.fixWidth
-      ? this.state.labelWidth * this.props.items.length +
-        2 * this.state.linePadding +
-        20
-      : 'auto'
+  }
+
+  onIncrementPos = (n: number) => () => {
+    let idx = this.getCurrentIndex() + n
+    if (idx < 0) {
+      if (this.props.onBeyondBounds) {
+        this.props.onBeyondBounds(-1)
+        return
+      }
+      idx = 0
+    } else if (idx > this.props.items.length - 1) {
+      if (this.props.onBeyondBounds) {
+        this.props.onBeyondBounds(1)
+        return
+      }
+      idx = this.props.items.length - 1
+    }
+    this.handleClickIndex(idx)
+  }
+
+  render() {
     return (
-      <LineWrapper style={{ width: '100%' }}>
-        <div
-          style={{
-            width: '70%',
-            height: '80px',
-            margin: '0 auto',
-            maxWidth: maxWidth
-          }}
-        >
-          <HorizontalTimeline
-            getLabel={this.formatLabel}
-            fillingMotion={{
-              stiffness: state.fillingMotionStiffness,
-              damping: state.fillingMotionDamping
-            }}
-            index={select}
-            indexClick={this.handleClickIndex}
-            isKeyboardEnabled={state.isKeyboardEnabled}
-            isTouchEnabled={state.isTouchEnabled}
-            labelWidth={state.labelWidth}
-            linePadding={state.linePadding}
-            maxEventPadding={state.maxEventPadding}
-            minEventPadding={state.minEventPadding}
-            slidingMotion={{
-              stiffness: state.slidingMotionStiffness,
-              damping: state.slidingMotionDamping
-            }}
-            styles={{
-              background: state.stylesBackground,
-              foreground: state.stylesForeground,
-              outline: state.stylesOutline
-            }}
-            values={this.props.items}
-            isOpenEnding={state.isOpenEnding}
-            isOpenBeginning={state.isOpenBeginning}
-          />
-        </div>
-      </LineWrapper>
+      <div>
+        <DotNav>
+          <BackArrow onClick={this.onIncrementPos(-1)} />
+          <DotsList>
+            {this.props.items.map((item: any, idx: number) => {
+              return (
+                <Dot
+                  style={{}}
+                  shaded={
+                    !this.props.ignoreLinearProgress &&
+                    idx <= this.getCurrentIndex()
+                  }
+                  selected={idx === this.getCurrentIndex()}
+                  key={idx}
+                  onClick={() => this.handleClickIndex(idx)}
+                />
+              )
+            })}
+          </DotsList>
+          <NextArrow onClick={this.onIncrementPos(1)} />
+        </DotNav>
+      </div>
     )
   }
 }

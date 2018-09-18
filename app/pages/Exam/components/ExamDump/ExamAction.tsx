@@ -56,10 +56,11 @@ class ExamAction extends React.PureComponent<IProps & InjectedIntlProps, {}> {
           onClick={props.onNext}
           text={formatMessage(messages.btnNextQuestion)}
         />
-        <ActionButton
-          onClick={this.handleMarkForReview}
-          text={textMarkForReview}
-        />
+        {/* TODO add 'mark for review' back in when the dot nav is ready to support multiple colors */}
+        {/*<ActionButton*/}
+        {/*onClick={this.handleMarkForReview}*/}
+        {/*text={textMarkForReview}*/}
+        {/*/>*/}
         <ActionButton
           disabled={questionAnswered}
           onClick={props.onSkip}

@@ -19,7 +19,7 @@ import { ITheme } from 'typings/client'
 
 // Latest colors
 export const lightTheme: ITheme = {
-  background: '#FFFFFF',
+  background: '#F2F2F2',
   text: '#0A1E3C',
   primary: '#0C61E1',
   secondary: '#D2D2D7',

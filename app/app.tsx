@@ -26,21 +26,23 @@ import 'file-loader?name=[name].[ext]!./.htaccess'
 import configureStore from './store'
 
 // Import i18n messages
-import { appLocales, translationMessages } from "./i18n";
-const detectNearestBrowserLocale = require('detect-nearest-browser-locale');
+import { appLocales, translationMessages } from './i18n'
+const detectNearestBrowserLocale = require('detect-nearest-browser-locale')
 
 // Import CSS reset and Global Styles
 import * as FontFaceObserver from 'fontfaceobserver'
 import './common/styles/globalStyles.ts'
 import { FocusStyleManager } from '@blueprintjs/core'
-import { getPathLocale, setPathLocale } from "./common/utils/cookies";
+import { getPathLocale, setPathLocale } from './common/utils/cookies'
 import {
   getCurrentPathWithLocale,
   getPathLocaleFromURL,
   redirectForLocaleIfNecessary
-} from "./common/utils/path-locale";
-import { getViewer } from "./common/utils/viewer";
-import { jwtRefresh } from "./common/http/auth";
+} from './common/utils/path-locale'
+import { getViewer } from './common/utils/viewer'
+import { jwtRefresh } from './common/http/auth'
+
+const rse = require('react-stripe-elements') as any
 
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
@@ -62,10 +64,10 @@ notoSansFontObserver
 FocusStyleManager.onlyShowFocusOnTabs()
 
 // This code inserts our anon pixel that will check if the user has a login, and if not, set the user's cookies for anon browsing
-let anonImg = document.createElement('img');
-anonImg.style.display = 'none';
-anonImg.src = `${process.env.AUTH_BASE_URL}/anonymous.gif`;
-document.getElementById('anon-pixel-container').appendChild(anonImg);
+let anonImg = document.createElement('img')
+anonImg.style.display = 'none'
+anonImg.src = `${process.env.AUTH_BASE_URL}/anonymous.gif`
+document.getElementById('anon-pixel-container').appendChild(anonImg)
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -75,13 +77,13 @@ const initialState = {}
 
 if (!getPathLocale()) {
   if (getPathLocaleFromURL()) {
-    setPathLocale(getPathLocaleFromURL());
+    setPathLocale(getPathLocaleFromURL())
   } else {
-    setPathLocale(detectNearestBrowserLocale(appLocales));
+    setPathLocale(detectNearestBrowserLocale(appLocales))
   }
 }
 
-redirectForLocaleIfNecessary();
+redirectForLocaleIfNecessary()
 
 const browserHistory = createBrowserHistory({
   basename: `/learn-${getPathLocale()}`,
@@ -90,24 +92,37 @@ const browserHistory = createBrowserHistory({
 const store = configureStore(initialState, browserHistory)
 
 const render = (messages: any) => {
+  let retries = 0
   let isAuthedInterval = setInterval(async () => {
     if (getViewer() && getViewer('user_id')) {
-      clearInterval(isAuthedInterval);
       if (getViewer('is_demo') === false) {
-        await jwtRefresh();
+        try {
+          await jwtRefresh()
+        } catch (err) {
+          if (retries < 3) {
+            retries++
+            console.log('Failed to refresh jwt, retrying...')
+            return
+          } else {
+            throw 'Failed to refresh jwt despite retries'
+          }
+        }
       }
+      clearInterval(isAuthedInterval)
       ReactDOM.render(
         <Provider store={store}>
+          {/* TODO stripe <rse.StripeProvider apiKey="">*/}
           <LanguageProvider messages={messages}>
             <ConnectedRouter history={browserHistory}>
               <App />
             </ConnectedRouter>
           </LanguageProvider>
+          {/*</rse.StripeProvider>*/}
         </Provider>,
         document.getElementById('app')
-      );
+      )
     }
-  }, 100);
+  }, 100)
 }
 
 // Hot reloadable translation json files

@@ -53,11 +53,7 @@ class MyCourseCardWrapperComponent extends React.Component<
 
   handleCourseClick = (card: any) => {
     const cardUrlId = toUrlId(card.title, card.id)
-    if (card.type == 'course') {
-      this.props.history.push(`/courses/${cardUrlId}`)
-    } else {
-      this.props.history.push(`/classes/${cardUrlId}`)
-    }
+    this.props.history.push(`/courses/${cardUrlId}`)
   }
 
   queryRender = ({ error, props }: RendererProps) => {

@@ -13,3 +13,14 @@ export const Tooltip = styled(Tip).attrs({
 })`
   z-index:99;
 `
+
+export const SectionTitle = styled.h5`
+  margin-top: 14px;
+  padding-left: 20px;
+`
+
+export const LineNavWrapper = styled.div`
+  display: block;
+  margin: auto;
+  margin-right: 20px;
+`

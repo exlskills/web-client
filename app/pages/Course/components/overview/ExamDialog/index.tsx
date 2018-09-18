@@ -7,11 +7,12 @@ import {
   Wrapper,
   DialogContent,
   Header,
-  SubHeaderText
+  SubHeaderText,
+  DialogContentInner,
+  FooterWrapper
 } from './styledComponents'
-import DialogSidebar from './DialogSidebar'
+import DialogFooter from './DialogFooter'
 import * as SplitPane from 'react-split-pane'
-import { ICellItem } from '../ProgressCells/index'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
 import messages from './messages'
@@ -20,6 +21,7 @@ import UpdateQuizlvl from '../mutations/UpdateQuizMutation'
 import { processCourseData } from '../../../utils/course_data_processor'
 const { fetchQuery, graphql } = require('react-relay/compat')
 import environment from 'relayEnvironment'
+import { isMobile } from '../../../../../common/utils/screen'
 
 const refreshUnitQuery = graphql`
   query ExamDialogRefreshUnitQuery(
@@ -149,7 +151,7 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
     }
     return (
       <Wrapper
-        className={localStorage.getItem('theme')}
+        className={`${localStorage.getItem('theme')} exl-mobile-full-dialog`}
         isOpen={isOpen}
         title={
           <Header>
@@ -163,18 +165,12 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
         canOutsideClickClose={true}
       >
         <DialogContent>
-          <SplitPane
-            size={300}
-            primary="second"
-            pane1Style={{
-              overflowY: 'hidden',
-              overflowX: 'hidden',
-              height: '100%'
-            }}
-          >
+          <DialogContentInner examCardOpen={examCardOpen} isMobile={isMobile()}>
             {examCardOpen ? <CardDialogContent /> : <ExamDialogContent />}
-            <DialogSidebar />
-          </SplitPane>
+          </DialogContentInner>
+          <FooterWrapper examCardOpen={examCardOpen} isMobile={isMobile()}>
+            <DialogFooter />
+          </FooterWrapper>
         </DialogContent>
         <ConfirmDialog
           onSubmit={this.handleClose}
@@ -191,4 +187,5 @@ class ExamDialog extends React.PureComponent<MergedProps, IStates> {
     )
   }
 }
+
 export default injectState(injectIntl(ExamDialog))
