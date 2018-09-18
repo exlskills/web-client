@@ -1,21 +1,16 @@
-import { RendererProps } from '../../../../common/utils/relay'
-
-import { toUrlId } from '../../../../common/utils/urlid'
+import { toUrlId } from 'common/utils/urlid'
 import { injectIntl, InjectedIntlProps } from 'react-intl'
 import { RouteComponentProps, withRouter } from 'react-router'
 import * as React from 'react'
-import Loading from 'common/components/Loading'
 import { CardWrapper } from './styledComponents'
-import {
-  default as Card,
-  IProps as CardProps
-} from '../../../../common/components/Card'
+import { default as Card, IProps as CardProps } from 'common/components/Card'
 // Note: IDE might complain about these as duplicated identifiers, but that's not the case... Ignore..
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { Button, Intent } from '@blueprintjs/core'
 import { CourseFooter } from '../../../CourseListing/styledComponents'
+import { handleQueryRender } from 'common/utils/relay'
 
 const myCourseCardResumeQuery = graphql`
   query MyCourseCardResumeQuery(
@@ -81,22 +76,7 @@ class MyCourseCardResumeComponent extends React.Component<
     return `/courses/${toUrlId(title, id)}`
   }
 
-  queryRender = ({ error, props }: RendererProps) => {
-    if (error) {
-      return (
-        <div>
-          {error}
-        </div>
-      )
-    }
-    if (!props) {
-      return (
-        <div style={{ height: '200px' }}>
-          <Loading />
-        </div>
-      )
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     let sectionTitle = ''
     props.courseUnit.sections_list.forEach((sect: any) => {
       if (sect.id == this.props.section_id) {
@@ -129,7 +109,7 @@ class MyCourseCardResumeComponent extends React.Component<
         />
       </CardWrapper>
     )
-  }
+  })
 
   render() {
     return (

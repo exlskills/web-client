@@ -11,6 +11,7 @@ import { IFreactalProps } from 'pages/Course'
 import { ConceptMesssage } from './styledComponents'
 import { WS_EVENTS } from 'common/ws/constants'
 import wsclient from 'common/ws/client'
+import { handleQueryRender } from 'common/utils/relay'
 
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 let Markdown = require('react-remarkable')
@@ -48,23 +49,13 @@ class CardDialogContent extends React.Component<
       </MarkdownStyleWrapper>
     )
   }
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-    if (!props) {
-      return <Loading />
-    }
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     return (
       <ConceptMesssage>
         <SectionCard card={props.card} />
       </ConceptMesssage>
     )
-  }
+  })
   render() {
     const {
       examQuestion,

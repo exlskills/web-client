@@ -14,6 +14,7 @@ import SideBarMenu from '../../common/components/SideBarMenu'
 import { RouteComponentProps } from 'react-router'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import { injectIntl } from 'react-intl'
+import { handleQueryRender } from 'common/utils/relay'
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`
@@ -52,19 +53,7 @@ class Notifications extends React.Component<
     )
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading mt="0" />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     // return <NotificationsContainer {...props} />
     const { formatMessage } = this.props.intl
     const parentProps = this.props
@@ -113,7 +102,7 @@ class Notifications extends React.Component<
         </SplitPane>
       </Wrapper>
     )
-  }
+  })
 }
 
 export default injectIntl(Notifications)

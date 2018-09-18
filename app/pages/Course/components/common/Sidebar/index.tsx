@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { CourseImage, Wrapper } from './styledComponents'
 import SidebarMenu from 'common/components/SideBarMenu'
-import Loading from 'common/components/Loading'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
@@ -14,7 +13,8 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { IconName } from '@blueprintjs/core'
-import { getBadgeURLForTopic } from '../../../../../common/utils/topic-badges'
+import { getBadgeURLForTopic } from 'common/utils/topic-badges'
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
   query SidebarQuery(
@@ -76,19 +76,7 @@ class Sidebar extends React.PureComponent<
     return `/courses/${match.params.courseId}`
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return null
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
     const { match: { url }, location: { pathname } } = this.props
     let valueChange = `/${getFirstPath(pathname.slice(url.length))}`
@@ -124,7 +112,7 @@ class Sidebar extends React.PureComponent<
         />
       </Wrapper>
     )
-  }
+  })
 
   render() {
     const course_id = fromUrlId(

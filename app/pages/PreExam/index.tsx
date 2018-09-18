@@ -1,7 +1,4 @@
-import { RendererProps } from 'common/utils/relay'
-import Loading from 'common/components/Loading'
 import * as React from 'react'
-import Helmet from 'react-helmet'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { RouteComponentProps, Prompt, withRouter } from 'react-router'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
@@ -10,6 +7,7 @@ import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import messages from './messages'
 import requireAuthentication from 'routes/requireAuthentication'
+import { handleQueryRender } from 'common/utils/relay'
 import {
   Wrapper,
   TakeButton,
@@ -66,21 +64,8 @@ class ExamPage extends React.Component<
   handleCancel = () => {
     this.props.history.goBack()
   }
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
-    const { completed } = this.props
 
     const questions = props.questions ? props.questions.edges : []
     let questionsList: any = []
@@ -135,7 +120,7 @@ class ExamPage extends React.Component<
         </CenterSection>
       </Wrapper>
     )
-  }
+  })
 
   render() {
     return (
