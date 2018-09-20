@@ -13,7 +13,6 @@ import { WS_EVENTS } from 'common/ws/constants'
 import Loading from 'common/components/Loading'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import messages from './messages'
-import { handleQueryRender } from 'common/utils/relay'
 interface IProps {
   onClick: (locale: SupportedLocales) => void
   locale: SupportedLocales
@@ -27,6 +26,7 @@ interface IStates {
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
+import { handleQueryRender } from '../../utils/relay'
 
 const rootQuery = graphql`
   query LanguageDropdownQuery {
@@ -76,7 +76,6 @@ class LanguageDropdown extends React.PureComponent<
     }
   }
   queryRender = handleQueryRender(({ props }: { props: any }) => {
-    //this.setState({contentPop:this.renderMenu(props)})
     return (
       <Popover
         popoverClassName={`pt-minimal ${this.props.theme == 'pt-dark'
@@ -111,11 +110,16 @@ class LanguageDropdown extends React.PureComponent<
   }
 
   render() {
+    // NOTE Hey you! Don't delete this line, because this component won't work without it. (comment by @svarlamov - I don't know why this is the case though...)
+    // NOTE You have been warned... Uncertain amount of dark magic ahead...
+    const queryRender = ({ error, props }: { error: Error; props: any }) =>
+      this.queryRender({ error, props })
+
     return (
       <QueryRenderer
         query={rootQuery}
         environment={environment}
-        render={this.queryRender}
+        render={queryRender}
       />
     )
   }
