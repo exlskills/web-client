@@ -26,6 +26,7 @@ const rootQuery = graphql`
       title
       logo_url
       primary_topic
+      delivery_methods
     }
     unitPaging(first: $first, resolverArgs: $resolverArgs) {
       edges {
@@ -83,7 +84,7 @@ class Sidebar extends React.PureComponent<
     if (valueChange == '/') {
       valueChange = ''
     }
-    const allMenuItems = [
+    let allMenuItems = [
       {
         isHeader: true,
         avatarSrc: getBadgeURLForTopic(props.course.primary_topic),
@@ -91,7 +92,15 @@ class Sidebar extends React.PureComponent<
         text: props.course.title
       },
       { isDivider: true }
-    ].concat(menuItems) as any
+    ].concat(menuItems) as any[]
+
+    if (props.course.delivery_methods.includes('live')) {
+      allMenuItems.push({
+        pathExt: '/live',
+        iconName: 'video',
+        translationId: 'menuLive'
+      })
+    }
 
     return (
       <Wrapper>

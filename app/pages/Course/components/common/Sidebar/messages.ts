@@ -20,5 +20,9 @@ export default defineMessages({
   menuCertificate: {
     id: 'pages.Course.Sidebar.menuCertificate',
     defaultMessage: 'Certificate'
+  },
+  menuLive: {
+    id: 'pages.Course.Sidebar.menuLive',
+    defaultMessage: 'Live Course (!)'
   }
 })
