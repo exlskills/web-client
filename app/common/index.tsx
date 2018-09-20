@@ -66,7 +66,6 @@ class App extends React.PureComponent<
             NAVBAR_ROUTES,
             route => location.get('pathname') === route
           ) === -1 && <Navbar />}
-          {/*<SubscriptionDialog isOpen={true} />*/}
           <Route
             path="/"
             render={({ location }) => {
