@@ -41,7 +41,9 @@ import {
 } from './common/utils/path-locale'
 import { getViewer } from './common/utils/viewer'
 import { jwtRefresh } from './common/http/auth'
+import { STRIPE_PUB_KEY } from './common/constants'
 
+// Stripe elements
 const rse = require('react-stripe-elements') as any
 
 // Load NotoSans font
@@ -111,13 +113,13 @@ const render = (messages: any) => {
       clearInterval(isAuthedInterval)
       ReactDOM.render(
         <Provider store={store}>
-          {/* TODO stripe <rse.StripeProvider apiKey="">*/}
-          <LanguageProvider messages={messages}>
-            <ConnectedRouter history={browserHistory}>
-              <App />
-            </ConnectedRouter>
-          </LanguageProvider>
-          {/*</rse.StripeProvider>*/}
+          <rse.StripeProvider apiKey={STRIPE_PUB_KEY}>
+            <LanguageProvider messages={messages}>
+              <ConnectedRouter history={browserHistory}>
+                <App />
+              </ConnectedRouter>
+            </LanguageProvider>
+          </rse.StripeProvider>
         </Provider>,
         document.getElementById('app')
       )

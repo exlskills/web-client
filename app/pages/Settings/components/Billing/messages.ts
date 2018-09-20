@@ -9,20 +9,17 @@ export default defineMessages({
     id: 'pages.Settings.Billing.pageDescription',
     defaultMessage: 'EXLskills Billing'
   },
-  manageYourPrefsBeforeLink: {
-    id: 'pages.Settings.Billing.manageYourPrefsBeforeLink',
-    defaultMessage: 'To manage your billing preferences, subscriptions, and invoices click'
+  title: {
+    id: 'pages.Settings.Billing.title',
+    defaultMessage: 'Billing'
   },
-  manageYourPrefsLinkText: {
-    id: 'pages.Settings.Billing.manageYourPrefsLinkText',
-    defaultMessage: 'here'
+  explainer: {
+    id: 'pages.Settings.Billing.explainer',
+    defaultMessage: 'Manage your EXLskills credits and payment methods below.'
   },
-  paymentSystemRemarks: {
-    id: 'pages.Settings.Billing.paymentSystemRemarks',
-    defaultMessage: 'Note: your settings are managed by our payment partner, Zoho Subscriptions.'
-  },
-  upgradeToAccess: {
-    id: 'pages.Settings.Billing.upgradeToAccess',
-    defaultMessage: 'Upgrade to premium in order to access the billing console.'
+  stripePartnerRemark: {
+    id: 'pages.Settings.Billing.stripePartnerRemark',
+    defaultMessage:
+      'Note: your billing information is securely managed by our payment partner, '
   }
 })

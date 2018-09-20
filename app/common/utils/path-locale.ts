@@ -31,7 +31,7 @@ export const getCurrentPathWithLocale = (l: string) => {
     pathSplit[0] = `learn-${l}`
     pathSplit = ['', ...pathSplit]
   }
-  return `${pathSplit.join('/')}`
+  return `${pathSplit.join('/')}${window.location.search}`
 }
 
 export const redirectForLocaleIfNecessary = () => {

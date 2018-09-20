@@ -1,29 +1,53 @@
 import * as React from 'react'
-import { BILLING_CONSOLE_URL } from 'common/constants'
-import { isViewerPremium } from 'common/utils/viewer'
-import BillingDialog from 'common/components/BillingDialog'
-import { Button, Icon } from '@blueprintjs/core'
+import { Button, Icon, Intent } from '@blueprintjs/core'
 import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import messages from './messages'
 import Helmet from 'react-helmet'
+import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import { connect } from 'react-redux'
+import {
+  setCredits,
+  setShowBillingDialog
+} from '../../../../common/store/actions'
+import { createStructuredSelector } from 'reselect'
+import {
+  selectCredits,
+  selectShowBillingDialog
+} from '../../../../common/store/selectors'
+import { bindActionCreators, Dispatch } from 'redux'
 
 interface IProps {}
 
-interface IStates {
-  billingDialogOpen: boolean
+interface IStateToProps {
+  credits: number
+  showBillingDialog: boolean
 }
 
-class SettingsBilling extends React.Component<
-  IProps & InjectedIntlProps,
-  IStates
-> {
-  state: IStates = {
-    billingDialogOpen: false
-  }
+interface IDispatchToProps {
+  setCredits: typeof setCredits
+  setShowBillingDialog: typeof setShowBillingDialog
+}
 
-  invertBillingDialogOpen = () => {
-    this.setState({ billingDialogOpen: !this.state.billingDialogOpen })
+const mapStateToProps = createStructuredSelector({
+  credits: selectCredits(),
+  showBillingDialog: selectShowBillingDialog()
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<string>) => ({
+  ...bindActionCreators(
+    {
+      setCredits,
+      setShowBillingDialog
+    },
+    dispatch
+  )
+})
+
+type MergedProps = IProps & IDispatchToProps & IStateToProps & InjectedIntlProps
+
+class SettingsBilling extends React.Component<MergedProps, {}> {
+  toggleBillingDialogOpen = () => {
+    this.props.setShowBillingDialog(!this.props.showBillingDialog)
   }
 
   render() {
@@ -41,37 +65,35 @@ class SettingsBilling extends React.Component<
           ]}
         />
         <h3>
-          {formatMessage(messages.pageTitle)}
+          {formatMessage(messages.title)}
         </h3>
         <br />
-
-        {/*<Button onClick={this.invertBillingDialogOpen}>Show</Button>*/}
-
-        {/* TODO stripe billing <BillingDialog isOpen={this.state.billingDialogOpen} handleClose={this.invertBillingDialogOpen} />*/}
-
-        {isViewerPremium()
-          ? <span>
-              <p>
-                {formatMessage(messages.manageYourPrefsBeforeLink)}{' '}
-                <a
-                  target={'_blank'}
-                  rel={'noopener'}
-                  href={BILLING_CONSOLE_URL}
-                >
-                  {formatMessage(messages.manageYourPrefsLinkText)}{' '}
-                  <Icon iconSize={'inherit'} iconName={'share'} />
-                </a>
-              </p>
-              <small>
-                {formatMessage(messages.paymentSystemRemarks)}
-              </small>
-            </span>
-          : <p>
-              {formatMessage(messages.upgradeToAccess)}
-            </p>}
+        <div>
+          <p>
+            {formatMessage(messages.explainer)}
+          </p>
+          <Button
+            iconName={'pt-icon-bank-account'}
+            intent={Intent.PRIMARY}
+            onClick={this.toggleBillingDialogOpen}
+          >
+            Open My Billing Preferences
+          </Button>
+          <br />
+          <br />
+          <small>
+            {formatMessage(messages.stripePartnerRemark)}{' '}
+            <a href={'https://stripe.com/'} rel={'noopener'} target={'_blank'}>
+              Stripe <Icon iconSize={'inherit'} iconName={'share'} />
+            </a>
+          </small>
+        </div>
       </div>
     )
   }
 }
 
-export default injectIntl(SettingsBilling)
+export default connect<IStateToProps, IDispatchToProps, IProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl<MergedProps>(SettingsBilling))

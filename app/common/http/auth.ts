@@ -28,4 +28,5 @@ export const verifyEmail = (verifKey: string) =>
   client.post(`/auth/emverify/${verifKey}`, {})
 export const resetPassword = (verifKey: string, newPassword: string) =>
   client.post(`/auth/pwreset/${verifKey}`, { newPassword })
-export const logout = () => client.post(`/me/logout`)
+
+export const logout = () => client.post(`${AUTH_URL}/me/logout`)

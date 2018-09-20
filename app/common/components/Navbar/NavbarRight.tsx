@@ -2,13 +2,15 @@
 import * as React from 'react'
 
 import { connect } from 'react-redux'
-import { setTheme, logout } from 'common/store/actions'
+import { setTheme, logout, setShowBillingDialog } from 'common/store/actions'
 import { bindActionCreators, Dispatch } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import {
   selectTheme,
   selectAuthLevel,
-  selectMobileSidebarData
+  selectMobileSidebarData,
+  selectCredits,
+  selectShowBillingDialog
 } from 'common/store/selectors'
 import { THEMES } from 'common/constants'
 import SettingsDropdown from './SettingsDropdown'
@@ -21,10 +23,12 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { clearViewer, getViewer } from 'common/utils/viewer'
 import { ITopNavItem } from './index'
 import MobileSidebar from './MobileSidebar'
+import CreditsBalance from './CreditsBalance'
 import { IMobileSidebarData } from '../../store/reducer'
 import { isMobile } from '../../utils/screen'
 import { getKeycloakLoginUrl } from '../../http/auth'
 import UpgradeButton from './UpgradeButton'
+import { HideXS } from './styledComponents'
 
 type MergedProps = IProps &
   IDispatchToProps &
@@ -37,14 +41,17 @@ interface IProps {
 }
 
 interface IStateToProps {
+  credits: number
   theme: string
   authLevel: number
   locale: SupportedLocales
   mobileSidebarData: IMobileSidebarData
+  showBillingDialog: boolean
 }
 
 interface IDispatchToProps {
   setTheme: typeof setTheme
+  setShowBillingDialog: typeof setShowBillingDialog
   logout: typeof logout
   changeLocale: (locale: string) => void
 }
@@ -52,6 +59,8 @@ interface IDispatchToProps {
 interface IStates {}
 
 const mapStateToProps = createStructuredSelector({
+  credits: selectCredits(),
+  showBillingDialog: selectShowBillingDialog(),
   theme: selectTheme(),
   authLevel: selectAuthLevel(),
   locale: selectLocale(),
@@ -61,6 +70,7 @@ const mapDispatchToProps = (dispatch: Dispatch<string>) => ({
   ...bindActionCreators(
     {
       setTheme,
+      setShowBillingDialog,
       logout,
       changeLocale
     },
@@ -94,22 +104,23 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
     window.location.assign(getKeycloakLoginUrl(window.location.href))
   }
 
+  openBillingDialog = () => {
+    this.props.setShowBillingDialog(true)
+  }
+
   renderDesktop = () => {
-    const { theme, authLevel, locale } = this.props
+    const { theme, credits, authLevel, locale } = this.props
     const themeStr = theme === THEMES.dark ? 'pt-dark' : 'pt-light'
     return (
       <div className="pt-navbar-group pt-align-right">
-        <UpgradeButton
-          onUpgradeClick={() =>
-            (location.href = 'https://exlskills.com/pricing')}
-        />
+        <CreditsBalance credits={credits} onClick={this.openBillingDialog} />
+        <span className="pt-navbar-divider" />
         <button
           className={`pt-button pt-minimal ${theme === THEMES.dark
             ? 'pt-icon-flash'
             : 'pt-icon-moon'}`}
           onClick={this.handleThemeClick}
         />
-        <span className="pt-navbar-divider" />
         <NotificationsDropdown theme={themeStr} />
         <LanguageDropdown
           locale={locale}
@@ -127,10 +138,11 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
   }
 
   renderMobile = () => {
-    const { theme, authLevel, locale } = this.props
+    const { theme, credits, authLevel, locale } = this.props
     const themeStr = theme === THEMES.dark ? 'pt-dark' : 'pt-light'
     return (
       <div className="pt-navbar-group pt-align-right">
+        <CreditsBalance credits={credits} onClick={this.openBillingDialog} />
         <button
           className={`pt-button pt-minimal ${theme === THEMES.dark
             ? 'pt-icon-flash'
@@ -144,12 +156,14 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
           onClick={this.handleLocaleClick}
           theme={themeStr}
         />
-        <SettingsDropdown
-          isDemoUser={getViewer().is_demo}
-          onSettingsClick={this.handleSettingsClick}
-          onLogoutClick={this.handleLogoutClick}
-          onLoginClick={this.handleLoginClick}
-        />
+        <HideXS>
+          <SettingsDropdown
+            isDemoUser={getViewer().is_demo}
+            onSettingsClick={this.handleSettingsClick}
+            onLogoutClick={this.handleLogoutClick}
+            onLoginClick={this.handleLoginClick}
+          />
+        </HideXS>
         <MobileSidebar
           pathExt={this.props.mobileSidebarData.pathExt}
           basePath={this.props.mobileSidebarData.basePath}
@@ -161,6 +175,7 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
   }
 
   render() {
+    console.log('nav right rerender')
     if (!this.props.mobile) {
       return this.renderDesktop()
     }

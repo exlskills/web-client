@@ -17,6 +17,12 @@ export const selectLocation = () =>
 export const selectTheme = () =>
   createSelector(selectAppDomain(), state => state.get('theme'))
 
+export const selectCredits = () =>
+  createSelector(selectAppDomain(), state => state.get('credits'))
+
+export const selectShowBillingDialog = () =>
+  createSelector(selectAppDomain(), state => state.get('showBillingDialog'))
+
 export const selectAuthLevel = () =>
   createSelector(selectAppDomain(), state => state.get('authLevel'))
 

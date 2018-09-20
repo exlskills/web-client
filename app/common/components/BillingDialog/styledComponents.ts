@@ -1,7 +1,15 @@
 import { CenterContainer } from 'common/components/styledComponents'
 import styled from 'styled-components'
-import { Dialog, Icon, IDialogProps } from '@blueprintjs/core'
+import {
+  Button,
+  Dialog,
+  Icon,
+  IDialogProps,
+  MenuDivider,
+  NumericInput
+} from '@blueprintjs/core'
 import { Flex } from 'grid-styled'
+import { mobileBPCSS } from '../../utils/screen'
 
 export const Wrapper = styled(Dialog)`
   max-width: 1300px;
@@ -21,15 +29,14 @@ export const Wrapper = styled(Dialog)`
 export const DialogContent = styled.div.attrs({
   className: 'pt-dialog-body'
 })`
-  padding: 20px;
-  margin: 0;
+  margin: 20px;
 `
 
 export const DialogContentInner = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 `
 
 export const Header = styled(Flex).attrs({
@@ -66,5 +73,37 @@ export const ResultWrapper = CenterContainer.extend`
   }
   .pt-icon {
     margin-right: 10px;
+  }
+`
+
+interface IDialogDividerProps {
+  hide?: boolean
+}
+
+export const DialogDivider = styled(MenuDivider).attrs<IDialogDividerProps>({})`
+  margin: 16px 0;
+  ${props => (props.hide ? 'display: none;' : '')}
+`
+
+export const BuyCreditsForm = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media only screen and (max-width: ${mobileBPCSS}) {
+    flex-direction: column;
+  }
+`
+
+export const PurchaseCreditsNumericInput = styled(NumericInput)`
+  @media only screen and (max-width: ${mobileBPCSS}) {
+    width: 100%;
+  }
+`
+
+export const PurchaseCreditsButton = styled(Button)`
+  margin-left: 4px;
+  @media only screen and (max-width: ${mobileBPCSS}) {
+    width: 100%;
+    margin-top: 8px;
+    margin-left: 0px;
   }
 `

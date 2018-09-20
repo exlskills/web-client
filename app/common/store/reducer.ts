@@ -5,8 +5,10 @@ import { fromJS, Record } from 'immutable'
 import {
   setAuthLevel,
   setTheme,
+  setCredits,
   setUserData,
-  setMobileSidebarData
+  setMobileSidebarData,
+  setShowBillingDialog
 } from './actions'
 import { THEMES } from 'common/constants'
 import { Location } from 'history'
@@ -15,6 +17,8 @@ export interface IRouteReducerState {
   location: Record.Instance<Location>
 }
 export interface IReducerState {
+  credits: number
+  showBillingDialog: boolean
   authLevel: number
   userData: string
   theme: string
@@ -27,6 +31,8 @@ export interface IMobileSidebarData {
 }
 const storedTheme = localStorage.getItem('theme')
 const initialState = fromJS({
+  credits: 0,
+  showBillingDialog: false,
   authLevel: 0,
   userData: '',
   theme: storedTheme ? storedTheme : THEMES.light,
@@ -41,6 +47,10 @@ export default (state = initialState, action: any) => {
       return state.set('userData', action.payload)
     case setTheme.type:
       return state.set('theme', action.payload)
+    case setCredits.type:
+      return state.set('credits', action.payload)
+    case setShowBillingDialog.type:
+      return state.set('showBillingDialog', action.payload)
     case setMobileSidebarData.type:
       return state.set('mobileSidebarData', action.payload)
     default:

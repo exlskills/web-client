@@ -18,8 +18,8 @@ import { getViewer } from 'common/utils/viewer'
 import { Route } from 'react-router-dom'
 import ReactGA from 'react-ga'
 
-// TODO import and show SubscriptionDialog in the future
-// import SubscriptionDialog from 'common/components/SubscriptionDialog';
+// Global billing dialog (invoked with ?showBilling=true)
+import BillingDialogProvider from 'common/components/BillingDialogProvider'
 
 interface IProps {
   children?: ReactNode
@@ -74,6 +74,7 @@ class App extends React.PureComponent<
               return null
             }}
           />
+          <BillingDialogProvider />
           <Routes />
         </AppWrapper>
       </ThemeProvider>

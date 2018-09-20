@@ -14,4 +14,10 @@ export const addToast = actionCreator<{ message: string; intent: Intent }>(
  */
 export const setTheme = actionCreator<string>('SET_THEME')
 
+export const setCredits = actionCreator<number>('SET_CREDITS')
+
+export const setShowBillingDialog = actionCreator<boolean>(
+  'SET_SHOW_BILLING_DIALOG'
+)
+
 export * from './auth'
