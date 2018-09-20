@@ -175,7 +175,6 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
   }
 
   render() {
-    console.log('nav right rerender')
     if (!this.props.mobile) {
       return this.renderDesktop()
     }

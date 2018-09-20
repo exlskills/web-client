@@ -35,7 +35,10 @@ export const getCurrentPathWithLocale = (l: string) => {
 }
 
 export const redirectForLocaleIfNecessary = () => {
-  if (window.location.pathname !== getCurrentPathWithLocale(getPathLocale())) {
+  if (
+    `${window.location.pathname}${window.location.search}` !==
+    getCurrentPathWithLocale(getPathLocale())
+  ) {
     window.location.href = getCurrentPathWithLocale(getPathLocale())
   }
 }
