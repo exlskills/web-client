@@ -14,7 +14,7 @@ export const NavItem = styled(Button).attrs({
   className: 'pt-minimal'
 })`
   &.pt-active {
-    background: rgba(255, 255, 255, 0.25) !important;
+    background: ${props => props.theme.activeNavbarItem} !important;
   }
 `
 export const UserButton = styled(AnchorButton).attrs({

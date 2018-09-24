@@ -51,6 +51,7 @@ export const QuestionHeader = styled.div`
   padding: 20px 20px 0 20px;
   width: 100%;
   font-size: 18px;
+  color: ${props => props.theme.highlightedText};
 `
 export const QuestionAnswer = styled.div`
   padding: 0 20px 20px 20px;

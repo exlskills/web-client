@@ -32,6 +32,7 @@ import {
   Wrapper,
   WrongResult,
   ExamQuestionWrapper,
+  ExamWrapper,
   InnerWrapper,
   ActionButtonRow,
   ActionButtonGroup,
@@ -826,18 +827,20 @@ class SectionDump extends React.PureComponent<
                       <h4>
                         {formatMessage(messages.lbApplicationQuestion)}
                       </h4>
-                      <ExamQuestionWrapper>
-                        <ExamQuestion
-                          transparentStyle={true}
-                          question={card.question}
-                          userAnswer={userAnswer}
-                          onAnswerChange={this.handleAnswerChange}
-                          {...explanationData}
-                          splitHeight={'500px'}
-                          splitFlexible={true}
-                        />
-                      </ExamQuestionWrapper>
-                      {this.renderActionBlock(card.question)}
+                      <ExamWrapper>
+                        <ExamQuestionWrapper>
+                          <ExamQuestion
+                            transparentStyle={true}
+                            question={card.question}
+                            userAnswer={userAnswer}
+                            onAnswerChange={this.handleAnswerChange}
+                            {...explanationData}
+                            splitHeight={'500px'}
+                            splitFlexible={true}
+                          />
+                        </ExamQuestionWrapper>
+                        {this.renderActionBlock(card.question)}
+                      </ExamWrapper>
                     </div>}
                 </Card>
               )

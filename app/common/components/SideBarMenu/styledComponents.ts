@@ -13,6 +13,7 @@ export const Menu = styled.ul.attrs<MenuProps>({
   overflow-x: auto;
   border-radius: 0px;
   padding: 0px;
+  background-color: ${props => props.theme.sidebar} !important;
 `
 
 interface ItemProps {
@@ -32,7 +33,7 @@ export const Item = styled.a.attrs<ItemProps>({
   
   &.pt-active,
   &.pt-active:hover {
-    
+    background-color: ${props => props.theme.activeSidebarItem} !important;
   }
 
   &:active,

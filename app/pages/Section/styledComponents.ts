@@ -46,6 +46,7 @@ export const Card = styled.div.attrs({
   min-height: 300px;
   width: 100%;
   margin-bottom: 90px;
+  background-color: ${props => props.theme.contentBackground} !important;
 `
 
 export const CardContent = styled.pre`
@@ -99,6 +100,9 @@ export const FixedSectionNavigate = styled.div`
   margin-bottom: 2px;
 `
 export const ExamQuestionWrapper = styled.div``
+export const ExamWrapper = styled.div`
+  background-color: ${props => props.theme.questionBackground};
+`
 
 export const ActionButtonRow = styled.div`
   display: flex;

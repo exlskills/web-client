@@ -12,7 +12,6 @@ import {
 } from './styledComponents'
 import CollapsibleItem from './CollapsibleItem'
 import { MenuHeaderIcon } from './styledComponents'
-import { InjectedIntlProps } from 'react-intl'
 import { setMobileSidebarData } from '../../store/actions'
 import { createStructuredSelector } from 'reselect'
 import { RouteComponentProps, withRouter } from 'react-router'
