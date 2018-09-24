@@ -1,7 +1,4 @@
 import * as React from 'react'
-import Loading from 'common/components/Loading'
-import wsclient from 'common/ws/client'
-import { WS_EVENTS } from 'common/ws/constants'
 import { injectState, update, provideState } from 'freactal'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
@@ -19,7 +16,7 @@ import moment from 'moment'
 
 interface IProps {}
 
-type Mergedprops = IProps &
+type MergedProps = IProps &
   IFreactalProps &
   InjectedIntlProps &
   RouteComponentProps<{ courseId: string; unitId: string }>
@@ -76,7 +73,7 @@ const rootQuery = graphql`
   }
 `
 
-class CourseLive extends React.Component<Mergedprops, {}> {
+class CourseLive extends React.Component<MergedProps, {}> {
   static contextTypes = {
     viewer: React.PropTypes.object
   }
