@@ -8,7 +8,7 @@
 // Latest colors
 $primary: #0C61E1;
 $lightAccent: #D2D2D7;
-$darkAccent: #0A3F8E;
+$darkAccent: #182F52;
 // $lightShade: #e3e3e6;
 $lightShade: #F4F4F4;
 $darkShade: #1C222E;
@@ -17,24 +17,9 @@ $darkShade: #1C222E;
 $pt-intent-primary: $primary;
 
 // Menu
-.pt-dark .pt-menu {
-  background-color: $darkShade;
-}
-.pt-light .pt-menu {
-  background-color: #e3e3e6;
-}
 .pt-menu {
   height: 100%;
 }
-
-// Card
-.pt-light .pt-card {
-  //background-color: $lightShade;
-  background-color: #FFF;
-}
-
-// Typography
-$pt-text-color: $darkShade;
 
 // Navbar
 $navbar-background-color: $primary;

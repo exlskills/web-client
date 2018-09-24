@@ -16,6 +16,15 @@ declare namespace client {
   type SelectOptions = SelectOption[]
 
   interface ITheme {
+    navbar: string
+    activeNavbarItem: string
+    sidebar: string
+    activeSidebarItem: string
+    sidebarDot: string
+    contentBackground: string
+    questionBackground: string
+    secondaryText: string
+    highlightedText: string
     primary: string
     secondary: string
     secondaryInverse: string

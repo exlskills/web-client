@@ -30,6 +30,7 @@ export const Wrapper = styled.div`
 export const AppWrapper = styled.div`
   min-height: 100%;
   width: 100%;
+  color: ${props => props.theme.text};
   background-color: ${props => props.theme.background};
 `
 
