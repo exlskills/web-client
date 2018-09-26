@@ -33,7 +33,7 @@ class CreditsBalance extends React.PureComponent<
           onClick={this.props.onClick}
         />
         <CreditsBadge intent={Intent.SUCCESS}>
-          {this.props.credits}
+          ${this.props.credits}
         </CreditsBadge>
       </div>
     )

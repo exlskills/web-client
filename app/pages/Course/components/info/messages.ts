@@ -9,6 +9,10 @@ export default defineMessages({
     id: 'pages.Course.InfoPage.pageDescription',
     defaultMessage: 'EXLskills {description}'
   },
+  pageHeading: {
+    id: 'pages.Course.InfoPage.pageHeading',
+    defaultMessage: 'Course Info'
+  },
   statusCardTitle: {
     id: 'pages.Course.StatusCard.title',
     defaultMessage: 'Course Preferences'

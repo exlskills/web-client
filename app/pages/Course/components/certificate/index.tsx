@@ -16,6 +16,7 @@ import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import CourseInfoQuery from '../info/queries/CourseInfoQuery'
 import { handleQueryRender } from 'common/utils/relay'
+import { fromGlobalId } from '../../../../common/utils/graphql'
 
 interface IProps {}
 
@@ -58,6 +59,7 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
     } = props.courseById
     return (
       <CourseCertificateDump
+        courseId={fromGlobalId(this.getCourseId()).id}
         title={title}
         description={description}
         logoUrl={logo_url}
@@ -68,11 +70,6 @@ class CourseCertificate extends React.Component<Mergedprops, {}> {
   })
 
   render() {
-    const courseId = fromUrlId(
-      SchemaType.Course,
-      this.props.match.params.courseId
-    )
-
     return (
       <QueryRenderer
         query={CourseInfoQuery}

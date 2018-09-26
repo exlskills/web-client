@@ -1,7 +1,9 @@
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import * as React from 'react'
 import {
+  PriorToCheckoutNote,
   BuyCreditsForm,
+  CurrentPeriodNote,
   DialogContent,
   DialogContentInner,
   DialogDivider,
@@ -9,13 +11,15 @@ import {
   PurchaseCreditsButton,
   PurchaseCreditsNumericInput,
   SubHeaderText,
-  Wrapper
+  Wrapper,
+  YouWontBeChargedNote
 } from './styledComponents'
 import messages from './messages'
 import { Button, Intent, NonIdealState } from '@blueprintjs/core'
 import {
   enroll,
   getCredits,
+  getCurrentUsage,
   isEnrolled,
   purchaseCredits,
   unenroll
@@ -24,11 +28,16 @@ import Loading from '../Loading'
 import { jwtRefresh } from '../../http/auth'
 import { getViewer, setViewer } from '../../utils/viewer'
 import { AUTH_URL } from '../../constants'
-import { setCredits } from '../../store/actions'
+import { setCheckoutItem, setCredits } from '../../store/actions'
 import { createStructuredSelector } from 'reselect'
-import { selectCredits } from '../../store/selectors'
+import { selectCheckoutItem, selectCredits } from '../../store/selectors'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
+import ConfirmDialog from '../ConfirmDialog'
+import * as moment from 'moment'
+import { ICheckoutItem } from '../../store/reducer'
+import Toaster from 'common/components/Toaster'
+import { purchaseItem } from '../../http/checkout'
 
 const rse = require('react-stripe-elements') as any
 
@@ -46,26 +55,32 @@ interface IStates {
   isEnrolled: boolean
   showLoginSignup: boolean
   currentPurchaseN: number
+  showConfirmPurchaseDialog: boolean
+  showConfirmCheckoutDialog: boolean
+  billingPeriodEndsAt: number
+  currentUsage: number
 }
 
 interface IStateToProps {
   credits: number
+  checkoutItem: ICheckoutItem
 }
 
 interface IDispatchToProps {
   setCredits: typeof setCredits
+  setCheckoutItem: typeof setCheckoutItem
 }
 
-interface IStates {}
-
 const mapStateToProps = createStructuredSelector({
-  credits: selectCredits()
+  credits: selectCredits(),
+  checkoutItem: selectCheckoutItem()
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<string>) => ({
   ...bindActionCreators(
     {
-      setCredits
+      setCredits,
+      setCheckoutItem
     },
     dispatch
   )
@@ -82,7 +97,11 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
     loading: true,
     isEnrolled: false,
     showLoginSignup: false,
-    currentPurchaseN: 1
+    currentPurchaseN: 1,
+    currentUsage: 0,
+    showConfirmPurchaseDialog: false,
+    showConfirmCheckoutDialog: false,
+    billingPeriodEndsAt: 0
   }
 
   componentWillMount() {
@@ -99,10 +118,14 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
       this.props.setCredits(creditsResp.data.creditsCount)
       isEnrolled().then(result => {
         if (result.data && result.data.enrolled) {
-          this.setState({
-            loading: false,
-            isEnrolled: true,
-            showLoginSignup: !!getViewer('is_demo')
+          getCurrentUsage().then(usageResp => {
+            this.setState({
+              loading: false,
+              isEnrolled: true,
+              showLoginSignup: !!getViewer('is_demo'),
+              currentUsage: usageResp.data.totalUsage,
+              billingPeriodEndsAt: usageResp.data.endsAt
+            })
           })
         } else {
           this.setState({
@@ -118,7 +141,12 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
   unenrollSubmit = () => {
     this.setState({ loading: true })
     unenroll().then(result => {
-      this.setState({ loading: false, isEnrolled: false })
+      this.setState({
+        loading: false,
+        isEnrolled: false,
+        currentUsage: 0,
+        billingPeriodEndsAt: 0
+      })
     })
   }
 
@@ -130,28 +158,112 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
           return
         }
         enroll(tkn).then(result => {
-          console.log('Result ', result)
           jwtRefresh().then((res: any) => {
             setViewer(null)
-            this.setState({ loading: false, isEnrolled: true })
+            getCurrentUsage().then(usageResp => {
+              this.setState({
+                loading: false,
+                isEnrolled: true,
+                currentUsage: usageResp.data.totalUsage,
+                billingPeriodEndsAt: usageResp.data.endsAt
+              })
+            })
           })
         })
       })
     } else {
+      let toast = {
+        message: this.props.intl.formatMessage(
+          messages.anErrorOccurredPurchasingPleaseRetry
+        ),
+        intent: Intent.DANGER
+      }
+      Toaster.show(toast)
       this.setState({ loading: false })
       console.error("Stripe.js hasn't loaded yet.")
     }
   }
 
+  showConfirmPurchaseDialog = () => {
+    this.setState({ showConfirmPurchaseDialog: true })
+  }
+
+  onConfirmPurchaseCancel = () => {
+    this.setState({ showConfirmPurchaseDialog: false })
+  }
+
+  onConfirmPurchaseOk = () => {
+    this.setState({ showConfirmPurchaseDialog: false })
+    this.purchaseCreditsAndUpdateCount(this.state.currentPurchaseN)
+  }
+
+  showConfirmCheckoutDialog = () => {
+    this.setState({ showConfirmCheckoutDialog: true })
+  }
+
+  onConfirmCheckoutCancel = () => {
+    this.setState({ showConfirmCheckoutDialog: false })
+  }
+
+  onConfirmCheckoutOk = (ci: ICheckoutItem) => () => {
+    this.setState({ showConfirmCheckoutDialog: false, loading: true })
+    purchaseItem(ci)
+      .then(result => {
+        getCredits().then(creditsResp => {
+          getCurrentUsage().then(usageResp => {
+            this.setState({
+              currentUsage: usageResp.data.totalUsage,
+              billingPeriodEndsAt: usageResp.data.endsAt
+            })
+            this.props.setCredits(creditsResp.data.creditsCount)
+            let toast = {
+              message: this.props.intl.formatMessage(
+                messages.thankYouForYourPurchaseToast
+              ),
+              intent: Intent.SUCCESS
+            }
+            Toaster.show(toast)
+            this.props.handleClose()
+            this.props.setCheckoutItem(null)
+            this.setState({ loading: false })
+          })
+        })
+      })
+      .catch(err => {
+        let toast = {
+          message: this.props.intl.formatMessage(
+            messages.anErrorOccurredPurchasingPleaseRetry
+          ),
+          intent: Intent.DANGER
+        }
+        Toaster.show(toast)
+      })
+  }
+
   purchaseCreditsAndUpdateCount = (n: number) => {
     this.setState({ loading: true })
-    purchaseCredits(n).then((result: any) => {
-      console.log('purchased credits')
-      getCredits().then(creditsResp => {
-        this.props.setCredits(creditsResp.data.creditsCount)
-        this.setState({ loading: false })
+    purchaseCredits(n)
+      .then((result: any) => {
+        getCredits().then(creditsResp => {
+          getCurrentUsage().then(usageResp => {
+            this.setState({
+              currentUsage: usageResp.data.totalUsage,
+              billingPeriodEndsAt: usageResp.data.endsAt
+            })
+            this.props.setCredits(creditsResp.data.creditsCount)
+            this.setState({ loading: false })
+          })
+        })
       })
-    })
+      .catch(err => {
+        let toast = {
+          message: this.props.intl.formatMessage(
+            messages.anErrorOccurredPurchasingPleaseRetry
+          ),
+          intent: Intent.DANGER
+        }
+        Toaster.show(toast)
+      })
   }
 
   updateCurrentPurchaseN = (val: number) => {
@@ -160,15 +272,99 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
     } else if (val > 10000) {
       val = 10000
     }
-    this.setState({ currentPurchaseN: Math.round(val || 0) }, () =>
-      console.log(this.state.currentPurchaseN)
+    this.setState({ currentPurchaseN: Math.round(val || 0) })
+  }
+
+  confirmPurchaseText = (state: IStates) => {
+    const { formatMessage } = this.props.intl
+    return {
+      title: formatMessage(messages.confirmPurchaseCoinsTitle),
+      text: formatMessage(messages.confirmPurchaseCoinsText, {
+        coins: state.currentPurchaseN,
+        cost: `US$${state.currentPurchaseN}`
+      }),
+      submit: formatMessage(messages.confirmPurchaseCoinsSubmitBtn),
+      cancel: formatMessage(messages.confirmPurchaseCoinsCancelBtn)
+    }
+  }
+
+  confirmCheckoutText = (currentBal: number, ci: ICheckoutItem) => {
+    const { formatMessage } = this.props.intl
+    const checkoutTotalCost = ci ? ci.quantity * ci.displayUnitCost : 0
+    let txt = formatMessage(messages.confirmCheckoutText, {
+      item: ci ? ci.displayName : '',
+      cost: checkoutTotalCost
+    })
+    if (currentBal < checkoutTotalCost) {
+      txt += ` ${formatMessage(messages.confirmCheckoutTextCoinsAddition, {
+        cost: checkoutTotalCost - currentBal
+      })}`
+    }
+    return {
+      title: formatMessage(messages.confirmCheckoutTitle),
+      text: txt,
+      submit: formatMessage(messages.confirmCheckoutSubmitBtn),
+      cancel: formatMessage(messages.confirmCheckoutCancelBtn)
+    }
+  }
+
+  renderCompleteCheckout = (currentBal: number, ci: ICheckoutItem) => {
+    const { formatMessage } = this.props.intl
+    const checkoutTotalCost = ci.quantity * ci.displayUnitCost
+    const extraCost = checkoutTotalCost - currentBal
+    return (
+      <div>
+        <ul>
+          <li>
+            {ci.displayName}
+          </li>
+        </ul>
+        <p>
+          Sub-total: {ci.quantity * ci.displayUnitCost} Coins
+          <br />
+          Your Cost:&nbsp;
+          <strong>
+            {extraCost <= 0 &&
+              formatMessage(messages.yourTotalCoveredByBalance, {
+                cost: checkoutTotalCost
+              })}
+            {extraCost === checkoutTotalCost &&
+              formatMessage(messages.yourTotalFiat, {
+                cost: checkoutTotalCost
+              })}
+            {extraCost > 0 &&
+              extraCost < checkoutTotalCost &&
+              formatMessage(messages.yourTotalMixed, {
+                cost: currentBal,
+                extraCost
+              })}
+          </strong>
+        </p>
+        <Button
+          disabled={!this.state.isEnrolled}
+          intent={Intent.PRIMARY}
+          onClick={this.showConfirmCheckoutDialog}
+        >
+          {formatMessage(messages.completeCheckoutBtn)}
+        </Button>
+        <PriorToCheckoutNote>
+          {!this.state.isEnrolled && currentBal < checkoutTotalCost
+            ? formatMessage(messages.addPaymentMethodToCompleteCheckout)
+            : formatMessage(messages.youWillBeAskedToConfirmNote)}
+        </PriorToCheckoutNote>
+      </div>
     )
+  }
+
+  handleDialogClose = () => {
+    // Clear the checkout item if the user closes
+    this.props.setCheckoutItem(null)
+    this.props.handleClose()
   }
 
   render() {
     const { formatMessage } = this.props.intl
 
-    // TODO internationalize, clean up text
     // NOTE: Display is used to control which views are shown because Stripe has a bug when adding/removing the components from the render
     return (
       <Wrapper
@@ -182,20 +378,54 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
             </SubHeaderText>
           </Header>
         }
-        onClose={this.props.handleClose}
+        onClose={this.handleDialogClose}
         canOutsideClickClose={true}
       >
         <DialogContent>
+          <ConfirmDialog
+            onSubmit={this.onConfirmPurchaseOk}
+            onCancel={this.onConfirmPurchaseCancel}
+            showDialog={this.state.showConfirmPurchaseDialog}
+            messageText={this.confirmPurchaseText(this.state)}
+          />
+          <ConfirmDialog
+            onSubmit={this.onConfirmCheckoutOk(this.props.checkoutItem)}
+            onCancel={this.onConfirmCheckoutCancel}
+            showDialog={this.state.showConfirmCheckoutDialog}
+            messageText={this.confirmCheckoutText(
+              this.props.credits,
+              this.props.checkoutItem
+            )}
+          />
           <DialogContentInner>
             {this.state.loading && <Loading />}
+            <div
+              style={{
+                display:
+                  !this.state.loading &&
+                  this.props.checkoutItem &&
+                  !this.state.showLoginSignup
+                    ? undefined
+                    : 'none'
+              }}
+            >
+              <h4>
+                {formatMessage(messages.checkoutTitle)}
+              </h4>
+              {this.props.checkoutItem &&
+                this.renderCompleteCheckout(
+                  this.props.credits,
+                  this.props.checkoutItem
+                )}
+              <DialogDivider />
+            </div>
             <div style={{ display: !this.state.loading ? undefined : 'none' }}>
               <h4>
-                Available Credits: {this.props.credits}
+                {formatMessage(messages.accountBalance)}
+                {this.props.credits}
               </h4>
               <p>
-                This is your current EXLskills Credits balance. You can use your
-                credits to pay for certificates, live courses, and time with
-                instructors.
+                {formatMessage(messages.accountBalanceExplanation)}
               </p>
             </div>
             <DialogDivider hide={this.state.loading} />
@@ -215,7 +445,10 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
                   <a
                     href={`${AUTH_URL}/auth/keycloak?redirect=${encodeURIComponent(
                       `${window.location.protocol}//${window.location
-                        .host}${window.location.pathname}?showBilling=true`
+                        .host}${window.location
+                        .pathname}?showBilling=true&ci=${encodeURIComponent(
+                        window.btoa(JSON.stringify(this.props.checkoutItem))
+                      )}`
                     )}`}
                   >
                     {formatMessage(messages.loginRequiredAction)}
@@ -233,19 +466,17 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
                     : 'none'
               }}
             >
-              <h4>Payment Method</h4>
+              <h4>
+                {formatMessage(messages.paymentMethodTitle)}
+              </h4>
               <p>
-                In order to pay for credits, certificates, and live courses on
-                EXLskills, you'll need to setup a credit card. You will be able
-                to purchase credits as you need them, and your card will be
-                charged once a month based on your usage. Don't buy anything?
-                You won't be charged!
+                {formatMessage(messages.paymentMethodExplanation)}
               </p>
               <div
                 style={{ display: this.state.isEnrolled ? undefined : 'none' }}
               >
                 <Button intent={Intent.WARNING} onClick={this.unenrollSubmit}>
-                  Forget My Credit Card
+                  {formatMessage(messages.forgetMyCreditCard)}
                 </Button>
               </div>
               <div
@@ -253,34 +484,35 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
               >
                 <div style={{ height: '8px' }} />
                 <rse.CardElement />
-                <div
-                  style={{
-                    marginTop: '10px',
-                    marginBottom: '0px',
-                    fontSize: '12px'
-                  }}
-                  className={'pt-text-muted'}
-                >
-                  You won't be charged until you make a purchase
-                </div>
+                <YouWontBeChargedNote>
+                  {formatMessage(messages.youWontBeChargedNote)}
+                </YouWontBeChargedNote>
                 <br />
                 <Button intent={Intent.SUCCESS} onClick={this.cardSubmit}>
-                  Add Card
+                  {formatMessage(messages.addCardBtnMsg)}
                 </Button>
               </div>
             </div>
             <DialogDivider
-              hide={this.state.loading || this.state.showLoginSignup}
+              hide={
+                this.state.loading ||
+                this.state.showLoginSignup ||
+                !!this.props.checkoutItem
+              }
             />
             <div
               style={{
                 display:
-                  !this.state.loading && !this.state.showLoginSignup
+                  !this.state.loading &&
+                  !this.props.checkoutItem &&
+                  !this.state.showLoginSignup
                     ? undefined
                     : 'none'
               }}
             >
-              <h4>Buy Credits</h4>
+              <h4>
+                {formatMessage(messages.buyCoinsTitle)}
+              </h4>
               <BuyCreditsForm>
                 <PurchaseCreditsNumericInput
                   disabled={!this.state.isEnrolled}
@@ -295,14 +527,29 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
                 <PurchaseCreditsButton
                   disabled={!this.state.isEnrolled}
                   intent={Intent.PRIMARY}
-                  onClick={() =>
-                    this.purchaseCreditsAndUpdateCount(
-                      this.state.currentPurchaseN
-                    )}
+                  onClick={this.showConfirmPurchaseDialog}
                 >
-                  Purchase (Approx. ${this.state.currentPurchaseN})
+                  {formatMessage(messages.purchaseCoinsButtonText, {
+                    coins: this.state.currentPurchaseN
+                  })}
                 </PurchaseCreditsButton>
               </BuyCreditsForm>
+              <CurrentPeriodNote>
+                {this.state.isEnrolled
+                  ? this.state.currentUsage > 0
+                    ? formatMessage(messages.currentBillingPeriodNote, {
+                        usage: this.state.currentUsage,
+                        date: moment(
+                          new Date(this.state.billingPeriodEndsAt * 1000)
+                        ).format('LL')
+                      })
+                    : formatMessage(messages.usageForCurrentPeriodIsZeroNote, {
+                        date: moment(
+                          new Date(this.state.billingPeriodEndsAt * 1000)
+                        ).format('LL')
+                      })
+                  : formatMessage(messages.addPaymentMethodToPurchaseCoins)}
+              </CurrentPeriodNote>
             </div>
           </DialogContentInner>
         </DialogContent>

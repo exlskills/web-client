@@ -5,14 +5,26 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { injectState } from 'freactal'
 import messages from './messages'
 import { injectIntl } from 'react-intl'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import Helmet from 'react-helmet'
-const Markdown = require('react-remarkable')
 import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
+import {
+  ContentCard,
+  ContentHeadingWrapper,
+  ContentImgWrapper,
+  ContentPurchaseWrapper,
+  ContentTitleDescWrapper,
+  DialogDivider
+} from './styledComponents'
+import { Button, Intent } from '@blueprintjs/core'
+import InjectedIntlProps = ReactIntl.InjectedIntlProps
+import PurchaseCertificateButton from '../common/PurchaseCertificateButton'
+
+const Markdown = require('react-remarkable')
 
 interface IProps {
   title: string
   description: string
+  courseId: string
   logoUrl: string
   infoMarkdown: string
   verifiedCertCost?: number
@@ -42,10 +54,16 @@ class CourseCertificateDump extends React.Component<
 
   render() {
     const { formatMessage } = this.props.intl
-    const { infoMarkdown, verifiedCertCost } = this.props
+    const {
+      title,
+      description,
+      logoUrl,
+      infoMarkdown,
+      verifiedCertCost
+    } = this.props
 
     return (
-      <ContentWrapper>
+      <ContentWrapper responsive={true}>
         <Helmet
           title={formatMessage(messages.pageTitle, {
             course: this.props.title
@@ -59,11 +77,53 @@ class CourseCertificateDump extends React.Component<
             }
           ]}
         />
-        {this.parseContent(infoMarkdown)}
-        <div>
-          Get a certificate for just:
-          {verifiedCertCost}
-        </div>
+        <br />
+        <h3>
+          {formatMessage(messages.pageHeading)}
+        </h3>
+        <br />
+        <ContentCard>
+          <ContentHeadingWrapper>
+            <ContentImgWrapper>
+              <img src={logoUrl} width={'100%'} />
+            </ContentImgWrapper>
+            <ContentTitleDescWrapper>
+              <h4>
+                {title}
+              </h4>
+              <p>
+                {description}
+              </p>
+            </ContentTitleDescWrapper>
+            <ContentPurchaseWrapper>
+              <PurchaseCertificateButton
+                itemDisplayName={formatMessage(
+                  messages.verifiedCertificateTitle,
+                  { course: this.props.title }
+                )}
+                certCost={verifiedCertCost}
+                courseId={this.props.courseId}
+                buttonText={formatMessage(messages.certPurchaseBtnMsg)}
+                buttonStyle={{ width: '100%', textAlign: 'center' }}
+              />
+              <div
+                style={{
+                  width: '100%',
+                  textAlign: 'center',
+                  marginBottom: '10px'
+                }}
+              >
+                <small>
+                  ${verifiedCertCost}{' '}
+                  {formatMessage(messages.coinsCertCostNote)}
+                  <b />
+                </small>
+              </div>
+            </ContentPurchaseWrapper>
+          </ContentHeadingWrapper>
+          <DialogDivider />
+          {this.parseContent(infoMarkdown)}
+        </ContentCard>
       </ContentWrapper>
     )
   }

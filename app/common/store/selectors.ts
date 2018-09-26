@@ -23,6 +23,9 @@ export const selectCredits = () =>
 export const selectShowBillingDialog = () =>
   createSelector(selectAppDomain(), state => state.get('showBillingDialog'))
 
+export const selectCheckoutItem = () =>
+  createSelector(selectAppDomain(), state => state.get('checkoutItem'))
+
 export const selectAuthLevel = () =>
   createSelector(selectAppDomain(), state => state.get('authLevel'))
 
