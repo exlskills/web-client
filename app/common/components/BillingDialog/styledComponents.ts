@@ -107,3 +107,24 @@ export const PurchaseCreditsButton = styled(Button)`
     margin-left: 0px;
   }
 `
+
+export const CurrentPeriodNote = styled.p.attrs({
+  className: 'pt-text-muted'
+})`
+  margin-top: 6px;
+  margin-bottom: 60px;
+`
+
+export const YouWontBeChargedNote = styled.div.attrs({
+  className: 'pt-text-muted'
+})`
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-size: 12px;
+`
+
+export const PriorToCheckoutNote = styled.p.attrs({
+  className: 'pt-text-muted'
+})`
+  margin-top: 6px;
+`

@@ -96,6 +96,7 @@ const rootQuery = graphql`
       last_accessed_unit
       last_accessed_section
       last_accessed_card
+      delivery_methods
     }
   }
 `

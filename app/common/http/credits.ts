@@ -1,7 +1,9 @@
 import client from './client'
-import { AUTH_URL, CLIENT_URL } from 'common/constants'
+import { AUTH_URL } from 'common/constants'
 
 export const getCredits = () => client.get(`${AUTH_URL}/me/credits`)
+export const getCurrentUsage = () =>
+  client.get(`${AUTH_URL}/me/credits/current-usage`)
 export const purchaseCredits = (purchaseN: number) =>
   client.post(`${AUTH_URL}/me/credits/purchase?purchaseN=${purchaseN}`)
 export const isEnrolled = () => client.get(`${AUTH_URL}/me/credits/membership`)

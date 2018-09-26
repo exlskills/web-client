@@ -5,6 +5,12 @@ export const Wrapper = styled.div`
   width: inherit !important;
 `
 
+export const ContentCard = styled.div.attrs({
+  className: 'pt-card'
+})`
+  width: 100%;
+`
+
 export const Card = styled.div.attrs({
   className: 'pt-card'
 })`

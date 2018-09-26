@@ -47,12 +47,16 @@ export const Icon = styled.span.attrs<IconProps>({
   ${props => props.link && 'cursor: pointer;'}
 `
 
-export const ContentWrapper = styled(Flex).attrs({
+interface IContentWrapperProps {
+  responsive?: boolean
+}
+
+export const ContentWrapper = styled(Flex).attrs<IContentWrapperProps>({
   column: true,
   pt: 3,
   pb: 3
 })`
-  min-width: 900px;
+  ${props => (props.responsive ? '' : 'min-width: 900px;')}
   max-width: 1000px;
   padding: 1rem;
   margin: 0 auto;

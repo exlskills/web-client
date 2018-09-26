@@ -8,7 +8,8 @@ import {
   setCredits,
   setUserData,
   setMobileSidebarData,
-  setShowBillingDialog
+  setShowBillingDialog,
+  setCheckoutItem
 } from './actions'
 import { THEMES } from 'common/constants'
 import { Location } from 'history'
@@ -23,12 +24,21 @@ export interface IReducerState {
   userData: string
   theme: string
   mobileSidebarData: IMobileSidebarData
+  checkoutItem: ICheckoutItem
 }
 export interface IMobileSidebarData {
   items: ISidebarItem[]
   pathExt: string
   basePath: string
 }
+export type ICheckoutItem = {
+  category: string
+  options: any
+  refs: any
+  quantity: number
+  displayUnitCost: number
+  displayName: string
+} | null
 const storedTheme = localStorage.getItem('theme')
 const initialState = fromJS({
   credits: 0,
@@ -36,7 +46,8 @@ const initialState = fromJS({
   authLevel: 0,
   userData: '',
   theme: storedTheme ? storedTheme : THEMES.light,
-  mobileSidebarData: {}
+  mobileSidebarData: {},
+  checkoutItem: null
 })
 
 export default (state = initialState, action: any) => {
@@ -53,6 +64,8 @@ export default (state = initialState, action: any) => {
       return state.set('showBillingDialog', action.payload)
     case setMobileSidebarData.type:
       return state.set('mobileSidebarData', action.payload)
+    case setCheckoutItem.type:
+      return state.set('checkoutItem', action.payload)
     default:
       return state
   }
