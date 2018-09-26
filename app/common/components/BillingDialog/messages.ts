@@ -149,5 +149,13 @@ export default defineMessages({
   yourTotalFiat: {
     id: 'dialogs.Billing.yourTotalFiat',
     defaultMessage: 'US${cost}'
+  },
+  yourCostHeading: {
+    id: 'dialogs.Billing.yourCostHeading',
+    defaultMessage: 'Your Cost:'
+  },
+  checkoutSubTotalCoins: {
+    id: 'dialogs.Billing.checkoutSubTotalCoins',
+    defaultMessage: 'Sub-total {coins} Coins'
   }
 })

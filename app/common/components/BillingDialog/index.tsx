@@ -320,9 +320,11 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
           </li>
         </ul>
         <p>
-          Sub-total: {ci.quantity * ci.displayUnitCost} Coins
+          {formatMessage(messages.checkoutSubTotalCoins, {
+            coins: ci.quantity * ci.displayUnitCost
+          })}
           <br />
-          Your Cost:&nbsp;
+          {formatMessage(messages.yourCostHeading)}&nbsp;
           <strong>
             {extraCost <= 0 &&
               formatMessage(messages.yourTotalCoveredByBalance, {
