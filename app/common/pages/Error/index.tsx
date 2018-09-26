@@ -17,8 +17,8 @@ class Error extends React.PureComponent<
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const { formatMessage } = this.props.intl
-    const errorKey: string | number = this.props.match.params.errorCode
-      ? this.props.match.params.errorCode
+    const errorKey: string = this.props.match.params.errorCode
+      ? `${this.props.match.params.errorCode}`
       : 'Unknown'
     const header = formatMessage(
       messages[`header${errorKey}`]

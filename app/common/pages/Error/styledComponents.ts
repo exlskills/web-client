@@ -5,20 +5,24 @@ export const BackToDashboardLink = styled.a`
   margin-top: 40px;
 `
 
-export const SageImage = styled.img.attrs({
-  src: (props: any) => {
-    let type: string = ''
-    switch (parseInt(props.errorKey)) {
-      case 403:
+export interface ISageImageProps {
+  errorKey: string
+}
+
+export const SageImage = styled.img.attrs<ISageImageProps>({
+  src: (props: ISageImageProps) => {
+    let type = ''
+    switch (props.errorKey) {
+      case '403':
         type = 'keys'
         break
-      case 400:
+      case '400':
         type = 'expl'
         break
-      case 500:
+      case '500':
         type = 'meh'
         break
-      case 404:
+      case '404':
       default:
         type = 'question'
     }
