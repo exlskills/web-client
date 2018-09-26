@@ -18,6 +18,7 @@ import {
 import { Button, Intent } from '@blueprintjs/core'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import PurchaseCertificateButton from '../common/PurchaseCertificateButton'
+import { CertInfoMD } from './info'
 
 const Markdown = require('react-remarkable')
 
@@ -122,7 +123,7 @@ class CourseCertificateDump extends React.Component<
             </ContentPurchaseWrapper>
           </ContentHeadingWrapper>
           <DialogDivider />
-          {this.parseContent(infoMarkdown)}
+          {this.parseContent(CertInfoMD)}
         </ContentCard>
       </ContentWrapper>
     )
