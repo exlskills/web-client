@@ -1,6 +1,14 @@
 import { defineMessages } from 'react-intl'
 
 export default defineMessages({
+  dialogTitle: {
+    id: 'pages.Course.ExamDialog.Sidebar.answerTitle',
+    defaultMessage: 'Practice'
+  },
+  dialogHeadline: {
+    id: 'pages.Course.ExamDialog.Sidebar.answerTitle',
+    defaultMessage: 'Answer'
+  },
   answerTitle: {
     id: 'pages.Course.ExamDialog.Sidebar.answerTitle',
     defaultMessage: 'Answer'
@@ -19,7 +27,7 @@ export default defineMessages({
   },
   nextButton: {
     id: 'pages.Course.ExamDialog.Sidebar.nextButton',
-    defaultMessage: "Next"
+    defaultMessage: 'Next'
   },
   submitAnswerButton: {
     id: 'pages.Course.ExamDialog.Sidebar.submitAnswerBtn',

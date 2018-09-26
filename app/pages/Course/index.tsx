@@ -76,6 +76,11 @@ const CourseCertificate = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+const CourseLive = Loadable({
+  loader: () => System.import('pages/Course/components/live'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
 
 const Sidebar = Loadable({
   loader: () => System.import('pages/Course/components/common/Sidebar'),
@@ -94,6 +99,7 @@ export interface IFreactalStates {
     last_accessed_unit?: string
     last_accessed_section?: string
     last_accessed_card?: string
+    delivery_methods: string[]
   }
   examModalOpen?: boolean
   examAllUnits?: {
@@ -179,6 +185,11 @@ class CoursePage extends React.Component<Mergedprops, {}> {
               path="/courses/:courseId/grades"
               component={CourseGrades}
             />
+            <Route
+              exact={true}
+              path="/courses/:courseId/live"
+              component={CourseLive}
+            />
             <Redirect to="/404" />
           </Switch>
         </SplitPane>
@@ -192,7 +203,7 @@ export const wrapComponentWithState = provideState<
   IProps & RouteComponentProps<any>
 >({
   initialState: () => ({
-    course: {},
+    course: { delivery_methods: [] },
     examModalOpen: false,
     examType: '',
     examAllUnits: { unitIds: [], unitsById: {}, courseComplete: false },

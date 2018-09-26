@@ -18,6 +18,10 @@ export default defineMessages({
     id: 'pages.CourseListing.searchbarPlaceholder',
     defaultMessage: 'Search...'
   },
+  lbCoursesHeading: {
+    id: 'pages.CourseListing.lbCoursesHeading',
+    defaultMessage: 'Courses'
+  },
   lbRelevantCourses: {
     id: 'pages.CourseListing.lbRelevantCourses',
     defaultMessage: 'Relevant Courses'

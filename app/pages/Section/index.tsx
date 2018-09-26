@@ -1,7 +1,4 @@
-import Loading from 'common/components/Loading'
-import { CenterContainer } from 'common/components/styledComponents'
 import * as React from 'react'
-//import Helmet from 'react-helmet'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { QueryRenderer } from 'react-relay'
 import { RouteComponentProps } from 'react-router'
@@ -9,29 +6,40 @@ import environment from 'relayEnvironment'
 import * as Loadable from 'react-loadable'
 import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
 import requireAuthentication from 'routes/requireAuthentication'
-//import messages from './messages'
-
-const DELAY_INTERVAL = 500
-
-export const Header = Loadable({
-  loader: () => System.import('pages/Section/components/Header'),
-  loading: Loading,
-  delay: DELAY_INTERVAL
-})
-const SectionDump = Loadable({
-  loader: () => System.import('pages/Section/SectionDump'),
-  loading: Loading,
-  delay: DELAY_INTERVAL
-})
+import Loading from 'common/components/Loading'
+import { handleQueryRender } from 'common/utils/relay'
+import SectionDump from './SectionDump'
 
 const { graphql } = require('react-relay/compat')
 const rootQuery = graphql`
-  query SectionQuery($course_id: String, $resolverArgs: [QueryResolverArgs]!) {
+  query SectionQuery(
+    $course_id: String,
+    $cardsResolverArgs: [QueryResolverArgs]!,
+    $unitsResolverArgs: [QueryResolverArgs]!
+  ) {
     courseById(course_id: $course_id) {
+      id
       title
       headline
     }
-    cardPaging(first: 9999, resolverArgs: $resolverArgs) {
+    unitPaging(first: 100, resolverArgs: $unitsResolverArgs) {
+      edges {
+        node {
+          id
+          index
+          title
+          sections_list {
+            id
+            title
+            cards_list {
+              id
+              title
+            }
+          }
+        }
+      }
+    }
+    cardPaging(first: 9999, resolverArgs: $cardsResolverArgs) {
       edges {
         cursor
         node {
@@ -73,56 +81,56 @@ const rootQuery = graphql`
   }
 `
 interface IProps {}
-interface IStates {}
+interface IStates {
+  courseId: string
+  unitId: string
+  sectionId: string
+}
 
 @requireAuthentication(1)
 class SectionPage extends React.Component<
   IProps & InjectedIntlProps & RouteComponentProps<any>,
   IStates
 > {
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
-    const { formatMessage } = this.props.intl
-    let cards = props.cardPaging ? props.cardPaging.edges : []
-
-    return (
-      <CenterContainer>
-        <SectionDump course={props.courseById} cards={cards} />
-      </CenterContainer>
-    )
-  }
-
-  render() {
-    const courseId = fromUrlId(
-      SchemaType.Course,
-      this.props.match.params.courseId
-    )
-    const unitId = fromUrlId(
-      SchemaType.CourseUnit,
-      this.props.match.params.unitId
-    )
-    const sectionId = fromUrlId(
+  state: IStates = {
+    courseId: fromUrlId(SchemaType.Course, this.props.match.params.courseId),
+    unitId: fromUrlId(SchemaType.CourseUnit, this.props.match.params.unitId),
+    sectionId: fromUrlId(
       SchemaType.UnitSection,
       this.props.match.params.sectionId
     )
+  }
 
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
+    let cards = props.cardPaging ? props.cardPaging.edges : []
+    let units: any[] = props.unitPaging ? props.unitPaging.edges : []
+
+    units = units.map(u => u.node)
+
+    let unit = units.find(u => u.id === this.state.unitId)
+    let section = unit.sections_list.find(
+      (s: any) => s.id === this.state.sectionId
+    )
+
+    return (
+      <SectionDump
+        initialUnit={unit}
+        initialSection={section}
+        course={props.courseById}
+        initialCards={cards}
+        units={units}
+      />
+    )
+  })
+
+  render() {
     let variables: any = {
-      course_id: courseId,
-      resolverArgs: [
-        { param: 'course_id', value: courseId },
-        { param: 'unit_id', value: unitId },
-        { param: 'section_id', value: sectionId }
+      course_id: this.state.courseId,
+      unitsResolverArgs: [{ param: 'course_id', value: this.state.courseId }],
+      cardsResolverArgs: [
+        { param: 'course_id', value: this.state.courseId },
+        { param: 'unit_id', value: this.state.unitId },
+        { param: 'section_id', value: this.state.sectionId }
       ]
     }
 

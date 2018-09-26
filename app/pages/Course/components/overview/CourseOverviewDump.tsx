@@ -23,7 +23,9 @@ class CourseOverviewDump extends React.PureComponent<
     const { showHeader, showStatus } = this.props
     const { unitIds, unitsById } = this.props.state.examAllUnits
     const { last_accessed_unit } = this.props.state.course
-    const defaultOpen = !last_accessed_unit
+    // We open up all units when being indexed for SEO
+    const defaultOpen =
+      !last_accessed_unit || navigator.userAgent.startsWith('bot-exlpre-')
     const { formatMessage } = this.props.intl
 
     return (

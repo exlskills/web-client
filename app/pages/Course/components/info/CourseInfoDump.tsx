@@ -8,6 +8,7 @@ import messages from './messages'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import Helmet from 'react-helmet'
+import { ContentCard } from './styledComponents'
 let Markdown = require('react-remarkable')
 
 interface IProps {
@@ -45,7 +46,7 @@ class CourseInfoDump extends React.Component<
     const { infoMarkdown, verifiedCertCost } = this.props
 
     return (
-      <ContentWrapper>
+      <ContentWrapper responsive={true}>
         <Helmet
           title={formatMessage(messages.pageTitle, {
             course: this.props.title
@@ -60,7 +61,13 @@ class CourseInfoDump extends React.Component<
           ]}
         />
         <br />
-        {this.parseContent(infoMarkdown)}
+        <h3>
+          {formatMessage(messages.pageHeading)}
+        </h3>
+        <br />
+        <ContentCard>
+          {this.parseContent(infoMarkdown)}
+        </ContentCard>
       </ContentWrapper>
     )
   }

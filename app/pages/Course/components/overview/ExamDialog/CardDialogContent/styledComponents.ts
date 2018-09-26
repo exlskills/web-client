@@ -29,7 +29,6 @@ export const ConceptMesssage = styled.div`
   font-size: 1em;
   padding: 20px;
   height: 100%;
-  overflow-y: scroll;
 `
 
 export const SubHeaderText = styled.p`

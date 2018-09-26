@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Loading from 'common/components/Loading'
 import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'
 import { injectState, update, provideState } from 'freactal'
@@ -15,7 +14,8 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import CourseRolesQuery from '../queries/CourseRolesQuery'
-import { toGlobalId } from '../../../../../common/utils/graphql'
+import { toGlobalId } from 'common/utils/graphql'
+import { handleQueryRender } from 'common/utils/relay'
 
 interface IProps {}
 
@@ -42,19 +42,7 @@ class StatusCard extends React.Component<Mergedprops, {}> {
     // })
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     let enrolled = false
     const rawRoles = props.userProfile
       ? props.userProfile.course_roles.edges
@@ -83,7 +71,7 @@ class StatusCard extends React.Component<Mergedprops, {}> {
         enrolled={enrolled}
       />
     )
-  }
+  })
 
   render() {
     const courseId = fromUrlId(

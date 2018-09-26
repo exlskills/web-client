@@ -17,13 +17,9 @@ export default defineMessages({
     id: 'common.components.Navbar.navbarCourses',
     defaultMessage: 'Courses'
   },
-  navbarWorkspaces: {
-    id: 'common.components.Navbar.navbarWorkspaces',
-    defaultMessage: 'Workspaces'
-  },
-  navbarClasses: {
-    id: 'common.components.Navbar.navbarClasses',
-    defaultMessage: 'Classes'
+  navbarSettings: {
+    id: 'common.components.Navbar.navbarSettings',
+    defaultMessage: 'Settings'
   },
   emptyMenu: {
     id: 'pages.Course.UnitCard.UnitActionButton.emptyMenu',

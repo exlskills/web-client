@@ -1,5 +1,3 @@
-import { RendererProps } from 'common/utils/relay'
-import Loading from 'common/components/Loading'
 import * as React from 'react'
 import Helmet from 'react-helmet'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
@@ -15,7 +13,8 @@ import { Wrapper } from './styledComponents'
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
-import { DEFAULT_PAGE_SIZE } from '../../common/constants'
+import { handleQueryRender } from 'common/utils/relay'
+import Loading from 'common/components/Loading'
 
 const rootQuery = graphql`
   query ExamQuery(
@@ -109,19 +108,7 @@ class ExamPage extends React.Component<
     })
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      console.log('gql render exam error:', error)
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     let is_active_exam = false
     let dataExamAttempt = props.examAttempt
     if (dataExamAttempt && dataExamAttempt.length > 0) {
@@ -178,7 +165,7 @@ class ExamPage extends React.Component<
         />
       </Wrapper>
     )
-  }
+  })
 
   render() {
     if (!this.state.loadedTakeExam) {

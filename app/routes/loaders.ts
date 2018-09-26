@@ -33,8 +33,8 @@ export const Dashboard = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
-export const NotFound = Loadable({
-  loader: () => System.import('common/pages/NotFound'),
+export const Error = Loadable({
+  loader: () => System.import('common/pages/Error'),
   loading: Loading,
   delay: DELAY_INTERVAL
 })

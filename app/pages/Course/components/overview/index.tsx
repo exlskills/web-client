@@ -1,7 +1,6 @@
 import * as React from 'react'
-import Loading from 'common/components/Loading'
-//import wsclient from 'common/ws/client'
-//import { WS_EVENTS } from 'common/ws/constants'
+import wsclient from 'common/ws/client'
+import { WS_EVENTS } from 'common/ws/constants'
 import { injectState, update, provideState } from 'freactal'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
@@ -16,6 +15,8 @@ import { IFreactalProps } from 'pages/Course'
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
+
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
   query overviewQuery(
@@ -61,6 +62,7 @@ const rootQuery = graphql`
       last_accessed_unit
       last_accessed_section
       last_accessed_card
+      delivery_methods
     }
   }
 `
@@ -78,19 +80,7 @@ class CourseOverview extends React.Component<Mergedprops, {}> {
   }
   context: any
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const units = props.unitPaging ? props.unitPaging.edges : []
 
     let unitIds = []
@@ -127,7 +117,7 @@ class CourseOverview extends React.Component<Mergedprops, {}> {
         showStatus={showStatus}
       />
     )
-  }
+  })
 
   render() {
     const courseId = fromUrlId(

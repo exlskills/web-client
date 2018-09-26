@@ -4,6 +4,7 @@ import * as React from 'react'
 const Markdown = require('react-remarkable')
 import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 import { OptionWrapper, Wrapper } from './styledComponents'
+import { shuffle } from '../../../utils/shuffle'
 
 // TODO: This could be replaced with IOptionProps from `@blueprintjs/core`
 export type MultiOptionProps = {
@@ -26,7 +27,11 @@ interface IProps {
   onChange?: (selected: QuestionResponseData) => void
 }
 
-class MultipleChoice extends React.Component<IProps, {}> {
+interface IStates {}
+
+class MultipleChoice extends React.Component<IProps, IStates> {
+  state: IStates = {}
+
   private autoRadioName = uniqueId('MultipleChoice.Radio-')
 
   handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {

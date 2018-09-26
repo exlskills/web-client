@@ -34,7 +34,6 @@ class BulletNavigator extends React.PureComponent<IProps, {}> {
   }
 
   handleClick = (e: any) => {
-    // TODO: which HTML type that support dataset?
     const { activeValue, list, cursorBased, useIndex } = this.props
     let val = e.target.dataset.id
 

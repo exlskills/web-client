@@ -1,10 +1,9 @@
 import * as React from 'react'
-import { RendererProps } from 'common/utils/relay'
-import Loading from 'common/components/Loading'
 
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
   query CardQuestionHintQuery($resolverArgs: [QueryResolverArgs]!) {
@@ -20,27 +19,15 @@ export interface IProps {
 }
 
 class CardQuestionHint extends React.PureComponent<IProps, any> {
-  queryRender = ({ error, props }: RendererProps) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading mt="0" />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const hint = props.questionHint ? props.questionHint.hint : ''
 
     return (
-      <span>
+      <div>
         {hint}
-      </span>
+      </div>
     )
-  }
+  })
 
   render() {
     if (!this.props.questionId || !this.props.shouldFetch) {

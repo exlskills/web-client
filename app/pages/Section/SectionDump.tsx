@@ -1,6 +1,5 @@
-import { Collapse, Intent, Popover, Position } from '@blueprintjs/core'
-import { ExamQuestion } from 'common/components/loaders'
-import {
+import { Button, Collapse, Intent, Popover, Position } from '@blueprintjs/core'
+import ExamQuestion, {
   AnswerProps,
   QuestionProps,
   QuestionType
@@ -12,11 +11,13 @@ import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'
 import * as React from 'react'
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
-import { RouteComponentProps, withRouter } from 'react-router'
+import { Redirect, RouteComponentProps, withRouter } from 'react-router'
+const { fetchQuery, graphql } = require('react-relay/compat')
+import environment from 'relayEnvironment'
 import { Sticky, StickyContainer } from 'react-sticky'
 
 import CardQuestionHint from './CardQuestionHint'
-import { Header } from 'pages/Section'
+import Header from './components/Header'
 import messages from './messages'
 import SubmitCardAnswerMutation from './mutations/SubmitCardAnswerMutation'
 import {
@@ -30,17 +31,78 @@ import {
   ResultPopoverContent,
   Wrapper,
   WrongResult,
-  ExamQuestionWrapper
+  ExamQuestionWrapper,
+  InnerWrapper,
+  ActionButtonRow,
+  ActionButtonGroup,
+  AnswerButtonPopover,
+  ImportantActionButton
 } from './styledComponents'
 import Helmet from 'react-helmet'
+import { SplitPane } from '../Course/components/styledComponents'
+import Sidebar from '../Course/components/common/Sidebar'
+import { Route, Switch } from 'react-router-dom'
+import { isMobile } from '../../common/utils/screen'
+
+const getNextCardsListQuery = graphql`
+  query SectionDumpNextCardsListQuery(
+    $cardsResolverArgs: [QueryResolverArgs]!
+  ) {
+    cardPaging(first: 9999, resolverArgs: $cardsResolverArgs) {
+      edges {
+        cursor
+        node {
+          id
+          index
+          title
+          headline
+          tags
+          content {
+            id
+            version
+            content
+          }
+          question {
+            id
+            question_type
+            question_text
+            data {
+              id
+              tmpl_files
+              environment_key
+              use_advanced_features
+              explanation
+              src_files
+              options {
+                id
+                seq
+                text
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`
 
 interface IProps {
-  cards: any
+  units: any[]
   course: any
+  initialUnit: any
+  initialSection: any
+  initialCards: any[]
 }
 
 interface IStates {
   cardView: boolean
+  unit: any
+  section: any
+  cards: any[]
   activeCardId: string
   cardQuizId: string
   cardId: string
@@ -55,7 +117,6 @@ interface IStates {
   selectedText: string
   showSelectionPopover: boolean[]
   startDiscussionOpen: boolean
-  cardTags: string[]
   reloadDiscussion: number
   nextQuestion: any
 }
@@ -68,28 +129,28 @@ class SectionDump extends React.PureComponent<
     viewer: React.PropTypes.object
   }
   context: any
-
-  constructor(props: any) {
-    super(props)
-
-    this.state = {
-      cardView: true,
-      activeCardId: props.cards && props.cards[0] ? props.cards[0].node.id : '',
-      showSelectionPopover: [],
-      selectedText: '',
-      startDiscussionOpen: false,
-      userAnswerById: {},
-      result: null,
-      explanation: null,
-      showResultPopover: false,
-      showExplanation: false,
-      showHint: false,
-      cardQuizId: '',
-      cardId: '',
-      cardTags: [],
-      reloadDiscussion: 0,
-      nextQuestion: null
-    }
+  state: IStates = {
+    unit: this.props.initialUnit,
+    section: this.props.initialSection,
+    cardView: true,
+    activeCardId:
+      this.props.initialCards && this.props.initialCards[0]
+        ? this.props.initialCards[0].node.id
+        : '',
+    showSelectionPopover: [],
+    selectedText: '',
+    startDiscussionOpen: false,
+    userAnswerById: {},
+    result: null,
+    explanation: null,
+    showResultPopover: false,
+    showExplanation: false,
+    showHint: false,
+    cardQuizId: '',
+    cardId: '',
+    reloadDiscussion: 0,
+    nextQuestion: null,
+    cards: this.props.initialCards
   }
 
   private _sendEvent = (cardId: string, action: string) => {
@@ -136,18 +197,6 @@ class SectionDump extends React.PureComponent<
       cardId = fromUrlId(SchemaType.UnitSection, this.props.match.params.cardId)
     }
     return { courseId, unitId, sectionId, cardId }
-  }
-
-  handleStartDiscussionClick = (card: any) => () => {
-    const tagsList = card.tags
-      ? card.tags.filter((tag: string) => tag.trim() != '')
-      : []
-    this.setState({
-      startDiscussionOpen: !this.state.startDiscussionOpen,
-      showSelectionPopover: [],
-      cardId: card.id,
-      cardTags: tagsList
-    })
   }
 
   handleSubmitDiscussion = ({ title, comment, tags }: any) => {
@@ -360,18 +409,117 @@ class SectionDump extends React.PureComponent<
 
   handleResultButton = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0
-    if (top.location.href.indexOf('/classes/') > -1) {
-      document.getElementsByClassName('Pane vertical Pane2')[0].scrollTop = 0
-    }
-    if (this.getNextCardId()) {
-      this.goToNextCard()
-    } else {
-      this.handleTheLastNext()
-    }
+    this.navigateCards(false)
   }
 
-  handleNotLearnedClick = () => {
-    this.goToNextCard()
+  fetchAndNavigateToSection = (
+    nextUnit: any,
+    nextSection: any,
+    nextCard: any
+  ) => {
+    fetchQuery(environment, getNextCardsListQuery, {
+      cardsResolverArgs: [
+        { param: 'course_id', value: this.props.course.id },
+        { param: 'unit_id', value: nextUnit.id },
+        { param: 'section_id', value: nextSection.id }
+      ]
+    }).then((data: any) => {
+      this.setState(
+        {
+          cards: data.cardPaging ? data.cardPaging.edges : [],
+          unit: nextUnit,
+          section: nextSection,
+          activeCardId: nextCard.id,
+          result: null,
+          explanation: null,
+          showResultPopover: false,
+          showExplanation: false,
+          showHint: false
+        },
+        () => {
+          this.props.history.replace(
+            `/courses/${toUrlId(
+              this.props.course.title,
+              this.props.course.id
+            )}/units/${toUrlId(nextUnit.title, nextUnit.id)}/sections/${toUrlId(
+              nextSection.title,
+              nextSection.id
+            )}/card/${toUrlId(nextCard.title, nextCard.id)}`
+          )
+        }
+      )
+    })
+  }
+
+  navigateCards = (reverse: boolean) => {
+    let cards = this.getCards()
+    let curCardIdx = cards.cardsIds.findIndex(
+      id => id === this.state.activeCardId
+    )
+    if (reverse) {
+      if (curCardIdx <= 0) {
+        this._sendEvent(this.state.activeCardId, 'bck')
+        let sectIdx = this.state.unit.sections_list.findIndex(
+          (sect: any) => sect.id === this.state.section.id
+        )
+        if (sectIdx <= 0) {
+          let unitIdx = this.props.units.findIndex(
+            (u: any) => u.id === this.state.unit.id
+          )
+          if (unitIdx <= 0) {
+            this.props.history.replace(
+              `/courses/${toUrlId(
+                this.props.course.title,
+                this.props.course.id
+              )}`
+            )
+          } else {
+            let nextUnit = this.props.units[unitIdx - 1]
+            let nextSect =
+              nextUnit.sections_list[nextUnit.sections_list.length - 1]
+            let nextCard = nextSect.cards_list[nextSect.cards_list.length - 1]
+            this.fetchAndNavigateToSection(nextUnit, nextSect, nextCard)
+          }
+        } else {
+          let nextSect = this.state.unit.sections_list[sectIdx - 1]
+          let nextCard = nextSect.cards_list[nextSect.cards_list.length - 1]
+          this.fetchAndNavigateToSection(this.state.unit, nextSect, nextCard)
+        }
+      } else {
+        this.goToNextCard(cards.cardsIds[curCardIdx - 1])
+      }
+    } else {
+      if (curCardIdx >= cards.cardsIds.length - 1) {
+        this._sendEvent(this.state.activeCardId, 'fwd')
+        let sectIdx = this.state.unit.sections_list.findIndex(
+          (sect: any) => sect.id === this.state.section.id
+        )
+        if (sectIdx >= this.state.unit.sections_list.length - 1) {
+          let unitIdx = this.props.units.findIndex(
+            (u: any) => u.id === this.state.unit.id
+          )
+          if (unitIdx >= this.props.units.length - 1) {
+            this.props.history.replace(
+              `/courses/${toUrlId(
+                this.props.course.title,
+                this.props.course.id
+              )}`
+            )
+          } else {
+            let nextUnit = this.props.units[unitIdx + 1]
+            let nextSect = nextUnit.sections_list[0]
+            let nextCard = nextSect.cards_list[0]
+            this.fetchAndNavigateToSection(nextUnit, nextSect, nextCard)
+          }
+        } else {
+          let nextSect = this.state.unit.sections_list[sectIdx + 1]
+          let nextCard = nextSect.cards_list[0]
+          this.fetchAndNavigateToSection(this.state.unit, nextSect, nextCard)
+        }
+      } else {
+        this.goToNextCard()
+      }
+    }
   }
 
   toggleShowHint = () => {
@@ -382,8 +530,13 @@ class SectionDump extends React.PureComponent<
   }
 
   private onInteraction = (state: boolean) => this.handleInteraction(state)
-  private handleInteraction(nextOpenState: boolean) {
-    this.setState({ showResultPopover: nextOpenState })
+
+  private handleInteraction = (nextOpenState: boolean) => {
+    let nextState = nextOpenState
+    if (this.state.result == 'correct' || this.state.result == 'wrong') {
+      nextState = true
+    }
+    this.setState({ showResultPopover: nextState })
   }
 
   hasAnswer() {
@@ -478,29 +631,47 @@ class SectionDump extends React.PureComponent<
       }
       return (
         <div>
-          <Popover
-            isOpen={this.state.showResultPopover}
-            onInteraction={this.onInteraction}
-            content={this.renderResultPopover()}
-            position={Position.TOP}
-          >
-            <ActionButton
-              id="submit-question"
-              text={formatMessage(messages.submitAnswerButton)}
-              intent={Intent.PRIMARY}
-              onClick={this.handleSubmitClick(question)}
-              disabled={disableSubmit}
-            />
-          </Popover>
-          <ActionButton
-            text={formatMessage(
-              this.state.showHint
-                ? messages.hideHintButton
-                : messages.hintButton
-            )}
-            iconName="help"
-            onClick={this.toggleShowHint}
-          />
+          <ActionButtonRow>
+            <ActionButtonGroup>
+              <AnswerButtonPopover
+                isOpen={this.state.showResultPopover}
+                onInteraction={this.onInteraction}
+                content={this.renderResultPopover()}
+                position={Position.TOP}
+              >
+                <ImportantActionButton
+                  id="submit-question"
+                  text={formatMessage(messages.submitAnswerButton)}
+                  intent={Intent.PRIMARY}
+                  onClick={this.handleSubmitClick(question)}
+                  disabled={disableSubmit}
+                />
+              </AnswerButtonPopover>
+              <ImportantActionButton
+                text={formatMessage(
+                  this.state.showHint
+                    ? messages.hideHintButton
+                    : messages.hintButton
+                )}
+                iconName="help"
+                onClick={this.toggleShowHint}
+              />
+            </ActionButtonGroup>
+            <ActionButtonGroup>
+              <ActionButton
+                onClick={() => this.navigateCards(false)}
+                style={{ float: 'right' }}
+              >
+                Next
+              </ActionButton>
+              <ActionButton
+                onClick={() => this.navigateCards(true)}
+                style={{ float: 'right' }}
+              >
+                Previous
+              </ActionButton>
+            </ActionButtonGroup>
+          </ActionButtonRow>
           <HintWrapper>
             <Collapse isOpen={this.state.showHint}>
               <CardQuestionHint
@@ -514,7 +685,7 @@ class SectionDump extends React.PureComponent<
     } else {
       return (
         <div>
-          <ActionButton
+          <ImportantActionButton
             text={formatMessage(messages.btnNext)}
             intent={Intent.PRIMARY}
             onClick={this.handleResultButton}
@@ -533,9 +704,9 @@ class SectionDump extends React.PureComponent<
   }
 
   getCards = () => {
-    const rawData = this.props.cards ? this.props.cards : []
-    let cardsList: any = []
-    let cardsIds: any = []
+    const rawData = this.state.cards ? this.state.cards : []
+    let cardsList: any[] = []
+    let cardsIds: any[] = []
     let cardsById: any = {}
 
     for (let item of rawData) {
@@ -565,14 +736,16 @@ class SectionDump extends React.PureComponent<
 
   handleGoBack = () => {
     this._sendEvent(this.state.activeCardId, 'bck_cw')
-    let classPath = ''
-    if (this.props.match.params.classId) {
-      classPath = `/classes/${this.props.match.params.classId}`
-    }
 
-    this.props.history.push(
-      `${classPath}/courses/${this.props.match.params.courseId}/`
-    )
+    this.props.history.push(`/courses/${this.props.match.params.courseId}/`)
+  }
+
+  handleBeyondBounds = (direction: number) => {
+    if (direction > 0) {
+      this.navigateCards(false)
+    } else {
+      this.navigateCards(true)
+    }
   }
 
   render() {
@@ -588,14 +761,14 @@ class SectionDump extends React.PureComponent<
 
     let explanationData: any = {}
     if (showExplanation) {
-      explanationData.defaultShowExplan = true
-      explanationData.explanContent = explanation
+      explanationData.defaultShowExplanation = true
+      explanationData.explanationContent = explanation
     } else {
-      explanationData.defaultShowExplan = false
+      explanationData.defaultShowExplanation = false
     }
 
     return (
-      <StickyContainer>
+      <Wrapper>
         <Helmet
           title={
             cardView
@@ -608,82 +781,79 @@ class SectionDump extends React.PureComponent<
                 })
           }
         />
-        <Sticky topOffset={-50}>
-          {({ style, isSticky }: { style: any; isSticky: boolean }) => {
-            let wrapperStyle: any = {}
-            if (isSticky && style) {
-              style.marginTop = 50
-              wrapperStyle.borderBottom = '1px solid #ccc'
-            }
-            return (
-              <FixedSectionNavigate style={style}>
-                <Wrapper style={wrapperStyle}>
-                  <Header
-                    cards={cardsList}
-                    activeCardId={activeCardId}
-                    cardView={cardView}
-                    onCardChange={this.handleCardChange}
-                    toggleCardView={this.toggleCardView}
-                    onGoBack={this.handleGoBack}
-                  />
-                </Wrapper>
-              </FixedSectionNavigate>
-            )
-          }}
-        </Sticky>
+        {/*<SplitPane*/}
+        {/*defaultSize={240}*/}
+        {/*pane2Style={{ overflowY: 'overlay' as any }}*/}
+        {/*>*/}
+        {/*<Sidebar /> TODO implement sidebar*/}
+        <InnerWrapper>
+          <FixedSectionNavigate>
+            <Header
+              cards={cardsList}
+              sectionTitle={this.state.section.title}
+              activeCardId={activeCardId}
+              cardView={cardView}
+              onCardChange={this.handleCardChange}
+              toggleCardView={this.toggleCardView}
+              onGoBack={this.handleGoBack}
+              onBeyondBounds={this.handleBeyondBounds}
+            />
+          </FixedSectionNavigate>
 
-        <Wrapper>
-          {filteredCards.map((card: any, idx: number) => {
-            return (
-              <Card key={card.id}>
-                <SectionCard
-                  card={card}
-                  // TODO Maybe we can start intercom chats with the same highlight dialog?
-                  // selection={true}
-                  // onTextSelect={this.handleTextSelect(idx)}
-                  // onTextDeselect={this.handleTextDeSelect(idx)}
-                  // showPopover={this.state.showSelectionPopover[idx]}
-                  // popoverContent={
-                  //   <Button
-                  //     text={formatMessage(messages.btnStartDiscussion)}
-                  //     intent={Intent.PRIMARY}
-                  //     onClick={this.handleStartDiscussionClick(card)}
-                  //   />
-                  // }
-                />
-                {cardView &&
-                  card.question &&
-                  <div>
-                    <hr />
-                    <h4>
-                      {formatMessage(messages.lbApplicationQuestion)}
-                    </h4>
-                    <ExamQuestionWrapper>
-                      <ExamQuestion
-                        transparentStyle={true}
-                        question={card.question}
-                        userAnswer={userAnswer}
-                        onAnswerChange={this.handleAnswerChange}
-                        {...explanationData}
-                        splitHeight={'500px'}
-                        splitFlexible={true}
-                      />
-                    </ExamQuestionWrapper>
-                    {this.renderActionBlock(card.question)}
-                  </div>}
-              </Card>
-            )
-          })}
-          {/* TODO Maybe we can start intercom chats with the same highlight dialog */}
-          {/*<StartDiscussionDialog*/}
-          {/*isOpen={this.state.startDiscussionOpen}*/}
-          {/*onClose={this.toggleStartDiscussionDialog}*/}
-          {/*highlightedText={this.state.selectedText}*/}
-          {/*onSubmit={this.handleSubmitDiscussion}*/}
-          {/*defaultTags={this.state.cardTags}*/}
-          {/*/>*/}
-        </Wrapper>
-      </StickyContainer>
+          <div>
+            {filteredCards.map((card: any, idx: number) => {
+              return (
+                <Card key={card.id}>
+                  <SectionCard
+                    card={card}
+                    // TODO Maybe we can start intercom chats with the same highlight dialog?
+                    // selection={true}
+                    // onTextSelect={this.handleTextSelect(idx)}
+                    // onTextDeselect={this.handleTextDeSelect(idx)}
+                    // showPopover={this.state.showSelectionPopover[idx]}
+                    // popoverContent={
+                    //   <Button
+                    //     text={formatMessage(messages.btnStartDiscussion)}
+                    //     intent={Intent.PRIMARY}
+                    //     onClick={this.handleStartDiscussionClick(card)}
+                    //   />
+                    // }
+                  />
+                  {cardView &&
+                    card.question &&
+                    <div>
+                      <hr />
+                      <h4>
+                        {formatMessage(messages.lbApplicationQuestion)}
+                      </h4>
+                      <ExamQuestionWrapper>
+                        <ExamQuestion
+                          transparentStyle={true}
+                          question={card.question}
+                          userAnswer={userAnswer}
+                          onAnswerChange={this.handleAnswerChange}
+                          {...explanationData}
+                          splitHeight={'500px'}
+                          splitFlexible={true}
+                        />
+                      </ExamQuestionWrapper>
+                      {this.renderActionBlock(card.question)}
+                    </div>}
+                </Card>
+              )
+            })}
+            {/* TODO Maybe we can start intercom chats with the same highlight dialog */}
+            {/*<StartDiscussionDialog*/}
+            {/*isOpen={this.state.startDiscussionOpen}*/}
+            {/*onClose={this.toggleStartDiscussionDialog}*/}
+            {/*highlightedText={this.state.selectedText}*/}
+            {/*onSubmit={this.handleSubmitDiscussion}*/}
+            {/*defaultTags={this.state.cardTags}*/}
+            {/*/>*/}
+          </div>
+        </InnerWrapper>
+        {/*</SplitPane>*/}
+      </Wrapper>
     )
   }
 }

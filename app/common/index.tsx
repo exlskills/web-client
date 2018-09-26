@@ -5,7 +5,7 @@ import Routes from 'routes/index'
 import { AppWrapper } from 'common/components/styledComponents'
 import { ReactNode } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-//import Navbar from 'common/components/Navbar'
+import Navbar from 'common/components/Navbar'
 import { NAVBAR_ROUTES } from 'common/constants'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
@@ -18,10 +18,8 @@ import { getViewer } from 'common/utils/viewer'
 import { Route } from 'react-router-dom'
 import ReactGA from 'react-ga'
 
-import { Navbar } from 'common/components/loaders'
-
-// TODO import and show SubscriptionDialog in the future
-// import SubscriptionDialog from 'common/components/SubscriptionDialog';
+// Global billing dialog (invoked with ?showBilling=true)
+import BillingDialogProvider from 'common/components/BillingDialogProvider'
 
 interface IProps {
   children?: ReactNode
@@ -51,9 +49,11 @@ class App extends React.PureComponent<
   }
 
   componentWillMount() {
-    ReactGA.initialize('UA-122120459-2', {
-      gaOptions: { userId: getViewer('user_id') }
-    })
+    if (!navigator.userAgent.startsWith('bot-exlpre-')) {
+      ReactGA.initialize('UA-122120459-2', {
+        gaOptions: { userId: getViewer('user_id') }
+      })
+    }
   }
 
   render() {
@@ -66,7 +66,6 @@ class App extends React.PureComponent<
             NAVBAR_ROUTES,
             route => location.get('pathname') === route
           ) === -1 && <Navbar />}
-          {/*<SubscriptionDialog isOpen={true} />*/}
           <Route
             path="/"
             render={({ location }) => {
@@ -74,6 +73,7 @@ class App extends React.PureComponent<
               return null
             }}
           />
+          <BillingDialogProvider />
           <Routes />
         </AppWrapper>
       </ThemeProvider>

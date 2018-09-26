@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Wrapper } from './styledComponents'
+import { CourseImage, Wrapper } from './styledComponents'
 import { SideBarMenu } from 'common/components/loaders'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
@@ -13,14 +13,33 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { IconName } from '@blueprintjs/core'
-import { getBadgeURLForTopic } from '../../../../../common/utils/topic-badges'
+import { getBadgeURLForTopic } from 'common/utils/topic-badges'
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
-  query SidebarQuery($course_id: String) {
+  query SidebarQuery(
+    $first: Int!,
+    $resolverArgs: [QueryResolverArgs]!,
+    $course_id: String
+  ) {
     course: courseById(course_id: $course_id) {
       title
       logo_url
       primary_topic
+      delivery_methods
+    }
+    unitPaging(first: $first, resolverArgs: $resolverArgs) {
+      edges {
+        node {
+          id
+          index
+          title
+          sections_list {
+            id
+            title
+          }
+        }
+      }
     }
   }
 `
@@ -58,26 +77,14 @@ class Sidebar extends React.PureComponent<
     return `/courses/${match.params.courseId}`
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return null
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
     const { match: { url }, location: { pathname } } = this.props
     let valueChange = `/${getFirstPath(pathname.slice(url.length))}`
     if (valueChange == '/') {
       valueChange = ''
     }
-    const allMenuItems = [
+    let allMenuItems = [
       {
         isHeader: true,
         avatarSrc: getBadgeURLForTopic(props.course.primary_topic),
@@ -85,7 +92,16 @@ class Sidebar extends React.PureComponent<
         text: props.course.title
       },
       { isDivider: true }
-    ].concat(menuItems) as any
+    ].concat(menuItems) as any[]
+
+    if (props.course.delivery_methods.includes('live')) {
+      allMenuItems.push({
+        pathExt: '/live',
+        iconName: 'video',
+        translationId: 'menuLive'
+      })
+    }
+
     return (
       <Wrapper>
         <SideBarMenu
@@ -105,7 +121,7 @@ class Sidebar extends React.PureComponent<
         />
       </Wrapper>
     )
-  }
+  })
 
   render() {
     const course_id = fromUrlId(
@@ -120,7 +136,16 @@ class Sidebar extends React.PureComponent<
     return (
       <QueryRenderer
         query={rootQuery}
-        variables={{ course_id }}
+        variables={{
+          first: 20,
+          course_id: course_id,
+          resolverArgs: [
+            {
+              param: 'course_id',
+              value: course_id
+            }
+          ]
+        }}
         environment={environment}
         render={queryRender}
       />

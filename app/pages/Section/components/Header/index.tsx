@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Wrapper } from './styledComponents'
+import { LineNavWrapper, SectionTitle, Wrapper } from './styledComponents'
 import { Button } from '@blueprintjs/core'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
@@ -12,10 +12,13 @@ interface IProps {
     id: string
     title: string
   }[]
+  sectionTitle: string
   activeCardId: string
   onCardChange: (nextId: string) => void
   toggleCardView: () => void
   onGoBack: () => void
+  // onBeyondBounds direction is positive if out of beyonds forward, negative if in reverse
+  onBeyondBounds: (direction: number) => void
   cardView?: boolean
 }
 
@@ -47,36 +50,40 @@ class Header extends React.Component<IProps & InjectedIntlProps, {}> {
   }
 
   render() {
-    const { cardView, cards, activeCardId } = this.props
+    const { cardView, cards, sectionTitle, activeCardId } = this.props
     const { formatMessage } = this.props.intl
     return (
       <Wrapper>
-        <Button
-          iconName="arrow-left"
-          text={formatMessage(messages.backCourseButton)}
-          onClick={this.handleBackCourseClick}
-        />
+        {/*<Button*/}
+        {/*iconName="chevron-left"*/}
+        {/*text={formatMessage(messages.backCourseButton)}*/}
+        {/*onClick={this.handleBackCourseClick}*/}
+        {/*/>*/}
+        <SectionTitle>
+          {sectionTitle}
+        </SectionTitle>
         {cardView &&
-          <div style={{ width: '70%' }}>
+          <LineNavWrapper>
             <LineNavigator
               labelWidth={100}
               linePadding={50}
               items={cards}
               activeValue={{ id: activeCardId }}
+              onBeyondBounds={this.props.onBeyondBounds}
               onClick={this.handleOnCardChange}
               formatLabel={this.formatLabel}
               fixWidth={true}
             />
-          </div>}
-        <Button
-          iconName={cardView ? 'duplicate' : 'document'}
-          text={
-            cardView
-              ? formatMessage(messages.showPageViewButton)
-              : formatMessage(messages.showCardViewButton)
-          }
-          onClick={this.props.toggleCardView}
-        />
+          </LineNavWrapper>}
+        {/*<Button*/}
+        {/*iconName={cardView ? 'duplicate' : 'document'}*/}
+        {/*// text={*/}
+        {/*//   cardView*/}
+        {/*//     ? formatMessage(messages.showPageViewButton)*/}
+        {/*//     : formatMessage(messages.showCardViewButton)*/}
+        {/*// }*/}
+        {/*onClick={this.props.toggleCardView}*/}
+        {/*/>*/}
       </Wrapper>
     )
   }

@@ -1,9 +1,43 @@
-import { Button } from '@blueprintjs/core'
+import { Button, IPopoverProps, Popover } from '@blueprintjs/core'
 import styled from 'styled-components'
+import * as ReactSplitPane from 'react-split-pane'
+import { CenterContainer } from 'common/components/styledComponents'
+import { mobileBPCSS } from 'common/utils/screen'
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(CenterContainer)`
+  @media only screen and (max-width: ${mobileBPCSS}) {
+    padding: 0;
+  }
+`
+
+export const InnerWrapper = styled.div`
   max-width: 1000px;
-  margin: 0 auto;
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  @media only screen and (max-width: ${mobileBPCSS}) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+`
+
+export const CardWrapper = styled.div.attrs({
+  className: 'pt-card'
+})`
+  width: 100%;
+`
+
+export const SplitPane = styled(ReactSplitPane).attrs({
+  pane1Style: { height: '100%' as any }
+})`
+  height: calc(100% - 50px) !important;
+  overflow: auto !important;
+  
+  @media only screen and (max-width: ${mobileBPCSS}) {
+      .Pane1 {
+        width: 0px !important;
+      }
+  }
 `
 
 export const Card = styled.div.attrs({
@@ -11,7 +45,7 @@ export const Card = styled.div.attrs({
 })`
   min-height: 300px;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 90px;
 `
 
 export const CardContent = styled.pre`
@@ -39,8 +73,22 @@ export const ResultButton = styled(Button)`
     margin-right: 0;
   }
 `
+
 export const ActionButton = styled(Button)`
   margin-right: 10px;
+  @media (max-width: 769px) {
+    width: 50%;
+    margin-right: 0;
+  }
+`
+
+export const ImportantActionButton = styled(Button)`
+  margin-right: 10px;
+  @media (max-width: 769px) {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 `
 
 export const HintWrapper = styled.div`margin-top: 10px;`
@@ -51,3 +99,26 @@ export const FixedSectionNavigate = styled.div`
   margin-bottom: 2px;
 `
 export const ExamQuestionWrapper = styled.div``
+
+export const ActionButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 769px) {
+    flex-direction: column;
+  }
+`
+
+export const ActionButtonGroup = styled.div`
+  width: 50%;
+  @media (max-width: 769px) {
+    width: 100%;
+  }
+`
+
+export const AnswerButtonPopover = styled(Popover).attrs<IPopoverProps>({})`
+  @media (max-width: 769px) {
+    &.pt-popover-target {
+      width: 100%;
+    }
+  }
+`

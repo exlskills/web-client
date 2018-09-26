@@ -86,6 +86,17 @@ injectGlobal`
     height: 2px;
   }
 
+  .pt-dialog-container .pt-dialog.exl-mobile-full-dialog {
+    position: absolute !important;
+    
+    .pt-dialog-body {
+      position: relative;
+      overflow: hidden;
+    }
+  }
+
+  /*
+   * Note: removing custom scrollbar for accessibility across devices/platforms
   ::-webkit-scrollbar {
     width: 12px;
     height: 8px;
@@ -100,4 +111,5 @@ injectGlobal`
   ::-webkit-scrollbar-thumb {
     background-color: rgba(120, 120, 120, 0.4);
   }
+  */
 `

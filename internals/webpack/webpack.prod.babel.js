@@ -28,7 +28,10 @@ module.exports = require('./webpack.base.babel')({
 
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
+      // analyzerMode: 'static'
+      analyzerMode: 'disable',
+      generateStatsFile: true,
+      statsFilename: '../bundle_report/stats.json'
     }),
     // new webpack.optimize.ModuleConcatenationPlugin(),
 

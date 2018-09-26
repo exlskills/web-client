@@ -57,3 +57,9 @@ export const UpgradeButtonStyled = PinkActionButton.extend.attrs<IButtonProps>({
     margin-top: -5px;
   }
 `
+
+export const HideXS = styled.span`
+  @media only screen and (max-width: 374px) {
+    display: none;
+  }
+`

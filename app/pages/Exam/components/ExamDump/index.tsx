@@ -15,7 +15,6 @@ import AnswerExamQuestionMutation from '../../mutations/AnswerExamQuestionMutati
 import LeaveExamMutation from '../../mutations/LeaveExamMutation'
 import {
   ContentWrapper,
-  //  Goback,
   Navigator,
   QuestionWrapper,
   SplitPane,
@@ -24,9 +23,10 @@ import {
   ExamWrapper
 } from '../../styledComponents'
 import Sidebar from '../Sidebar'
+import MobileActions from '../MobileActions'
 import SubmitCard from '../SubmitCard'
-// import { Sticky } from 'react-sticky'
-import { ConfirmDialog } from 'common/components/loaders'
+import ConfirmDialog from 'common/components/ConfirmDialog'
+import { isMobile } from '../../../../common/utils/screen'
 
 interface IProps {
   courseId: string
@@ -44,6 +44,7 @@ interface IProps {
 }
 
 interface IStates {
+  isMobile: boolean
   activeQuestion: string
   answersByQuestion: { [id: string]: AnswerProps }
   markForReviews: any
@@ -52,10 +53,9 @@ interface IStates {
   showSubmitConfirmDialog: boolean
 }
 
-class ExamDump extends React.PureComponent<
-  IProps & InjectedIntlProps & RouteComponentProps<any>,
-  IStates
-> {
+type MergedProps = IProps & InjectedIntlProps & RouteComponentProps<any>
+
+class ExamDump extends React.PureComponent<MergedProps, IStates> {
   static defaultProps: Partial<IProps> = {
     completed: false,
     questionsList: [],
@@ -91,6 +91,7 @@ class ExamDump extends React.PureComponent<
 
     const { formatMessage } = this.props.intl
     this.state = {
+      isMobile: isMobile(),
       activeQuestion: firstQuestion,
       answersByQuestion,
       markForReviews: [],
@@ -295,7 +296,16 @@ class ExamDump extends React.PureComponent<
     )
   }
 
+  updateIsMobile = () => {
+    this.setState({ isMobile: isMobile() })
+  }
+
+  componentDidMount = () => {
+    window.addEventListener('resize', this.updateIsMobile)
+  }
+
   componentWillUnmount() {
+    window.removeEventListener('resize', this.updateIsMobile)
     // Cancel exam when unmount the route
     window.onbeforeunload = null
     window.onunload = null
@@ -370,36 +380,59 @@ class ExamDump extends React.PureComponent<
           showDialog={this.state.showSubmitConfirmDialog}
           messageText={this.returnSubmitMessage()}
         />
-        <SplitPane defaultSize={280}>
-          <Sidebar
-            onExamCancel={this.handleExamCancel}
-            onExamSubmit={this.handleShowSubmitDialog}
-            imageUrl={this.props.logo_url}
-            title_elem={this.props.title_unit}
-            answeredQuestions={answeredQuestionsNumber}
-            totalQuestions={totalQuestions}
-            timeLimit={this.props.examTimeLimit}
-          />
-          <RightPanelWrapper>
-            <HeaderWrapper>
-              <Navigator>
-                <LineNavigator
-                  items={slideQuestions}
-                  activeValue={{ id: activeQuestion }}
-                  onClick={this.handleQuestionChange}
-                  hasSubmit={true}
-                  formatLabel={this.formatLabel}
-                  fixWidth={true}
-                />
-              </Navigator>
-            </HeaderWrapper>
-            <ContentWrapper>
-              <QuestionWrapper>
-                {this.renderQuestionCard(activeQuestion, currentQuestion)}
-              </QuestionWrapper>
-            </ContentWrapper>
-          </RightPanelWrapper>
-        </SplitPane>
+        {this.state.isMobile
+          ? <div style={{ height: '100%' }}>
+              <HeaderWrapper>
+                <Navigator>
+                  <LineNavigator
+                    items={slideQuestions}
+                    activeValue={{ id: activeQuestion }}
+                    onClick={this.handleQuestionChange}
+                    hasSubmit={true}
+                    formatLabel={this.formatLabel}
+                    fixWidth={true}
+                  />
+                </Navigator>
+              </HeaderWrapper>
+              {this.renderQuestionCard(activeQuestion, currentQuestion)}
+              <MobileActions
+                onExamCancel={this.handleExamCancel}
+                onExamSubmit={this.handleShowSubmitDialog}
+                answeredQuestions={answeredQuestionsNumber}
+                totalQuestions={totalQuestions}
+                timeLimit={this.props.examTimeLimit}
+              />
+            </div>
+          : <SplitPane defaultSize={280}>
+              <Sidebar
+                onExamCancel={this.handleExamCancel}
+                onExamSubmit={this.handleShowSubmitDialog}
+                imageUrl={this.props.logo_url}
+                title_elem={this.props.title_unit}
+                answeredQuestions={answeredQuestionsNumber}
+                totalQuestions={totalQuestions}
+                timeLimit={this.props.examTimeLimit}
+              />
+              <RightPanelWrapper>
+                <HeaderWrapper>
+                  <Navigator>
+                    <LineNavigator
+                      items={slideQuestions}
+                      activeValue={{ id: activeQuestion }}
+                      onClick={this.handleQuestionChange}
+                      hasSubmit={true}
+                      formatLabel={this.formatLabel}
+                      fixWidth={true}
+                    />
+                  </Navigator>
+                </HeaderWrapper>
+                <ContentWrapper>
+                  <QuestionWrapper>
+                    {this.renderQuestionCard(activeQuestion, currentQuestion)}
+                  </QuestionWrapper>
+                </ContentWrapper>
+              </RightPanelWrapper>
+            </SplitPane>}
       </div>
     )
   }

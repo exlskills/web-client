@@ -27,7 +27,8 @@ import {
 } from './styledComponents'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { Intent, Tag } from '@blueprintjs/core'
-import { getBadgeURLForTopic } from '../../common/utils/topic-badges'
+import { getBadgeURLForTopic } from 'common/utils/topic-badges'
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
   query CourseListingQuery(
@@ -190,19 +191,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
     }
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
     const { pathExt, searchText, filterTopic } = this.state
     const coursesList = props.coursePaging ? props.coursePaging.edges : []
@@ -238,7 +227,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
             <SideBarMenu
               items={[
                 {
-                  text: 'Courses',
+                  text: formatMessage(messages.lbCoursesHeading),
                   iconName: 'book',
                   isHeader: true
                 },
@@ -321,7 +310,7 @@ class CourseListing extends React.PureComponent<MergedProps, IStates> {
         </SplitPane>
       </Wrapper>
     )
-  }
+  })
 
   render() {
     const searchQuery = this.getSearchQuery()

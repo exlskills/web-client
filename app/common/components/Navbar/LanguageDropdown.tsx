@@ -26,6 +26,7 @@ interface IStates {
 const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
+import { handleQueryRender } from '../../utils/relay'
 
 const rootQuery = graphql`
   query LanguageDropdownQuery {
@@ -74,22 +75,12 @@ class LanguageDropdown extends React.PureComponent<
       this.setState({ contentPop: this.renderMenu(props) })
     }
   }
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading mt="0" />
-    }
-    //this.setState({contentPop:this.renderMenu(props)})
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     return (
       <Popover
-        popoverClassName={`pt-minimal ${this.props.theme}`}
+        popoverClassName={`pt-minimal ${this.props.theme == 'pt-dark'
+          ? 'pt-dark'
+          : ''}`}
         content={this.state.contentPop}
         position={Position.BOTTOM_RIGHT}
       >
@@ -100,7 +91,8 @@ class LanguageDropdown extends React.PureComponent<
         />
       </Popover>
     )
-  }
+  })
+
   renderMenu(props: any) {
     const { locale } = this.props
     return (
@@ -118,8 +110,11 @@ class LanguageDropdown extends React.PureComponent<
   }
 
   render() {
+    // NOTE Hey you! Don't delete this line, because this component won't work without it. (comment by @svarlamov - I don't know why this is the case though...)
+    // NOTE You have been warned... Uncertain amount of dark magic ahead...
     const queryRender = ({ error, props }: { error: Error; props: any }) =>
       this.queryRender({ error, props })
+
     return (
       <QueryRenderer
         query={rootQuery}

@@ -98,6 +98,7 @@ type Course implements Node {
   last_accessed_unit: String
   last_accessed_section: String
   last_accessed_card: String
+  delivery_methods: [String]
 }
 
 # A connection to a list of items.
@@ -107,6 +108,19 @@ type CourseConnection {
 
   # A list of edges.
   edges: [CourseEdge]
+}
+
+# Course Delivery Schedule
+type CourseDeliverySchedule implements Node {
+  # The ID of an object
+  id: ID!
+  _id: String
+  delivery_methods: [String]
+  delivery_structure: String
+  course_duration: EventDuration
+  course_notes: String
+  session_info: [ScheduledRunSessionInfoType]
+  scheduled_runs: [ScheduledRunType]
 }
 
 # An edge in a connection.
@@ -169,6 +183,11 @@ enum CudAction {
   DELETE
 }
 
+# A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+# `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+# 8601 standard for representation of dates and times using the Gregorian calendar.
+scalar DateTime
+
 type EmbeddedDocRef implements Node {
   # The ID of an object
   id: ID!
@@ -198,6 +217,15 @@ type EmbeddedDocRefRecordEdge {
 
   # A cursor for use in pagination
   cursor: String!
+}
+
+# Event Duration
+type EventDuration {
+  months: Int
+  weeks: Int
+  days: Int
+  hours: Int
+  minutes: Int
 }
 
 type Exam implements Node {
@@ -237,6 +265,13 @@ input FieldCud {
 
 input FilterValues {
   filterValuesString: String
+}
+
+# Item Price
+type ItemPriceType implements Node {
+  # The ID of an object
+  id: ID!
+  amount: Int
 }
 
 # Application Lang
@@ -327,6 +362,7 @@ type Query {
 
   # Course Unit
   courseUnit(course_id: String, unit_id: String): CourseUnit
+  courseDeliverySchedule(course_id: String, delivery_method: String, date_on_or_after: DateTime): CourseDeliverySchedule
 
   # SectionCard Entry
   cardEntry(course_id: ID!, unit_id: ID!, section_id: ID!, card_id: ID!): SectionCard
@@ -447,6 +483,39 @@ type ReadNotificationPayload {
   clientMutationId: String
 }
 
+# Scheduled Run Session Info
+type ScheduledRunSessionInfoType implements Node {
+  # The ID of an object
+  id: ID!
+  session_seq: Int
+  headline: String
+  desc: String
+  session_notes: String
+}
+
+# Scheduled Run Session
+type ScheduledRunSessionType implements Node {
+  # The ID of an object
+  id: ID!
+  session_seq: Int
+  session_start_date: DateTime
+  _id: String
+  session_run_notes: String
+  instructors: [SessionInstructorType]
+  session_duration: EventDuration
+}
+
+# Scheduled Run
+type ScheduledRunType implements Node {
+  # The ID of an object
+  id: ID!
+  run_start_date: DateTime
+  _id: String
+  offered_at_price: ItemPriceType
+  run_sessions: [ScheduledRunSessionType]
+  seat_purchased: Boolean
+}
+
 # Card of an EXLskills section
 type SectionCard implements Node {
   # The ID of an object
@@ -489,6 +558,15 @@ type SectionCardEdge {
 
   # A cursor for use in pagination
   cursor: String!
+}
+
+# Session Instructor
+type SessionInstructorType implements Node {
+  # The ID of an object
+  id: ID!
+  full_name: String
+  username: String
+  primary_email: String
 }
 
 input SubmitAnswerInput {

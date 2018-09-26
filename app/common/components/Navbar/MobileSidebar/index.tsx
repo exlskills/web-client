@@ -120,6 +120,22 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
     this.closeMenu()
   }
 
+  renderTopNavItem = (item: ITopNavItem, idx?: any) => {
+    return (
+      <ItemWrapper key={idx}>
+        <Item
+          onClick={this.handleTopNavItemClick(item.path)}
+          iconName={item.iconName}
+          active={item.active}
+        >
+          <span>
+            {item.text}
+          </span>
+        </Item>
+      </ItemWrapper>
+    )
+  }
+
   renderItems = () => {
     const { mobileSidebarItems, topNavItems } = this.props
 
@@ -127,21 +143,23 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
       <div>
         {topNavItems &&
           topNavItems.map((item, idx) => {
-            return (
-              <ItemWrapper key={idx}>
-                <Item
-                  onClick={this.handleTopNavItemClick(item.path)}
-                  iconName={item.iconName}
-                  active={item.active}
-                >
-                  <span>
-                    {item.text}
-                  </span>
-                </Item>
-              </ItemWrapper>
-            )
+            if (item.pullBottom) {
+              return
+            }
+            return this.renderTopNavItem(item, idx)
           })}
         {mobileSidebarItems &&
+          !this.props.location.pathname.startsWith('/settings') &&
+          mobileSidebarItems.map((item, idx) => this.renderItem(item, idx))}
+        {topNavItems &&
+          topNavItems.map((item, idx) => {
+            if (!item.pullBottom) {
+              return
+            }
+            return this.renderTopNavItem(item, idx)
+          })}
+        {mobileSidebarItems &&
+          this.props.location.pathname.startsWith('/settings') &&
           mobileSidebarItems.map((item, idx) => this.renderItem(item, idx))}
       </div>
     )
@@ -160,7 +178,12 @@ class MobileSidebar extends React.PureComponent<MergedProps, IStates> {
     }: ISidebarItem,
     idx: number
   ) => {
-    if (isDivider || (isHeader && iconName == ('book' as IconName))) {
+    // NOTE: the checks for book/cog are in order to identify top nav bar items that shouldn't be repeated
+    if (
+      isDivider ||
+      (isHeader && iconName == ('book' as IconName)) ||
+      (isHeader && iconName == ('cog' as IconName))
+    ) {
       return <span key={idx} />
     } else if (isHeader) {
       return (

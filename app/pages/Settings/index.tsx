@@ -38,7 +38,7 @@ class SectionPage extends React.Component<
               items={[
                 {
                   isHeader: true,
-                  text: formatMessage(messages.personalSettingsHeader),
+                  text: formatMessage(messages.settingsHeader),
                   iconName: 'cog'
                 },
                 {

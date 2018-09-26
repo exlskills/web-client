@@ -36,6 +36,7 @@ import environment from 'relayEnvironment'
 import { Button, Intent, Tag } from '@blueprintjs/core'
 import { isExtraSmallMobile, isMobile } from '../../common/utils/screen'
 import { getBadgeURLForTopic } from '../../common/utils/topic-badges'
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
   query DashboardQuery($start_date: String, $end_date: String) {
@@ -143,18 +144,7 @@ class Dashboard extends React.Component<
     }
   }
 
-  queryRender = ({ error, props }: RendererProps) => {
-    if (error) {
-      return (
-        <div>
-          {error}
-        </div>
-      )
-    }
-    if (!props) {
-      return <Loading />
-    }
-
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
     let recommended: any = []
     let mine: any = []
@@ -308,7 +298,7 @@ class Dashboard extends React.Component<
         </Wrapper>
       </div>
     )
-  }
+  })
 
   render() {
     const start_date = moment()

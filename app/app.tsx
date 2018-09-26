@@ -40,6 +40,10 @@ import {
 } from './common/utils/path-locale'
 import { getViewer } from './common/utils/viewer'
 import { jwtRefresh } from './common/http/auth'
+import { STRIPE_PUB_KEY } from './common/constants'
+
+// Stripe elements
+const rse = require('react-stripe-elements') as any
 
 // Load NotoSans font
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
@@ -102,19 +106,32 @@ const browserHistory = createBrowserHistory({
 const store = configureStore(initialState, browserHistory)
 
 const render = (messages: any) => {
+  let retries = 0
   let isAuthedInterval = setInterval(async () => {
     if (getViewer() && getViewer('user_id')) {
-      clearInterval(isAuthedInterval)
       if (getViewer('is_demo') === false) {
-        await jwtRefresh()
+        try {
+          await jwtRefresh()
+        } catch (err) {
+          if (retries < 3) {
+            retries++
+            console.log('Failed to refresh jwt, retrying...')
+            return
+          } else {
+            throw 'Failed to refresh jwt despite retries'
+          }
+        }
       }
+      clearInterval(isAuthedInterval)
       ReactDOM.render(
         <Provider store={store}>
-          <LanguageProvider messages={messages}>
-            <ConnectedRouter history={browserHistory}>
-              <App />
-            </ConnectedRouter>
-          </LanguageProvider>
+          <rse.StripeProvider apiKey={STRIPE_PUB_KEY}>
+            <LanguageProvider messages={messages}>
+              <ConnectedRouter history={browserHistory}>
+                <App />
+              </ConnectedRouter>
+            </LanguageProvider>
+          </rse.StripeProvider>
         </Provider>,
         document.getElementById('app')
       )

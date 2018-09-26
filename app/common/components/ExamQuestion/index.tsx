@@ -17,9 +17,7 @@ import {
   ExplanationWrapper,
   QuestionViewer,
   QuestionHeader,
-  QuestionAnswer,
-  QuestionSplitPane,
-  SplitViewWrapper
+  QuestionAnswer
 } from './styledComponents'
 import { isObject } from 'util'
 
@@ -51,18 +49,15 @@ interface IProps {
   onAnswerChange?: (answer: AnswerProps) => void
   transparentStyle?: boolean
   showResults?: boolean
-  defaultShowExplan?: boolean
-  explanTitle?: string
-  explanContent?: string
+  defaultShowExplanation?: boolean
+  explanationTitle?: string
+  explanationContent?: string
   splitHeight?: any
   splitFlexible?: boolean
 }
 
 interface IStates {
   showExplanation: boolean
-  splitView: boolean
-  splitHeight: any
-  splitViewData: any
 }
 
 class ExamQuestion extends React.PureComponent<
@@ -70,10 +65,7 @@ class ExamQuestion extends React.PureComponent<
   IStates
 > {
   state: IStates = {
-    showExplanation: this.props.defaultShowExplan,
-    splitView: false,
-    splitHeight: '30%',
-    splitViewData: []
+    showExplanation: this.props.defaultShowExplanation
   }
 
   componentWillReceiveProps(nextProps: IProps) {
@@ -85,33 +77,17 @@ class ExamQuestion extends React.PureComponent<
   }
 
   updateViewMode(props: IProps) {
-    if (props.defaultShowExplan != this.props.defaultShowExplan) {
-      this.setState({ showExplanation: props.defaultShowExplan })
+    if (props.defaultShowExplanation != this.props.defaultShowExplanation) {
+      this.setState({ showExplanation: props.defaultShowExplanation })
     }
-    const { question } = props
-    let splitView = false
-    let splitHeight = '30%' as any
-    if (isObject(this.state.splitViewData[question.id])) {
-      splitView = this.state.splitViewData[question.id].splitView
-      splitHeight = this.state.splitViewData[question.id].splitHeight || '30%'
-    } else {
-      splitView = props.question.question_type === QuestionType.Multiple
-    }
-    this.setState({ splitView: splitView, splitHeight: splitHeight })
   }
 
   shouldComponentUpdate(nextProps: IProps, nextState: IStates) {
     return (
       this.state.showExplanation != nextState.showExplanation ||
       this.props.question != nextProps.question ||
-      this.props.userAnswer != nextProps.userAnswer ||
-      this.state.splitView != nextState.splitView ||
-      this.state.splitHeight != nextState.splitHeight
+      this.props.userAnswer != nextProps.userAnswer
     )
-  }
-
-  handleShowExplanClick = () => {
-    this.setState({ showExplanation: !this.state.showExplanation })
   }
 
   parseQuestionData() {
@@ -201,52 +177,21 @@ class ExamQuestion extends React.PureComponent<
     }*/
 
     const { formatMessage } = this.props.intl
-    const { explanTitle, explanContent } = this.props
+    const { explanationTitle, explanationContent } = this.props
     const { showExplanation } = this.state
-    const explanTitleText = explanTitle
-      ? explanTitle
+    const explanTitleText = explanationTitle
+      ? explanationTitle
       : formatMessage(messages.lbExplanation)
 
     return (
       <ExplanationWrapper>
-        {/*<ShowExplanButton
-          text={formatMessage(messages.btnShowExplanation)}
-          hidden={showExplanation}
-          onClick={this.handleShowExplanClick}
-        />*/}
         <Explanation
           hidden={!showExplanation}
           title={explanTitleText}
-          content={explanContent}
+          content={explanationContent}
         />
       </ExplanationWrapper>
     )
-  }
-
-  handleToogleSplitView = () => {
-    const { question } = this.props
-    const splitView = !this.state.splitView
-    let splitViewData = this.state.splitViewData
-    if (isObject(splitViewData[question.id])) {
-      splitViewData[question.id].splitView = splitView
-    } else {
-      splitViewData[question.id] = { splitView: splitView, splitHeight: '30%' }
-    }
-    this.setState({
-      splitView: splitView,
-      splitViewData: splitViewData
-    })
-  }
-
-  handleOnChangeSplitPane = (size: any) => {
-    const { question } = this.props
-    let splitViewData = this.state.splitViewData
-
-    splitViewData[question.id] = {
-      splitView: this.state.splitView,
-      splitHeight: size
-    }
-    this.setState({ splitViewData: splitViewData })
   }
 
   render() {
@@ -254,13 +199,7 @@ class ExamQuestion extends React.PureComponent<
     const question = this.parseQuestionData()
 
     return (
-      <QuestionWrapper
-        splitHeight={
-          !this.props.splitFlexible || this.state.splitView
-            ? this.props.splitHeight
-            : null
-        }
-      >
+      <QuestionWrapper>
         {question.points &&
           <QuestionPoints>
             {question.points}
@@ -269,44 +208,20 @@ class ExamQuestion extends React.PureComponent<
               question.points == 1 ? messages.lbPoint : messages.lbPoints
             )}
           </QuestionPoints>}
-        <SplitViewWrapper hasPoints={!!question.points}>
-          {this.props.intl.formatMessage(messages.tglSplitView)}
-          <Switch
-            checked={this.state.splitView}
-            onChange={this.handleToogleSplitView}
-            style={{ marginLeft: 14 }}
-          />
-        </SplitViewWrapper>
 
         <QuestionViewer
           hasPoints={!!question.points}
           transparentStyle={transparentStyle}
         >
-          {this.state.splitView &&
-            <QuestionSplitPane
-              split="horizontal"
-              size={this.state.splitHeight || '30%'}
-              hasPoints={!!question.points}
-              onChange={this.handleOnChangeSplitPane}
-            >
-              <QuestionHeader>
-                {this.renderQuestionContent(question)}
-              </QuestionHeader>
-              <QuestionAnswer>
-                {this.renderAnswerOptions(question)}
-                {this.renderExplanation()}
-              </QuestionAnswer>
-            </QuestionSplitPane>}
-          {!this.state.splitView &&
-            <span>
-              <QuestionHeader>
-                {this.renderQuestionContent(question)}
-              </QuestionHeader>
-              <QuestionAnswer>
-                {this.renderAnswerOptions(question)}
-                {this.renderExplanation()}
-              </QuestionAnswer>
-            </span>}
+          <span>
+            <QuestionHeader>
+              {this.renderQuestionContent(question)}
+            </QuestionHeader>
+            <QuestionAnswer>
+              {this.renderAnswerOptions(question)}
+              {this.renderExplanation()}
+            </QuestionAnswer>
+          </span>
         </QuestionViewer>
       </QuestionWrapper>
     )

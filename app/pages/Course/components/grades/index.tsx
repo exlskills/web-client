@@ -14,6 +14,7 @@ import environment from 'relayEnvironment'
 import { processCourseData } from '../../utils/course_data_processor'
 import messages from './messages'
 import Helmet from 'react-helmet'
+import { handleQueryRender } from 'common/utils/relay'
 
 const rootQuery = graphql`
   query gradesQuery(
@@ -93,6 +94,7 @@ const rootQuery = graphql`
       last_accessed_unit
       last_accessed_section
       last_accessed_card
+      delivery_methods
     }
   }
 `
@@ -117,20 +119,8 @@ class Grades extends React.PureComponent<
     }
   }
 
-  queryRender = ({ error, props }: { error: Error; props: any }) => {
+  queryRender = handleQueryRender(({ props }: { props: any }) => {
     const { formatMessage } = this.props.intl
-
-    if (error) {
-      return (
-        <div>
-          {error.message}
-        </div>
-      )
-    }
-
-    if (!props) {
-      return <Loading />
-    }
 
     let gradesList = []
     if (props.gradesList) {
@@ -196,7 +186,7 @@ class Grades extends React.PureComponent<
         <GradesTable examItems={gradesList} onClick={console.log} />
       </ContentWrapper>
     )
-  }
+  })
 
   render() {
     const courseId = fromUrlId(

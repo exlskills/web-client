@@ -133,9 +133,6 @@ module.exports = options => ({
         ),
         IC_APP_ID: JSON.stringify(process.env.IC_APP_ID || ''),
         ACCOUNTS_URL: JSON.stringify(process.env.ACCOUNTS_URL || ''),
-        BILLING_CONSOLE_URL: JSON.stringify(
-          process.env.BILLING_CONSOLE_URL || ''
-        ),
         SUPPORT_CONSOLE_URL: JSON.stringify(
           process.env.SUPPORT_CONSOLE_URL || ''
         ),
@@ -144,7 +141,8 @@ module.exports = options => ({
         ),
         ERASE_MY_DATA_FORM_URL: JSON.stringify(
           process.env.ERASE_MY_DATA_FORM_URL || ''
-        )
+        ),
+        STRIPE_PUB_KEY: JSON.stringify(process.env.STRIPE_PUB_KEY || '')
       }
     }),
     new webpack.NamedModulesPlugin()
