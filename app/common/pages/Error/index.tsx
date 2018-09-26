@@ -33,7 +33,7 @@ class Error extends React.PureComponent<
 
     return (
       <ContentWrapper>
-        <SageImage />
+        <SageImage errorKey={errorKey} />
         <ErrorPageMessageWrapper>
           <p>
             {errorKey}
