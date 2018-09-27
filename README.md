@@ -81,6 +81,13 @@ And to start the development server and webpack file watcher, run in another ter
 yarn run start
 ```
 
+To run the production build in dev (localhost) run:
+
+```
+yarn run build # to build the production chunks
+NODE_ENV=production node server/index.js # serve the production build on localhost
+```
+
 ## License
 
 This software is offered under the terms outlined in the [LICENSE.md](LICENSE.md) file provided with this notice. If you have any questions regarding the license, please contact [licensing@exlinc.com](mailto:licensing@exlinc.com)
