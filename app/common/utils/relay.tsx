@@ -24,6 +24,7 @@ export const handleQueryRender = (fn: Function) => {
         </div>
       )
     } else if (props) {
+      console.log('[GQL] ', props)
       return fn ? fn({ props }) : null
     }
     return <Loading />

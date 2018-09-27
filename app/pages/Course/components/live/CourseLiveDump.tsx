@@ -11,11 +11,59 @@ const Markdown = require('react-remarkable')
 import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
 
 interface IProps {
-  title: string
-  description: string
-  logoUrl: string
-  infoMarkdown: string
-  verifiedCertCost?: number
+  course: {
+    id: string
+    title: string
+    headline: string
+    description: string
+    logo_url: string
+    info_md: string
+    verified_cert_cost: string
+  }
+  schedule: {
+    _id: string
+    delivery_structure: string
+    delivery_methods: string[]
+    course_notes: string
+    course_duration: {
+      months: number
+      weeks: number
+      days: number
+      hours: number
+      minutes: number
+    }
+    session_info: {
+      session_seq: number
+      headline: string
+      desc: string
+      session_notes: string
+    }[]
+    scheduled_runs: {
+      _id: string
+      offered_at_price: {
+        amount: number
+      }
+      seat_purchased: boolean
+      run_start_date: string
+      run_sessions: {
+        _id: string
+        session_seq: number
+        session_duration: {
+          months: number
+          weeks: number
+          days: number
+          hours: number
+          minutes: number
+        }
+        session_start_date: string
+        session_run_notes: string
+        instructors: {
+          username: string
+          full_name: string
+        }[]
+      }[]
+    }[]
+  }
 }
 
 interface IState {}
@@ -42,28 +90,23 @@ class CourseLiveDump extends React.Component<
 
   render() {
     const { formatMessage } = this.props.intl
-    const { infoMarkdown, verifiedCertCost } = this.props
 
     return (
       <ContentWrapper>
         <Helmet
           title={formatMessage(messages.pageTitle, {
-            course: this.props.title
+            course: this.props.course.title
           })}
           meta={[
             {
               name: 'description',
               content: formatMessage(messages.pageDescription, {
-                description: this.props.description
+                description: this.props.course.description
               })
             }
           ]}
         />
-        {this.parseContent(infoMarkdown)}
-        <div>
-          Get a certificate for just:
-          {verifiedCertCost}
-        </div>
+        {JSON.stringify(this.props.schedule)}
       </ContentWrapper>
     )
   }

@@ -29,6 +29,8 @@ const rootQuery = graphql`
     courseById(course_id: $course_id) {
       id
       title
+      headline
+      description
       logo_url
       info_md
       verified_cert_cost
@@ -37,8 +39,10 @@ const rootQuery = graphql`
       course_id: $course_id,
       date_on_or_after: $date_on_or_after
     ) {
+      _id
       delivery_structure
       delivery_methods
+      course_notes
       course_duration {
         months
         weeks
@@ -50,10 +54,17 @@ const rootQuery = graphql`
         session_seq
         headline
         desc
+        session_notes
       }
       scheduled_runs {
+        _id
+        offered_at_price {
+          amount
+        }
+        seat_purchased
         run_start_date
         run_sessions {
+          _id
           session_seq
           session_duration {
             months
@@ -63,6 +74,7 @@ const rootQuery = graphql`
             minutes
           }
           session_start_date
+          session_run_notes
           instructors {
             username
             full_name
@@ -96,32 +108,37 @@ class CourseLive extends React.Component<MergedProps, {}> {
   }
 
   queryRender = handleQueryRender(({ props }: { props: any }) => {
-    const {
-      id,
-      title,
-      description,
-      headline,
-      info_md,
-      logo_url,
-      verified_cert_cost
-    } = props.courseById
-    return (
-      <CourseLiveDump
-        title={title}
-        description={description}
-        logoUrl={logo_url}
-        infoMarkdown={info_md}
-        verifiedCertCost={verified_cert_cost}
-      />
-    )
+    console.log(props)
+    // This is to get a deep copy
+    // console.log(props.courseDeliverySchedule)
+    // let sched = JSON.parse(JSON.stringify(props.courseDeliverySchedule))
+    // console.log(sched)
+    // sched.session_info.sort((a: any, b: any) => a.session_seq - b.session_seq)
+    // const sessions = sched.session_info.map((item: any) => {
+    //   return {
+    //     headline: item.headline,
+    //     desc: item.desc,
+    //     session_notes: item.session_notes
+    //   }
+    // });
+    // for (let run of sched.scheduled_runs) {
+    //   run.run_sessions.sort((a: any, b: any) => a.session_seq - b.session_seq)
+    //   for (let rInd = 0; rInd < run.run_sessions.length; rInd++) {
+    //     run.run_sessions[rInd].headline = sessions[rInd].headline
+    //     run.run_sessions[rInd].desc = sessions[rInd].desc
+    //     run.run_sessions[rInd].session_notes = sessions[rInd].session_notes
+    //   }
+    // }
+    // return (
+    //   <CourseLiveDump
+    //     course={props.courseById}
+    //     schedule={props.courseDeliverySchedule}
+    //   />
+    // )
+    return <div />
   })
 
   render() {
-    const courseId = fromUrlId(
-      SchemaType.Course,
-      this.props.match.params.courseId
-    )
-
     return (
       <QueryRenderer
         query={rootQuery}

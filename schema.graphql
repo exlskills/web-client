@@ -566,7 +566,7 @@ type SessionInstructorType implements Node {
   id: ID!
   full_name: String
   username: String
-  primary_email: String
+  avatar_url: String
 }
 
 input SubmitAnswerInput {
@@ -689,17 +689,17 @@ type User implements Node {
   full_name: String
   username: String
   primary_email: String
-  pwd: String!
+  pwd: String
   secondary_emails: [String]
   biography: String
-  is_demo: Boolean!
+  is_demo: Boolean
   headline: String
-  has_completed_first_tutorial: Boolean!
+  has_completed_first_tutorial: Boolean
   locales: [String]
   primary_locale: String!
-  subscription: UserSubscriptionConnection!
-  avatar_url: String!
-  is_verified: Boolean!
+  subscription: UserSubscriptionConnection
+  avatar_url: String
+  is_verified: Boolean
   auth_strategies(after: String, first: Int, before: String, last: Int): AuthStrategyConnection
   organization_roles(after: String, first: Int, before: String, last: Int): UserOrganizationRoleConnection
   course_roles(after: String, first: Int, before: String, last: Int): UserCourseRoleConnection
