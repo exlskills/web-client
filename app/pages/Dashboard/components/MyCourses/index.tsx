@@ -6,10 +6,11 @@ import {
 } from '../../../../common/components/Card'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import { MyCourseCardWrapper } from './MyCourseCardWrapper'
+import { Link } from 'react-router-dom'
 
 interface IProps {
   items: CardProps[]
-  viewAll: () => void
+  viewAllUrl: string
   viewAllMsg: string
   height?: number
 }
@@ -29,9 +30,9 @@ class MyCoursesComponent extends React.PureComponent<MergedProps, IStates> {
             return <MyCourseCardWrapper key={key} item={i} />
           })}
         <br />
-        <a style={{ marginTop: '10px' }} onClick={this.props.viewAll}>
+        <Link style={{ marginTop: '10px' }} to={this.props.viewAllUrl}>
           {this.props.viewAllMsg}
-        </a>
+        </Link>
       </Wrapper>
     )
   }

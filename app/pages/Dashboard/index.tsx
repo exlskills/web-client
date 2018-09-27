@@ -94,18 +94,6 @@ class Dashboard extends React.Component<
   IProps & InjectedIntlProps & RouteComponentProps<any>,
   IStates
 > {
-  handleCalendarClick = (data: any) => {
-    console.log(`Clicked on date ${data.date} with value:`, data.value)
-  }
-
-  handleViewAllEnrolled = () => {
-    this.props.history.push('/courses/enrolled')
-  }
-
-  handleViewAllRecommended = () => {
-    this.props.history.push('/courses')
-  }
-
   getCourseUrlByCard = (card: any) => {
     return this.getCourseUrl(card.title, card.id)
   }
@@ -247,7 +235,7 @@ class Dashboard extends React.Component<
                   <FormattedMessage {...messages.lbMyCourses} />
                   <PanelWrapper style={{ height: '426px' }}>
                     <MyCourses
-                      viewAll={this.handleViewAllEnrolled}
+                      viewAllUrl={'/courses/enrolled'}
                       viewAllMsg={formatMessage(messages.lbViewAllMsg)}
                       items={mine}
                     />
@@ -280,7 +268,7 @@ class Dashboard extends React.Component<
                     }
                     items={recommended}
                     cardUrlResolver={this.getCourseUrlByCard}
-                    viewAll={this.handleViewAllRecommended}
+                    viewAllUrl={'/courses'}
                     viewAllMsg={formatMessage(messages.lbViewAllMsg)}
                   />
                 </PanelWrapper>

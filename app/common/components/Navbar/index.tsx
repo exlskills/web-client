@@ -11,6 +11,7 @@ import { Button, IconName } from '@blueprintjs/core'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import { isMobile } from 'common/utils/screen'
+import { Link } from 'react-router-dom'
 
 interface IProps {}
 
@@ -35,10 +36,6 @@ class Navbar extends React.PureComponent<MergedProps, IStates> {
     this.state = {
       mobile: isMobile()
     }
-  }
-
-  handleNavItemClick = (path: string) => () => {
-    this.props.history.push(path)
   }
 
   updateIsMobile = () => {
@@ -100,13 +97,13 @@ class Navbar extends React.PureComponent<MergedProps, IStates> {
             {mobile
               ? ''
               : topNavItems.map((item, idx) =>
-                  <NavItem
-                    active={item.active}
-                    text={item.text}
-                    iconName={item.iconName}
-                    onClick={this.handleNavItemClick(item.path)}
-                    key={idx}
-                  />
+                  <Link to={item.path} key={idx}>
+                    <NavItem
+                      active={item.active}
+                      text={item.text}
+                      iconName={item.iconName}
+                    />
+                  </Link>
                 )}
           </div>
           <NavbarRight topNavItems={mobileNavItems} mobile={mobile} />

@@ -6,12 +6,13 @@ import * as React from 'react'
 import Slider, { Settings as SliderProps } from 'react-slick'
 
 import { SliderWrapper } from './styledComponents'
+import { Link } from 'react-router-dom'
 
 interface IProps {
   items: CardProps[]
   cardUrlResolver?: (card: any) => string
   sliderSettings?: SliderProps
-  viewAll: () => void
+  viewAllUrl: string
   viewAllMsg: string
 }
 
@@ -52,9 +53,9 @@ class CardCarousel extends React.PureComponent<IProps, IStates> {
           )}
         </Slider>
         <br />
-        <a style={{ marginTop: '10px' }} onClick={this.props.viewAll}>
+        <Link style={{ marginTop: '10px' }} to={this.props.viewAllUrl}>
           {this.props.viewAllMsg}
-        </a>
+        </Link>
       </SliderWrapper>
     )
   }
