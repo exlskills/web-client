@@ -7,7 +7,7 @@ import {
   Headline
 } from './styledComponents'
 import { Icon } from 'common/components/styledComponents'
-import PlainLink from 'common/components/PlainLink'
+import { PlainLink } from 'common/components/loaders'
 
 interface IProps {
   listKey?: string

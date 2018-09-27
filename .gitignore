@@ -1,8 +1,9 @@
 # Don't check auto-generated stuff into git
 coverage
 build
+bundle_report
 node_modules
-stats.json
+nginx_config
 
 # Cruft
 .DS_Store
@@ -12,6 +13,7 @@ npm-debug.log
 .envprod
 .envlan
 .envlocalhost
+nginx_config
 
 yarn-error.log
 app/**/*.js.map

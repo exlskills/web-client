@@ -114,9 +114,11 @@ type CourseConnection {
 type CourseDeliverySchedule implements Node {
   # The ID of an object
   id: ID!
+  _id: String
   delivery_methods: [String]
   delivery_structure: String
   course_duration: EventDuration
+  course_notes: String
   session_info: [ScheduledRunSessionInfoType]
   scheduled_runs: [ScheduledRunType]
 }
@@ -263,6 +265,13 @@ input FieldCud {
 
 input FilterValues {
   filterValuesString: String
+}
+
+# Item Price
+type ItemPriceType implements Node {
+  # The ID of an object
+  id: ID!
+  amount: Int
 }
 
 # Application Lang
@@ -481,6 +490,7 @@ type ScheduledRunSessionInfoType implements Node {
   session_seq: Int
   headline: String
   desc: String
+  session_notes: String
 }
 
 # Scheduled Run Session
@@ -489,16 +499,21 @@ type ScheduledRunSessionType implements Node {
   id: ID!
   session_seq: Int
   session_start_date: DateTime
+  _id: String
+  session_run_notes: String
   instructors: [SessionInstructorType]
   session_duration: EventDuration
 }
 
-# Scheduled Run Details
+# Scheduled Run
 type ScheduledRunType implements Node {
   # The ID of an object
   id: ID!
   run_start_date: DateTime
+  _id: String
+  offered_at_price: ItemPriceType
   run_sessions: [ScheduledRunSessionType]
+  seat_purchased: Boolean
 }
 
 # Card of an EXLskills section

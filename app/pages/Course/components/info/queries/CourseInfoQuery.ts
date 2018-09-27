@@ -5,6 +5,8 @@ const rootQuery = graphql`
     courseById(course_id: $course_id) {
       id
       title
+      headline
+      description
       logo_url
       info_md
       verified_cert_cost

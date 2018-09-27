@@ -1,20 +1,31 @@
 import * as React from 'react'
-import InjectedIntlProps = ReactIntl.InjectedIntlProps
-import Sidebar from './components/common/Sidebar'
+// import InjectedIntlProps = ReactIntl.InjectedIntlProps
+// import Sidebar from './components/common/Sidebar'
 import { Wrapper, SplitPane } from './components/styledComponents'
 import { Switch, Route } from 'react-router-dom'
 import * as Loadable from 'react-loadable'
 import Loading from 'common/components/Loading'
 import { Redirect, RouteComponentProps } from 'react-router'
-import { injectState, update, provideState } from 'freactal'
+import { update, provideState } from 'freactal'
+// injectState,
 import requireAuthentication from 'routes/requireAuthentication'
-import { isMobile } from 'common/utils/screen'
+// import { isMobile } from 'common/utils/screen'
 import { AnswerProps } from '../../common/components/ExamQuestion'
 
 const DELAY_INTERVAL = 500
 
+export const ProgressHeader = Loadable({
+  loader: () => System.import('pages/Course/components/common/ProgressHeader'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
 const CourseGrades = Loadable({
   loader: () => System.import('pages/Course/components/grades'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const GradesTable = Loadable({
+  loader: () => System.import('pages/Course/components/grades/GradesTable'),
   loading: Loading,
   delay: DELAY_INTERVAL
 })
@@ -28,6 +39,33 @@ const CourseContent = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+
+export const ExamDialog = Loadable({
+  loader: () => System.import('pages/Course/components/overview/ExamDialog'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const Header = Loadable({
+  loader: () => System.import('pages/Course/components/overview/Header'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const ProgressCells = Loadable({
+  loader: () => System.import('pages/Course/components/overview/ProgressCells'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const StatusCard = Loadable({
+  loader: () => System.import('pages/Course/components/overview/StatusCard'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+export const UnitCard = Loadable({
+  loader: () => System.import('pages/Course/components/overview/UnitCard'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+
 const CourseInfo = Loadable({
   loader: () => System.import('pages/Course/components/info'),
   loading: Loading,
@@ -35,6 +73,17 @@ const CourseInfo = Loadable({
 })
 const CourseCertificate = Loadable({
   loader: () => System.import('pages/Course/components/certificate'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+const CourseLive = Loadable({
+  loader: () => System.import('pages/Course/components/live'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})
+
+const Sidebar = Loadable({
+  loader: () => System.import('pages/Course/components/common/Sidebar'),
   loading: Loading,
   delay: DELAY_INTERVAL
 })
@@ -50,6 +99,7 @@ export interface IFreactalStates {
     last_accessed_unit?: string
     last_accessed_section?: string
     last_accessed_card?: string
+    delivery_methods: string[]
   }
   examModalOpen?: boolean
   examAllUnits?: {
@@ -135,6 +185,11 @@ class CoursePage extends React.Component<Mergedprops, {}> {
               path="/courses/:courseId/grades"
               component={CourseGrades}
             />
+            <Route
+              exact={true}
+              path="/courses/:courseId/live"
+              component={CourseLive}
+            />
             <Redirect to="/404" />
           </Switch>
         </SplitPane>
@@ -148,7 +203,7 @@ export const wrapComponentWithState = provideState<
   IProps & RouteComponentProps<any>
 >({
   initialState: () => ({
-    course: {},
+    course: { delivery_methods: [] },
     examModalOpen: false,
     examType: '',
     examAllUnits: { unitIds: [], unitsById: {}, courseComplete: false },

@@ -1,6 +1,6 @@
 import ExamDialogContent from './ExamDialogContent'
 import CardDialogContent from './CardDialogContent'
-import ConfirmDialog from 'common/components/ConfirmDialog'
+import { ConfirmDialog } from 'common/components/loaders'
 import { InjectedIntlProps, injectIntl } from 'react-intl'
 import * as React from 'react'
 import {

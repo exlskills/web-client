@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import { debounce } from 'lodash'
 
 const _emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -29,7 +29,7 @@ export const validateUsername = (username: string) => {
 const FORM_DEBOUNCE_TIME = 600
 
 export const debounceHandler = (handler: (e: any) => void) => {
-  const debounced = _.debounce(handler, FORM_DEBOUNCE_TIME)
+  const debounced = debounce(handler, FORM_DEBOUNCE_TIME)
   return (e: any) => {
     if (typeof e !== 'undefined') {
       e.persist()

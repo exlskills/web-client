@@ -1,5 +1,5 @@
 import { Button, Dialog, Intent } from '@blueprintjs/core'
-import ConfirmDialog from 'common/components/ConfirmDialog'
+import { ConfirmDialog } from 'common/components/loaders'
 import Input from 'common/components/forms/inputs/Input'
 import TagInput from 'common/components/forms/inputs/TagInput'
 import * as React from 'react'

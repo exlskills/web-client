@@ -1,15 +1,15 @@
 import * as React from 'react'
 import {
   Wrapper,
-  ChartWrapper,
-  ActionWrapper,
-  BodyWrapper,
-  CourseImg,
-  TopWrapper,
-  CourseTitle,
-  CourseDetailsWrapper,
-  CourseDescription,
-  ActionSeparator,
+  //  ChartWrapper,
+  //  ActionWrapper,
+  //  BodyWrapper,
+  //  CourseImg,
+  //  TopWrapper,
+  //  CourseTitle,
+  //  CourseDetailsWrapper,
+  //  CourseDescription,
+  //  ActionSeparator,
   UpNextOverlay,
   UpNextOverlaySub,
   UpNextMuted,
@@ -23,7 +23,7 @@ import { IFreactalProps } from 'pages/Course'
 import { injectIntl } from 'react-intl'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
 import messages from './messages'
-import StatusCard from '../StatusCard'
+// import StatusCard from '../StatusCard'
 import { toUrlId } from '../../../../../common/utils/urlid'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { Icon } from '@blueprintjs/core'

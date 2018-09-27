@@ -54,3 +54,8 @@ export const UpgradeCallback = Loadable({
   loading: Loading,
   delay: DELAY_INTERVAL
 })
+export const Course = Loadable({
+  loader: () => System.import('pages/Course'),
+  loading: Loading,
+  delay: DELAY_INTERVAL
+})

@@ -12,17 +12,17 @@ import Helmet from 'react-helmet'
 import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl'
 import { RouteComponentProps } from 'react-router'
 import requireAuthentication from 'routes/requireAuthentication'
-import ActivitiesCalendar from 'common/components/Calendar/ActivitiesCalendar'
+import { ActivitiesCalendar } from 'common/components/loaders'
 import CardCarousel from './components/CardCarousel'
 import { ACTIVITY_DAYS } from 'common/components/Calendar/constants'
 import { MyCourses } from './components/MyCourses'
 import messages from './messages'
 import {
   CalendarWrapper,
-  Metric,
-  MetricNumber,
-  MetricTitle,
-  MetricWrapper,
+  //  Metric,
+  //  MetricNumber,
+  //  MetricTitle,
+  //  MetricWrapper,
   MyCoursesWrapper,
   PanelWrapper,
   TopWrapper,

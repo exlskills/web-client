@@ -3,8 +3,8 @@ import {
   Item,
   ItemText,
   ItemWrapper,
-  Menu,
-  MenuHeader,
+  //  Menu,
+  //  MenuHeader,
   CollapseItem
 } from './styledComponents'
 

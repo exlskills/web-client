@@ -5,21 +5,21 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import {
   HeaderAvatar,
-  Item,
+  ItemBasic,
   ItemWrapper,
   Menu,
   SidebarMenuHeader
 } from './styledComponents'
 import CollapsibleItem from './CollapsibleItem'
 import { MenuHeaderIcon } from './styledComponents'
-import { InjectedIntlProps } from 'react-intl'
+// import { InjectedIntlProps } from 'react-intl'
 import { setMobileSidebarData } from '../../store/actions'
 import { createStructuredSelector } from 'reselect'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { replacePathSuffix } from 'common/utils/routes'
 import { injectIntl } from 'react-intl'
 import { isMobile } from 'common/utils/screen'
-import PlainLink from 'common/components/PlainLink'
+import { PlainLink } from 'common/components/loaders'
 
 export interface ISidebarItem {
   pathExt?: string
@@ -149,11 +149,14 @@ class SideBarMenu extends React.PureComponent<MergedProps, IStates> {
     return (
       <PlainLink key={idx} to={this.getUrl(pathExt)}>
         <ItemWrapper>
-          <Item iconName={iconName} active={this.props.pathExt === pathExt}>
+          <ItemBasic
+            iconName={iconName}
+            active={this.props.pathExt === pathExt}
+          >
             <span>
               {text}
             </span>
-          </Item>
+          </ItemBasic>
         </ItemWrapper>
       </PlainLink>
     )

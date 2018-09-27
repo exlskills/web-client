@@ -8,7 +8,7 @@ import { Switch, Route } from 'react-router-dom'
 import { Help, Profile, Billing, Privacy } from './loaders'
 import { removeTrailingSlash } from 'common/utils/routes'
 import requireAuthentication from 'routes/requireAuthentication'
-import SideBarMenu from '../../common/components/SideBarMenu'
+import { SideBarMenu } from '../../common/components/loaders'
 import messages from './messages'
 
 interface IProps {}

@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import { Icon } from '@blueprintjs/core'
 
-export const BackArrow = styled.span.attrs<any>({
-  iconName: 'chevron-left',
-  iconSize: 20
-})`
+export const BackArrow = styled.span.attrs<any>(
+  {
+    //iconName: 'chevron-left',
+    //iconSize: 20
+  }
+)`
   left: 0;
   position: absolute;
   top: 50%;
@@ -44,10 +46,12 @@ export const BackArrow = styled.span.attrs<any>({
   }
 `
 
-export const NextArrow = styled.span.attrs<any>({
-  iconName: 'chevron-right',
-  iconSize: 20
-})`
+export const NextArrow = styled.span.attrs<any>(
+  {
+    //iconName: 'chevron-right',
+    //iconSize: 20
+  }
+)`
   right: 0;
   position: absolute;
   top: 50%;

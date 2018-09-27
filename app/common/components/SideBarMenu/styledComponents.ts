@@ -40,6 +40,25 @@ export const Item = styled.a.attrs<ItemProps>({
     background: rgba(0, 133, 200, 0.1);
   }
 `
+export const ItemBasic = styled.div.attrs<ItemProps>({
+  className: (props: ItemProps) =>
+    `pt-menu-item ${props.active && 'pt-active'} ${props.iconName &&
+      `pt-icon-${props.iconName}`}`
+})`
+  padding-left: 10px !important;
+  border-radius: 0px;
+  
+  &.pt-active,
+  &.pt-active:hover {
+    
+  }
+
+  &:active,
+  &:hover {
+    background: rgba(0, 133, 200, 0.1);
+  }
+`
+
 export const ItemText = Item.withComponent('span')
 
 export const MenuHeader = styled.li.attrs({

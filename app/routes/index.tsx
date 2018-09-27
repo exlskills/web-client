@@ -9,7 +9,7 @@ import { Store } from 'redux'
 import { Location } from 'history'
 import { Record } from 'immutable'
 
-// Load course page statically
+// MUST load course page statically
 import Course from 'pages/Course'
 import * as loaders from './loaders'
 interface IProps {

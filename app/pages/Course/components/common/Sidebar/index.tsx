@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CourseImage, Wrapper } from './styledComponents'
-import SidebarMenu from 'common/components/SideBarMenu'
+import { SideBarMenu } from 'common/components/loaders'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import InjectedIntlProps = ReactIntl.InjectedIntlProps
@@ -26,6 +26,7 @@ const rootQuery = graphql`
       title
       logo_url
       primary_topic
+      delivery_methods
     }
     unitPaging(first: $first, resolverArgs: $resolverArgs) {
       edges {
@@ -83,7 +84,7 @@ class Sidebar extends React.PureComponent<
     if (valueChange == '/') {
       valueChange = ''
     }
-    const allMenuItems = [
+    let allMenuItems = [
       {
         isHeader: true,
         avatarSrc: getBadgeURLForTopic(props.course.primary_topic),
@@ -91,11 +92,19 @@ class Sidebar extends React.PureComponent<
         text: props.course.title
       },
       { isDivider: true }
-    ].concat(menuItems) as any
+    ].concat(menuItems) as any[]
+
+    if (props.course.delivery_methods.includes('live')) {
+      allMenuItems.push({
+        pathExt: '/live',
+        iconName: 'video',
+        translationId: 'menuLive'
+      })
+    }
 
     return (
       <Wrapper>
-        <SidebarMenu
+        <SideBarMenu
           items={allMenuItems.map(
             (item: any) =>
               item.isHeader || item.isDivider

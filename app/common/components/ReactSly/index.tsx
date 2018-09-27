@@ -1,5 +1,5 @@
-import * as $ from 'jquery'
-import * as _ from 'lodash'
+// import * as $ from 'jquery'
+import { debounce, omit } from 'lodash'
 const Sly = require('sly')
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
@@ -41,7 +41,7 @@ class ReactSly extends React.PureComponent<IProps, IStates> {
 
   constructor(props: IProps) {
     super(props)
-    this.resizeHandler = _.debounce(() => {
+    this.resizeHandler = debounce(() => {
       this.frame.reload()
     }, 100)
   }
@@ -93,7 +93,7 @@ class ReactSly extends React.PureComponent<IProps, IStates> {
   render() {
     const { props } = this
     const { scrollBarStyle } = props.slyOptions
-    const propsToPass = _.omit(props, 'children', 'slyOptions', 'onInit')
+    const propsToPass = omit(props, 'children', 'slyOptions', 'onInit')
 
     return (
       <Wrapper>

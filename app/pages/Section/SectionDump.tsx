@@ -5,7 +5,7 @@ import ExamQuestion, {
   QuestionType
 } from 'common/components/ExamQuestion'
 import SectionCard from 'common/components/SectionCard'
-import Toaster from 'common/components/Toaster'
+// import Toaster from 'common/components/Toaster'
 import { fromUrlId, SchemaType, toUrlId } from 'common/utils/urlid'
 import wsclient from 'common/ws/client'
 import { WS_EVENTS } from 'common/ws/constants'

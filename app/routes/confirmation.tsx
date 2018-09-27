@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Dialog, Button, Intent } from '@blueprintjs/core'
-import ConfirmDialog from 'common/components/ConfirmDialog'
+// import { Dialog, Button, Intent } from '@blueprintjs/core'
+import { ConfirmDialog } from 'common/components/loaders'
 export const leaveRouteConfirmation = (message: any, callback: any) => {
   const modal = document.createElement('div')
   document.body.appendChild(modal)

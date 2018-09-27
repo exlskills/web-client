@@ -1,8 +1,6 @@
 import * as React from 'react'
 import SelectionPopover from './SelectionPopover'
-import CodeEditor from 'common/components/CodeEditor'
 import MarkdownStyleWrapper from 'common/components/MarkdownStyleWrapper'
-const LazyLoad = require('react-lazyload').default
 let Markdown = require('react-remarkable')
 
 const configInfo = [

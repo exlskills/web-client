@@ -1,8 +1,7 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+// import * as ReactDOM from 'react-dom'
 import { Wrapper, Cell, PercentText, Tooltip } from './styledComponents'
-import ReactSly from 'common/components/ReactSly'
-import PlainLink from 'common/components/PlainLink'
+import { ReactSly, PlainLink } from 'common/components/loaders'
 
 export interface ICellItem {
   id: string

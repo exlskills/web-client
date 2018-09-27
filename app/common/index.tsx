@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as _ from 'lodash'
+import { findIndex } from 'lodash'
 
 import Routes from 'routes/index'
 import { AppWrapper } from 'common/components/styledComponents'
@@ -62,7 +62,7 @@ class App extends React.PureComponent<
     return (
       <ThemeProvider theme={theme === 'pt-dark' ? darkTheme : lightTheme}>
         <AppWrapper className={theme}>
-          {_.findIndex(
+          {findIndex(
             NAVBAR_ROUTES,
             route => location.get('pathname') === route
           ) === -1 && <Navbar />}

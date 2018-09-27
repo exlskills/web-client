@@ -35,7 +35,6 @@ import './common/styles/globalStyles.ts'
 import { FocusStyleManager } from '@blueprintjs/core'
 import { getPathLocale, setPathLocale } from './common/utils/cookies'
 import {
-  getCurrentPathWithLocale,
   getPathLocaleFromURL,
   redirectForLocaleIfNecessary
 } from './common/utils/path-locale'
@@ -50,7 +49,7 @@ const rse = require('react-stripe-elements') as any
 const notoSansFontObserver = new FontFaceObserver('NotoSans')
 const html = document.documentElement
 
-html.classList.add('fonts-loading')
+html.classList.add('fonts-loaded')
 
 notoSansFontObserver
   .load()
@@ -62,6 +61,19 @@ notoSansFontObserver
     html.classList.remove('fonts-loading')
     html.classList.add('fonts-failed')
   })
+
+// Try to preload large fonts used by blueprint
+const icon20FontObserver = new FontFaceObserver('Icons20')
+icon20FontObserver.load().then().catch()
+const icon16FontObserver = new FontFaceObserver('Icons16')
+icon16FontObserver.load().then().catch()
+// Small custom font used by Sly
+//const slickFontObserver = new FontFaceObserver('slick')
+//slickFontObserver
+//  .load()
+//  .then()
+//  .catch()
+
 // Only shows blue highlight on tabs and input elements
 FocusStyleManager.onlyShowFocusOnTabs()
 

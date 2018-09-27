@@ -1,5 +1,5 @@
 import Card from 'common/components/Card'
-import SideBarMenu from 'common/components/SideBarMenu'
+import { SideBarMenu } from 'common/components/loaders'
 import Loading from 'common/components/Loading'
 import { Icon } from 'common/components/styledComponents'
 import * as React from 'react'

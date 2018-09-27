@@ -1,7 +1,7 @@
 import * as React from 'react'
 import CardRow from 'pages/Course/components/overview/UnitCard/CardRow'
 import {
-  PracticeIcon,
+  //  PracticeIcon,
   PracticeLink,
   SectionCheckedIcon,
   SectionProgPct,
@@ -17,9 +17,12 @@ import { RouteComponentProps } from 'react-router'
 import { injectState } from 'freactal'
 import { IFreactalProps } from 'pages/Course'
 import TakeQuiz from '../../mutations/TakeQuiz'
-import { SchemaType, fromUrlId, toUrlId } from 'common/utils/urlid'
+import {
+  //  SchemaType,
+  //  fromUrlId,
+  toUrlId
+} from 'common/utils/urlid'
 import { indexToLetter } from 'common/utils/ordered-list'
-import PlainLink from 'common/components/PlainLink'
 import {
   Button,
   Intent,
