@@ -2,6 +2,8 @@ import * as React from 'react'
 import {
   Wrapper,
   ChartWrapper,
+  CalloutRowWrapper,
+  CalloutsWrapper,
   ActionWrapper,
   BodyWrapper,
   CourseImg,
@@ -10,8 +12,10 @@ import {
   CourseDetailsWrapper,
   CourseDescription,
   ActionSeparator,
+  CalloutMessage,
   ActionHeader,
-  UpNextWrapper
+  UpNextWrapper,
+  CalloutBtn
 } from './styledComponents'
 import ProgressChart from './ProgressChart'
 import { injectState } from 'freactal'
@@ -22,6 +26,7 @@ import messages from './messages'
 // import { toUrlId } from '../../../../../common/utils/urlid'
 import { RouteComponentProps, withRouter } from 'react-router'
 import UpNext from './UpNext'
+import { Link } from 'react-router-dom'
 
 interface IProps {
   showStatus: boolean
@@ -68,9 +73,6 @@ class ProgressHeader extends React.Component<
     //   display: undefined
     // }))
 
-    const started = !!course.last_accessed_unit
-    // const upNext =
-
     return (
       <Wrapper>
         <TopWrapper>
@@ -111,6 +113,34 @@ class ProgressHeader extends React.Component<
               />
             </ChartWrapper>
           </ActionWrapper>
+          {(course.verified_cert_cost || course.delivery_methods) &&
+            <CalloutsWrapper>
+              {course.verified_cert_cost &&
+                <Link
+                  to={`/courses/${this.props.match.params
+                    .courseId}/certificate`}
+                >
+                  <CalloutRowWrapper>
+                    <CalloutMessage>
+                      {formatMessage(messages.certificateCallout)}
+                    </CalloutMessage>
+                    <CalloutBtn>
+                      {formatMessage(messages.getStartedBtn)}
+                    </CalloutBtn>
+                  </CalloutRowWrapper>
+                </Link>}
+              {!!course.delivery_methods.find(method => method === 'live') &&
+                <Link to={`/courses/${this.props.match.params.courseId}/live`}>
+                  <CalloutRowWrapper>
+                    <CalloutMessage>
+                      {formatMessage(messages.liveCourseCallout)}
+                    </CalloutMessage>
+                    <CalloutBtn>
+                      {formatMessage(messages.signUpNowBtn)}
+                    </CalloutBtn>
+                  </CalloutRowWrapper>
+                </Link>}
+            </CalloutsWrapper>}
         </BodyWrapper>
       </Wrapper>
     )
