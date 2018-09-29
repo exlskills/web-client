@@ -26,6 +26,35 @@ export const ActionWrapper = CardWrapper.extend`
   padding: 18px 20px 10px;
 `
 
+export const CalloutsWrapper = styled.div`width: 100%;`
+
+export const CalloutRowWrapper = CardWrapper.extend`
+  display: flex;
+  flex-align: row;
+  width: 100%;
+  margin-top: 30px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #1c222e;
+  .pt-dark & {
+    color: #f5f8fa;
+  }
+`
+
+export const CalloutMessage = styled.div`
+  margin: auto;
+  margin-left: 0;
+  font-weight: 700;
+  font-size: 18px;
+`
+
+export const CalloutBtn = styled(Button).attrs({
+  intent: Intent.SUCCESS
+})`
+  margin: auto;
+  margin-right: 0;
+`
+
 export const ActionHeader = styled.div`
   font-weight: 700;
   font-size: 18px;

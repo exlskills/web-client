@@ -8,7 +8,7 @@ import {
   DateWrapper
 } from './styledComponents'
 import { Icon } from 'common/components/styledComponents'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 const UserAvatar = require('react-user-avatar')
 
 export interface IProps {

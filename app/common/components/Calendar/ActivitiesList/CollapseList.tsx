@@ -13,10 +13,10 @@ import {
   EventTitle,
   EventWrapper
 } from './styledComponents'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 interface IProps {
   groupText: string
-  onClick: (item: any) => void,
+  onClick: (item: any) => void
   itemslist: {
     id: string
     content: string
@@ -54,9 +54,13 @@ class CollapseList extends React.PureComponent<IProps, any> {
         <Collapse isOpen={this.state.isOpen}>
           <List>
             {itemslist.map(item =>
-              <Listitem className={'pt-text-muted'} onClick={() => this.props.onClick(item)} key={`listbytype_${item.id}`}>
+              <Listitem
+                className={'pt-text-muted'}
+                onClick={() => this.props.onClick(item)}
+                key={`listbytype_${item.id}`}
+              >
                 <div style={{ cursor: 'pointer', display: 'inline-block' }}>
-                    {item.content}
+                  {item.content}
                 </div>
                 <span style={{ float: 'right' }}>
                   {moment(item.date).fromNow()}

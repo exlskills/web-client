@@ -29,6 +29,7 @@ import { isMobile } from '../../utils/screen'
 import { getKeycloakLoginUrl } from '../../http/auth'
 import UpgradeButton from './UpgradeButton'
 import { HideXS } from './styledComponents'
+import { COMPLETE_LOGOUT_URL } from 'common/constants'
 
 type MergedProps = IProps &
   IDispatchToProps &
@@ -97,7 +98,7 @@ class NavbarRight extends React.Component<MergedProps, IStates> {
   handleLogoutClick = () => {
     this.props.logout(null)
     clearViewer()
-    this.props.history.push('/')
+    window.location.assign(COMPLETE_LOGOUT_URL)
   }
 
   handleLoginClick = () => {

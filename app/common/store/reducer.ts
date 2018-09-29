@@ -38,6 +38,7 @@ export type ICheckoutItem = {
   quantity: number
   displayUnitCost: number
   displayName: string
+  refreshPageAfterCheckout?: boolean
 } | null
 const storedTheme = localStorage.getItem('theme')
 const initialState = fromJS({

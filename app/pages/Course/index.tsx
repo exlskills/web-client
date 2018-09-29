@@ -99,6 +99,7 @@ export interface IFreactalStates {
     last_accessed_unit?: string
     last_accessed_section?: string
     last_accessed_card?: string
+    verified_cert_cost?: number
     delivery_methods: string[]
   }
   examModalOpen?: boolean

@@ -59,6 +59,7 @@ const rootQuery = graphql`
       headline
       description
       primary_topic
+      verified_cert_cost
       last_accessed_unit
       last_accessed_section
       last_accessed_card

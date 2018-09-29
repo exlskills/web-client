@@ -72,5 +72,21 @@ export default defineMessages({
   jumpIn: {
     id: 'pages.Course.Header.jumpIn',
     defaultMessage: 'Fast-forward'
+  },
+  getStartedBtn: {
+    id: 'pages.Course.Header.getStartedBtn',
+    defaultMessage: 'Get Started!'
+  },
+  signUpNowBtn: {
+    id: 'pages.Course.Header.signUpNowBtn',
+    defaultMessage: 'Sign Up!'
+  },
+  certificateCallout: {
+    id: 'pages.Course.Header.certificateCallout',
+    defaultMessage: 'Get Your Professional Certificate Today!'
+  },
+  liveCourseCallout: {
+    id: 'pages.Course.Header.liveCourseCallout',
+    defaultMessage: 'Learn This Course Live!'
   }
 })

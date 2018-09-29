@@ -12,7 +12,11 @@ const { graphql } = require('react-relay/compat')
 import { QueryRenderer } from 'react-relay'
 import environment from 'relayEnvironment'
 import { handleQueryRender } from 'common/utils/relay'
-import moment from 'moment'
+import * as moment from 'moment-timezone'
+import {
+  LIVE_COURSE_SCHEDULE_MOMENT_PARSE_FMT,
+  LIVE_COURSE_SCHEDULE_MOMENT_OUT_FMT
+} from 'common/constants'
 
 interface IProps {}
 
@@ -29,6 +33,8 @@ const rootQuery = graphql`
     courseById(course_id: $course_id) {
       id
       title
+      headline
+      description
       logo_url
       info_md
       verified_cert_cost
@@ -37,8 +43,10 @@ const rootQuery = graphql`
       course_id: $course_id,
       date_on_or_after: $date_on_or_after
     ) {
+      _id
       delivery_structure
       delivery_methods
+      course_notes
       course_duration {
         months
         weeks
@@ -50,10 +58,17 @@ const rootQuery = graphql`
         session_seq
         headline
         desc
+        session_notes
       }
       scheduled_runs {
+        _id
+        offered_at_price {
+          amount
+        }
+        seat_purchased
         run_start_date
         run_sessions {
+          _id
           session_seq
           session_duration {
             months
@@ -63,9 +78,13 @@ const rootQuery = graphql`
             minutes
           }
           session_start_date
+          session_run_notes
           instructors {
             username
             full_name
+            headline
+            biography
+            avatar_url
           }
         }
       }
@@ -96,38 +115,52 @@ class CourseLive extends React.Component<MergedProps, {}> {
   }
 
   queryRender = handleQueryRender(({ props }: { props: any }) => {
-    const {
-      id,
-      title,
-      description,
-      headline,
-      info_md,
-      logo_url,
-      verified_cert_cost
-    } = props.courseById
-    return (
-      <CourseLiveDump
-        title={title}
-        description={description}
-        logoUrl={logo_url}
-        infoMarkdown={info_md}
-        verifiedCertCost={verified_cert_cost}
-      />
-    )
+    // This is to get a deep copy
+    let sched = JSON.parse(JSON.stringify(props.courseDeliverySchedule))
+    sched.instructors = {} as any
+    sched.session_info.sort((a: any, b: any) => a.session_seq - b.session_seq)
+    const sessions = sched.session_info.map((item: any) => {
+      return {
+        headline: item.headline,
+        desc: item.desc,
+        session_notes: item.session_notes
+      }
+    })
+    for (let run of sched.scheduled_runs) {
+      run.run_start_date = moment(
+        run.run_start_date,
+        LIVE_COURSE_SCHEDULE_MOMENT_PARSE_FMT
+      ).format('LL')
+      run.run_sessions.sort((a: any, b: any) => a.session_seq - b.session_seq)
+      for (let rInd = 0; rInd < run.run_sessions.length; rInd++) {
+        run.run_sessions[rInd].headline = sessions[rInd].headline
+        run.run_sessions[rInd].desc = sessions[rInd].desc
+        run.run_sessions[rInd].session_notes = sessions[rInd].session_notes
+        run.run_sessions[rInd].session_duration_hrs = moment
+          .duration(run.run_sessions[rInd].session_duration)
+          .asHours()
+        run.run_sessions[rInd].session_start_date = `${moment(
+          run.run_sessions[rInd].session_start_date,
+          LIVE_COURSE_SCHEDULE_MOMENT_PARSE_FMT
+        ).format('LLLL')} ${moment()
+          .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+          .format('z')}`
+        for (let inst of run.run_sessions[rInd].instructors) {
+          sched.instructors[inst.username] = inst
+        }
+      }
+    }
+    return <CourseLiveDump course={props.courseById} schedule={sched} />
   })
 
   render() {
-    const courseId = fromUrlId(
-      SchemaType.Course,
-      this.props.match.params.courseId
-    )
-
+    this.props.match.params
     return (
       <QueryRenderer
         query={rootQuery}
         variables={{
           course_id: this.getCourseId(),
-          date_on_or_after: '2018-09-19T00:00:00.000Z'
+          date_on_or_after: moment().format(LIVE_COURSE_SCHEDULE_MOMENT_OUT_FMT)
         }}
         environment={environment}
         render={this.queryRender}
