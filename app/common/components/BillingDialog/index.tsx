@@ -34,7 +34,7 @@ import { selectCheckoutItem, selectCredits } from '../../store/selectors'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import ConfirmDialog from '../ConfirmDialog'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 import { ICheckoutItem } from '../../store/reducer'
 import Toaster from 'common/components/Toaster'
 import { purchaseItem } from '../../http/checkout'
@@ -216,6 +216,10 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
               billingPeriodEndsAt: usageResp.data.endsAt
             })
             this.props.setCredits(creditsResp.data.creditsCount)
+            if (ci.refreshPageAfterCheckout) {
+              window.location.reload()
+              return
+            }
             let toast = {
               message: this.props.intl.formatMessage(
                 messages.thankYouForYourPurchaseToast

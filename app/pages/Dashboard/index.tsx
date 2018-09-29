@@ -1,7 +1,7 @@
 import { RendererProps } from 'common/utils/relay'
 import { Icon } from 'common/components/styledComponents'
 import Loading from 'common/components/Loading'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 import {
   CourseEnrolls,
   CourseFooter,

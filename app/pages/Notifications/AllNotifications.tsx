@@ -15,7 +15,7 @@ import {
   NotificationTime,
   Wrapper
 } from './styledComponents'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 const UserAvatar = require('react-user-avatar')
 
 const { graphql } = require('react-relay/compat')

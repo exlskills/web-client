@@ -21,6 +21,7 @@
       var subscribersSiteId = '93e48c9c-653f-471b-b9c6-5a1a4d843784';
     </script>
     <script type="text/javascript" src="https://cdn.subscribers.com/assets/subscribers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.15.0/themes/prism.css">
     <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/sa0gkscf';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
     <!-- TODO setup async stripe lib loading -->
     <script src="https://js.stripe.com/v3/"></script>
@@ -38,5 +39,11 @@
     <!-- The app hooks into this div -->
     <div id="app"></div>
     <!-- A lot of magic happens in this file. HtmlWebpackPlugin automatically includes all assets (e.g. bundle.js, main.css) with the correct HTML tags, which is why they are missing in this HTML file. Don't add any assets here! (Check out webpackconfig.js if you want to know more) -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.15.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.15.0/components.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.15.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+      Prism.plugins.autoloader.languages_path = 'https://cdn.jsdelivr.net/npm/prismjs@1.15.0/components/';
+    </script>
   </body>
 </html>

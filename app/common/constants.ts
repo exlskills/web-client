@@ -11,11 +11,16 @@ export const CLIENT_URL = process.env.CLIENT_URL
 export const NODE_ENV = process.env.NODE_ENV
 export const IC_APP_ID = process.env.IC_APP_ID
 export const STRIPE_PUB_KEY = process.env.STRIPE_PUB_KEY
+export const COMPLETE_LOGOUT_URL = process.env.COMPLETE_LOGOUT_URL
 export const DEFAULT_LOCALE = 'en'
 export const NAVBAR_ROUTES = ['/']
 export const DEFAULT_PAGE_SIZE = 25
 export const DISCUSSION_LIMIT = 100
 export const COMMENT_LIMIT = 25
+export const LIVE_COURSE_SCHEDULE_MOMENT_PARSE_FMT =
+  'YYYY-MM-DD[T]HH:mm[:00.000]Z'
+export const LIVE_COURSE_SCHEDULE_MOMENT_OUT_FMT =
+  'YYYY-MM-DD[T]HH:mm[:00.000Z]'
 
 export const THEMES = {
   dark: 'pt-dark',

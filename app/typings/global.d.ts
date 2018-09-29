@@ -6,6 +6,7 @@ declare module 'react-loadable'
 declare module 'recharts'
 declare module 'reconnectingwebsocket'
 declare module 'fontfaceobserver'
+declare module 'Prism'
 
 declare var System: any
 

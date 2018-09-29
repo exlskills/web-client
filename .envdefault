@@ -12,3 +12,4 @@ PRIVACY_POLICY_AND_TOS_URL=https://exlinc.com/legal/
 ERASE_MY_DATA_FORM_URL=https://exlinc.typeform.com/to/X0MWrR
 IC_APP_ID=
 STRIPE_PUB_KEY=
+COMPLETE_LOGOUT_URL=https://accounts.exlinc.com/auth/realms/exlinc/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fexlskills.com

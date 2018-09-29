@@ -6,7 +6,7 @@ import CalendarHeatmap from '../CalendarHeatmap'
 import { ACTIVITY_DAYS } from '../constants'
 import { ActivitiesCollapse, ActivitiesHeader } from './styledComponents'
 import messages from './messages'
-import moment = require('moment')
+import moment = require('moment-timezone')
 
 interface IProps {
   activities: any

@@ -188,9 +188,7 @@ enum CudAction {
 # 8601 standard for representation of dates and times using the Gregorian calendar.
 scalar DateTime
 
-type EmbeddedDocRef implements Node {
-  # The ID of an object
-  id: ID!
+type EmbeddedDocRef {
   embedded_doc_refs: EmbeddedDocRefRecordConnection!
 }
 
@@ -268,9 +266,7 @@ input FilterValues {
 }
 
 # Item Price
-type ItemPriceType implements Node {
-  # The ID of an object
-  id: ID!
+type ItemPriceType {
   amount: Int
 }
 
@@ -564,9 +560,12 @@ type SectionCardEdge {
 type SessionInstructorType implements Node {
   # The ID of an object
   id: ID!
+  _id: String
   full_name: String
   username: String
   avatar_url: String
+  headline: String
+  biography: String
 }
 
 input SubmitAnswerInput {
