@@ -43,6 +43,7 @@ import { SplitPane } from '../Course/components/styledComponents'
 import Sidebar from '../Course/components/common/Sidebar'
 import { Route, Switch } from 'react-router-dom'
 import { isMobile } from '../../common/utils/screen'
+import { getPathLocale } from '../../common/utils/cookies'
 
 const getNextCardsListQuery = graphql`
   query SectionDumpNextCardsListQuery(
@@ -163,6 +164,10 @@ class SectionDump extends React.PureComponent<
       user_id: this.context.viewer.user_id,
       action: action
     })
+  }
+
+  componentDidUpdate() {
+    this.updateAMPElement()
   }
 
   componentDidMount() {
@@ -355,6 +360,35 @@ class SectionDump extends React.PureComponent<
     })
   }
 
+  updateAMPElement = () => {
+    window.document
+      .querySelector(`[rel="amphtml"]`)
+      .setAttribute('href', this.getAMPPath())
+  }
+
+  addAMPElement = () => {
+    const el = window.document.createElement('link')
+    el.setAttribute('rel', 'amphtml')
+    el.setAttribute('href', this.getAMPPath())
+    window.document.head.appendChild(el)
+  }
+
+  removeAMPElement = () => {
+    window.document.querySelector(`[rel="amphtml"]`).remove()
+  }
+
+  getAMPPath = () => {
+    return `/amp/learn-${getPathLocale()}${this.getCurrentCardUrl()}`
+  }
+
+  componentWillMount() {
+    this.addAMPElement()
+  }
+
+  componentWillUnmount() {
+    this.removeAMPElement()
+  }
+
   goToNextCard = (nextId: string = null) => {
     const nextCardId = nextId ? nextId : this.getNextCardId()
     if (nextCardId == this.state.activeCardId) {
@@ -391,7 +425,7 @@ class SectionDump extends React.PureComponent<
     }
   }
 
-  updateCardUrl() {
+  getCurrentCardUrl = () => {
     const cardId = this.state.activeCardId
     const cards = this.getCards()
     let cardUrlId = ''
@@ -401,10 +435,13 @@ class SectionDump extends React.PureComponent<
         cards.cardsById[cardId].id
       )}`
     }
-    const url = `/courses/${this.props.match.params.courseId}/units/${this.props
+    return `/courses/${this.props.match.params.courseId}/units/${this.props
       .match.params.unitId}/sections/${this.props.match.params
       .sectionId}${cardUrlId}`
-    this.props.history.replace(url)
+  }
+
+  updateCardUrl = () => {
+    this.props.history.replace(this.getCurrentCardUrl())
   }
 
   handleResultButton = () => {
@@ -766,6 +803,8 @@ class SectionDump extends React.PureComponent<
     } else {
       explanationData.defaultShowExplanation = false
     }
+
+    this.updateAMPElement()
 
     return (
       <Wrapper>
