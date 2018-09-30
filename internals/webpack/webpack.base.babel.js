@@ -142,7 +142,11 @@ module.exports = options => ({
         ERASE_MY_DATA_FORM_URL: JSON.stringify(
           process.env.ERASE_MY_DATA_FORM_URL || ''
         ),
-        STRIPE_PUB_KEY: JSON.stringify(process.env.STRIPE_PUB_KEY || '')
+        STRIPE_PUB_KEY: JSON.stringify(process.env.STRIPE_PUB_KEY || ''),
+        COMPLETE_LOGOUT_URL: JSON.stringify(
+          process.env.COMPLETE_LOGOUT_URL ||
+            'https://accounts.exlinc.com/auth/realms/exlinc/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2Fexlskills.com'
+        )
       }
     }),
     new webpack.NamedModulesPlugin()
