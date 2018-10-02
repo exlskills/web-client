@@ -153,24 +153,55 @@ class BillingDialogContents extends React.PureComponent<MergedProps, IStates> {
   cardSubmit = () => {
     this.setState({ loading: true })
     if (this.props.stripe) {
-      this.props.stripe.createToken().then((tkn: any) => {
-        if (!tkn.token) {
-          return
-        }
-        enroll(tkn).then(result => {
-          jwtRefresh().then((res: any) => {
-            setViewer(null)
-            getCurrentUsage().then(usageResp => {
-              this.setState({
-                loading: false,
-                isEnrolled: true,
-                currentUsage: usageResp.data.totalUsage,
-                billingPeriodEndsAt: usageResp.data.endsAt
+      this.props.stripe
+        .createToken()
+        .then((tkn: any) => {
+          if (!tkn.token) {
+            let toast = {
+              message: this.props.intl.formatMessage(
+                messages.anErrorOccurredWithCard
+              ),
+              intent: Intent.DANGER
+            }
+            Toaster.show(toast)
+            this.setState({ loading: false })
+            return
+          }
+          enroll(tkn)
+            .then(result => {
+              jwtRefresh().then((res: any) => {
+                setViewer(null)
+                getCurrentUsage().then(usageResp => {
+                  this.setState({
+                    loading: false,
+                    isEnrolled: true,
+                    currentUsage: usageResp.data.totalUsage,
+                    billingPeriodEndsAt: usageResp.data.endsAt
+                  })
+                })
               })
             })
-          })
+            .catch((err: any) => {
+              let toast = {
+                message: this.props.intl.formatMessage(
+                  messages.anErrorOccurredWithCard
+                ),
+                intent: Intent.DANGER
+              }
+              Toaster.show(toast)
+              this.setState({ loading: false })
+            })
         })
-      })
+        .catch((err: any) => {
+          let toast = {
+            message: this.props.intl.formatMessage(
+              messages.anErrorOccurredWithCard
+            ),
+            intent: Intent.DANGER
+          }
+          Toaster.show(toast)
+          this.setState({ loading: false })
+        })
     } else {
       let toast = {
         message: this.props.intl.formatMessage(

@@ -134,6 +134,11 @@ export default defineMessages({
     defaultMessage:
       'An error occurred completing your purchase. Please retry in a few moments, and if you continue to receive this error, please contact support.'
   },
+  anErrorOccurredWithCard: {
+    id: 'dialogs.Billing.anErrorOccurredWithCard',
+    defaultMessage:
+      'An error occurred validating your card. Please check your input and retry. If you continue to receive this error, please contact support.'
+  },
   addPaymentMethodToCompleteCheckout: {
     id: 'dialogs.Billing.addPaymentMethodToCompleteCheckout',
     defaultMessage: 'Please add a payment method below to checkout'
