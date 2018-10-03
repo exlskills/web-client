@@ -1,6 +1,41 @@
 import styled from 'styled-components'
+import * as React from 'react'
 
-export default styled.div`
+export default class MarkdownStyleWrapper extends React.PureComponent<
+  React.HTMLProps<HTMLDivElement>,
+  {}
+> {
+  componentDidMount() {
+    this.highlight()
+  }
+
+  componentDidUpdate() {
+    this.highlight()
+  }
+
+  highlight() {
+    if ((window as any).Prism.highlightAll) {
+      ;(window as any).Prism.highlightAll()
+    } else {
+      const backOff = setInterval(() => {
+        if ((window as any).Prism.highlightAll) {
+          clearInterval(backOff)
+          ;(window as any).Prism.highlightAll()
+        }
+      }, 100)
+    }
+  }
+
+  render() {
+    return (
+      <MDStyled>
+        {this.props.children}
+      </MDStyled>
+    )
+  }
+}
+
+const MDStyled = styled.div`
   *:first-child {
     margin-top: 0 !important;
   }
